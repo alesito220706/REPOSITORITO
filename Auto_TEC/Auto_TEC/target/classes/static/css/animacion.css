@@ -1,0 +1,73 @@
+/* Reset y layout base */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+/* REFORMULACIÓN: Animación elegante y minimalista de prestigio
+   - Line-draw SVG del contorno estilizado del coche (injected via JS)
+   - Fondo con partículas sutiles en canvas (controladas por JS)
+   - Texto y glow en CSS
+   - Respeta prefers-reduced-motion
+*/
+
+body {
+  overflow: hidden;
+  background: radial-gradient(circle at 20% 10%, rgba(168,85,247,0.03), transparent 15%),
+              radial-gradient(circle at 80% 85%, rgba(212,175,55,0.02), transparent 12%),
+              linear-gradient(180deg,#050308 0%, #07060a 100%);
+  display:flex; align-items:center; justify-content:center; min-height:100vh;
+  color: #fff;
+}
+
+canvas { position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
+
+#car-container {
+  position: absolute; left:50%; top:50%; transform: translate(-50%,-50%); z-index: 30;
+  width: min(760px, 88%); max-width: 980px; padding: 36px; border-radius: 16px;
+  display:flex; align-items:center; justify-content:center; gap: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: 0 40px 110px rgba(0,0,0,0.75);
+}
+
+/* Hide original img if present */
+#car { display:none !important; }
+
+/* Container for injected SVG and title */
+.prestige-wrap { position: relative; width: 100%; height: auto; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:18px; }
+
+/* permitir overflow visible para emblema si sobresale ligeramente */
+.prestige-wrap { overflow: visible; }
+
+.prestige-svg { width: min(600px, 78%); height: auto; display:block; z-index:32; }
+
+/* Emblema deportivo (pequeño, encima del título) */
+.prestige-emblem { width: 140px; height: auto; display:flex; align-items:center; justify-content:center; opacity:0; transform: translateY(-6px) scale(0.98); transition: all 520ms cubic-bezier(.2,.9,.2,1); z-index:33; }
+.prestige-emblem.show { opacity:1; transform: translateY(0) scale(1); }
+.prestige-emblem svg{ width:100%; height:auto; display:block; overflow:visible; }
+.prestige-emblem svg path{ stroke-linecap: round; stroke-linejoin: round; fill: none; }
+
+/* aumentar ligeramente en pantallas pequeñas para legibilidad */
+@media (max-width:520px){ .prestige-emblem { width: 120px; } }
+
+.prestige-title { font-family: 'Poppins', 'Montserrat', sans-serif; font-weight:800; color:#d4af37; font-size:42px; letter-spacing:6px; text-transform:uppercase; opacity:0; transform: translateY(8px) scale(0.995); text-shadow: 0 14px 40px rgba(168,85,247,0.08); }
+.prestige-title.show { opacity:1; transform: translateY(0) scale(1); transition: all 700ms cubic-bezier(.2,.9,.2,1); }
+
+/* soft glow behind SVG */
+.prestige-glow { position:absolute; left:50%; top:50%; transform: translate(-50%,-50%); width: 84%; height: 50%; z-index:31; filter: blur(40px); pointer-events:none; opacity:0.9; background: radial-gradient(circle at 50% 40%, rgba(212,175,55,0.06), rgba(168,85,247,0.04), transparent 60%); }
+
+/* bottom UI */
+#ui { position:absolute; z-index:40; left:50%; bottom:6vh; transform: translateX(-50%); display:flex; flex-direction:column; gap:10px; align-items:center; }
+#ignite { padding: 12px 28px; border-radius:999px; border: none; background: linear-gradient(90deg,#d4af37 0%, #a855f7 100%); color:#070707; font-weight:800; box-shadow: 0 8px 28px rgba(168,85,247,0.12); }
+.subtitle { color: rgba(255,255,255,0.72); font-size:13px; letter-spacing:2px }
+
+/* stroke animation helpers */
+.line { stroke: url(#grad); stroke-width:2.6; fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray: 1200; stroke-dashoffset: 1200; transition: stroke-dashoffset 1400ms cubic-bezier(.2,.9,.2,1); }
+.line.drawn { stroke-dashoffset: 0; }
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .line { transition: none; stroke-dashoffset:0 !important; }
+  .prestige-title { transition: none; opacity:1 !important; transform:none !important; }
+}
+
+@media (max-width:520px){ .prestige-title{ font-size:28px; letter-spacing:3px } .prestige-svg{ width:90% } }
+
+

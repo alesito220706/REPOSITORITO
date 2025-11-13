@@ -1,0 +1,194 @@
+
+/* Importar los estilos base de admin */
+@import 'admin.css';
+/* Estilos específicos para la gestión de citas */
+.tabla-citas {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.tabla-citas th {
+    background: var(--bg-light);
+    color: var(--color-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 1rem;
+}
+
+.tabla-citas td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.tabla-citas tbody tr {
+    transition: var(--transition-normal);
+}
+
+.tabla-citas tbody tr:hover {
+    background: rgba(212, 175, 55, 0.05);
+}
+
+/* Estados de las citas */
+.estado-cita {
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.estado-cita i {
+    font-size: 0.75rem;
+}
+
+.estado-cita.pendiente {
+    background: rgba(234, 179, 8, 0.1);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.estado-cita.confirmada {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.estado-cita.cancelada {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.estado-cita.completada {
+    background: rgba(168, 85, 247, 0.1);
+    color: var(--color-secondary);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+/* Modal de citas */
+.modal-cita {
+    /* tema oscuro */
+    background: rgba(11, 11, 13, 0.95);
+}
+
+.modal-cita .modal-content {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.modal-cita .modal-header {
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem;
+    background-color: var(--bg-light);
+}
+
+.modal-cita .modal-title {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.modal-cita .modal-body {
+    padding: 1.5rem;
+}
+
+.modal-cita .form-label {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.modal-cita .form-control {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-light);
+    color: var(--text-white);
+}
+
+.modal-cita .form-control:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.1);
+}
+
+.modal-cita .modal-footer {
+    border-top: 1px solid var(--border-light);
+    padding: 1.5rem;
+}
+
+/* Calendario de citas */
+.calendario-citas {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.fc-theme-standard {
+    background: transparent;
+    border: none;
+}
+
+.fc-theme-standard th {
+    background: var(--bg-light);
+    border: none;
+    padding: 1rem;
+    color: var(--color-primary);
+}
+
+.fc-theme-standard td {
+    border: 1px solid var(--border-light);
+}
+
+.fc-daygrid-day-number {
+    color: var(--text-white);
+}
+
+.fc-daygrid-day.fc-day-today {
+    background: rgba(212, 175, 55, 0.1) !important;
+}
+
+.fc-event {
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.fc-event:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Botones de acción */
+.btn-accion-cita {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    margin: 0 0.25rem;
+    transition: var(--transition-normal);
+}
+
+.btn-accion-cita:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-accion-cita i {
+    font-size: 1rem;
+}

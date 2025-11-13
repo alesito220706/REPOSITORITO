@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Modelo</title>
+</head>
+<body>
+
+<div th:fragment="formularioAuto">
+    <div class="form-container">
+        <div class="form-header">
+            <h2 th:text="${modelo.id == null} ? 'Crear Nuevo Modelo' : 'Editar Modelo'"></h2>
+            <p th:if="${modelo.id == null}">Completa el formulario para agregar un nuevo modelo a la galería</p>
+            <p th:unless="${modelo.id == null}">Actualiza los datos del modelo</p>
+        </div>
+
+        <!-- Alertas -->
+        <div th:if="${mensaje}" class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            <span th:text="${mensaje}"></span>
+        </div>
+        <div th:if="${error}" class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            <span th:text="${error}"></span>
+        </div>
+
+        <!-- Formulario -->
+        <form th:action="${modelo.id == null} ? @{/admin/modelos/guardar} : @{/admin/modelos/actualizar/{id}(id=${modelo.id})}"
+              method="post" id="formModelo">
+
+            <!-- Fila 1 -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nombre del Modelo *</label>
+                    <input type="text" name="nombre" th:value="${modelo.nombre}" required>
+                </div>
+                <div class="form-group">
+                    <label>Marca *</label>
+                    <input type="text" name="marca" th:value="${modelo.marca}" required>
+                </div>
+            </div>
+
+            <!-- Descripción -->
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea name="descripcion" th:text="${modelo.descripcion}"></textarea>
+            </div>
+
+            <!-- Fila 2 -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Motor</label>
+                    <input type="text" name="motor" th:value="${modelo.motor}">
+                </div>
+                <div class="form-group">
+                    <label>Potencia</label>
+                    <input type="text" name="potencia" th:value="${modelo.potencia}">
+                </div>
+            </div>
+
+            <!-- Fila 3 -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Velocidad Máxima</label>
+                    <input type="text" name="velocidadMax" th:value="${modelo.velocidadMax}">
+                </div>
+                <div class="form-group">
+                    <label>Aceleración</label>
+                    <input type="text" name="aceleracion" th:value="${modelo.aceleracion}">
+                </div>
+            </div>
+
+            <!-- Fila 4 -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Precio *</label>
+                    <input type="number" name="precio" th:value="${modelo.precio}" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Stock</label>
+                    <input type="number" name="stock" th:value="${modelo.stock ?: 1}">
+                </div>
+            </div>
+
+            <!-- Categoría -->
+            <div class="form-group">
+                <label>Categoría</label>
+                <input type="text" name="categoria" th:value="${modelo.categoria ?: 'HYPERCAR'}">
+            </div>
+
+            <!-- Imagen -->
+            <div class="form-group">
+                <label>URL de la Imagen</label>
+                <input type="text" name="imagenUrl" id="imagenUrl" th:value="${modelo.imagenUrl}" onchange="previsualizarImagen(this)">
+                <img id="preview-imagen" th:if="${modelo.imagenUrl}" th:src="${modelo.imagenUrl}" class="preview-imagen">
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="form-checkbox">
+                <input type="checkbox" id="activo" name="activo" th:checked="${modelo.activo ?: true}">
+                <label for="activo">Modelo Activo</label>
+            </div>
+
+            <div class="form-checkbox">
+                <input type="checkbox" id="destacado" name="destacado" th:checked="${modelo.destacado ?: false}">
+                <label for="destacado">Marcar como Destacado</label>
+            </div>
+
+            <!-- Botones -->
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i>
+                    <span th:text="${modelo.id == null} ? 'Crear Modelo' : 'Actualizar Modelo'"></span>
+                </button>
+                <a th:href="@{/admin/gestion_autos}" class="btn-cancel">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function previsualizarImagen(input) {
+            const preview = document.getElementById('preview-imagen');
+            if (input.value) {
+                preview.src = input.value;
+                preview.classList.add('show');
+                preview.onerror = function () {
+                    alert('No se pudo cargar la imagen. Verifica la URL.');
+                    preview.classList.remove('show');
+                };
+            } else {
+                preview.classList.remove('show');
+            }
+        }
+    </script>
+</div>
+
+</body>
+</html>

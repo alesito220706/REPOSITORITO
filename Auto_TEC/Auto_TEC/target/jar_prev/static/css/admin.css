@@ -1,0 +1,278 @@
+/* ===== VARIABLES ===== */
+:root {
+    --color-primary: #d4af37;   /* Dorado */
+    --color-secondary: #a855f7; /* Morado */
+    --text-white: #f3f4f6;
+    --text-gray: #bfc4c8;
+    --border-light: rgba(255,255,255,0.06);
+    --bg-light: linear-gradient(180deg,#07060a 0%, #0b0b0d 100%);
+    --bg-sidebar: linear-gradient(180deg,#060508 0%, #0a0810 100%);
+    --bg-white: #0b0b0d; /* conserva la variable pero en tono oscuro */
+    --shadow-sm: 0 6px 18px rgba(0,0,0,0.6);
+    --shadow-md: 0 20px 60px rgba(0,0,0,0.6);
+    --transition-normal: all 0.22s cubic-bezier(.2,.9,.2,1);
+}
+
+/* ===== BASE STYLES ===== */
+body {
+    background: var(--bg-light);
+    color: var(--text-white);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 250px;
+    background: var(--bg-sidebar);
+    border-right: 1px solid rgba(255,255,255,0.04);
+    padding: 1rem;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebar-header {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.sidebar-brand {
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.sidebar-brand i {
+    color: var(--color-secondary);
+}
+
+.nav-item {
+    margin-bottom: 0.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1rem;
+    color: var(--text-gray);
+    text-decoration: none;
+    border-radius: 0.25rem;
+    transition: var(--transition-normal);
+}
+
+.nav-link:hover {
+    color: var(--color-primary);
+    background-color: rgba(212, 175, 55, 0.06);
+}
+
+.nav-link.active {
+    color: var(--color-primary);
+    background-color: rgba(212, 175, 55, 0.09);
+    font-weight: 600;
+}
+
+.nav-link i {
+    width: 1.2rem;
+    text-align: center;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+/* ===== CARDS ===== */
+.admin-card {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid var(--border-light);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-normal);
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4),
+                0 5px 15px rgba(212,175,55,0.1);
+}
+
+/* ===== TABLES ===== */
+.table {
+    width: 100%;
+    background: rgba(10, 10, 10, 0.95);
+    border-radius: 1rem;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.table thead th {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--color-primary);
+    font-weight: 600;
+    padding: 1rem;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.table td {
+    padding: 1rem;
+    color: var(--text-gray);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.table tbody tr {
+    transition: var(--transition-normal);
+}
+
+.table tbody tr:hover {
+    background: rgba(212, 175, 55, 0.05);
+}
+
+/* ===== FORMS ===== */
+.form-control {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    color: var(--text-white);
+    transition: var(--transition-normal);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.1);
+}
+
+.form-label {
+    display: block;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: var(--bg-darker);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* BOTONES DISTINTIVOS PARA ADMIN */
+.btn-add {
+    background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+    color: #0b0b0d;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-delete {
+    background: rgba(239,68,68,0.08);
+    color: #ef4444;
+    border: 1px solid rgba(239,68,68,0.18);
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.45rem;
+}
+
+.action-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-gray);
+    padding: 0.55rem 0.8rem;
+    border-radius: 0.45rem;
+}
+
+.action-btn.primary {
+    background: rgba(168,85,247,0.08);
+    color: var(--color-primary);
+    border-color: rgba(168,85,247,0.15);
+}
+
+.action-btn.warning {
+    background: rgba(212,175,55,0.06);
+    color: var(--color-primary);
+}
+
+/* ===== UTILITIES ===== */
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-white { color: var(--text-white); }
+.text-gray { color: var(--text-gray); }
+
+.bg-gradient { background: var(--gradient-primary); }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem;
+    }
+}

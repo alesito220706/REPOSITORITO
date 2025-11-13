@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<header th:fragment="headerAdmin">
+  <link rel="stylesheet" href="/css/menu.css">
+  <div class="navbar d-flex align-items-center py-3" style="justify-content: flex-start !important">
+    <!-- boton menu -->
+               <button class="navbar-toggler text-light me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" >
+                 <span class="fas fa-bars"></span> 
+                  </button>
+
+    <!-- Logo -->
+      <a href="/admin/dashboard" class="navbar-brand fw-bold me-2"> 
+                    <i class="fas fa-car-side"></i> Panel admin-Auto Tec </a> 
+                </div>
+
+  <!-- Menú lateral Offcanvas -->
+  <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel" >
+                     <div class="offcanvas-header"> <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5> 
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar" >
+
+                        </button> 
+                    </div>
+    <div class="offcanvas-body">
+      <ul class="list-unstyled">
+        <li><a href="/admin/dashboard" class="dropdown-item text-white"> Dashboard</a></li>
+         <li><a href="/admin/gestion_clientes" class="dropdown-item text-white"> Usuarios</a></li>
+        <li><a href="/admin/gestion_autos" class="dropdown-item text-white"> Autos</a></li>
+        <li><a href="/admin/gestion_citas" class="dropdown-item text-white"> Citas</a></li>
+        <li><a href="/admin/gestion_solicitudes" class="dropdown-item text-white"> Solicitudes</a></li>
+        <li><a href="/admin/reportes" class="dropdown-item text-white"> Reportes</a></li>
+        <li><a href="/index" class="dropdown-item text-danger"> Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+</html>

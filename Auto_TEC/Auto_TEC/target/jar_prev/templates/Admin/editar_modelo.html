@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Modelo - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/gestion_autos.css">
+</head>
+<body>
+    <div th:replace="fragments/headerAdmin :: headerAdmin"></div> 
+
+    <!-- Main Content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+        <!-- Alertas -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Editar Modelo</h1>
+            <a th:href="@{/admin/gestion_autos}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Volver
+            </a>
+        </div>
+
+        <!-- Formulario de Edición -->
+        <div class="card">
+            <div class="card-body">
+                <form th:action="@{/admin/gestion_autos/actualizar/{id}(id=${modelo.id})}" method="post" th:object="${modelo}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre *</label>
+                                <input type="text" class="form-control" th:field="*{nombre}" required maxlength="100">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Marca *</label>
+                                <input type="text" class="form-control" th:field="*{marca}" required maxlength="100">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Motor *</label>
+                                <input type="text" class="form-control" th:field="*{motor}" required maxlength="100">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Potencia *</label>
+                                <input type="text" class="form-control" th:field="*{potencia}" required maxlength="100">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Velocidad Máxima *</label>
+                                <input type="text" class="form-control" th:field="*{velocidadMax}" required maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Precio *</label>
+                                <input type="number" step="0.01" class="form-control" th:field="*{precio}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">URL Imagen *</label>
+                                <input type="url" class="form-control" th:field="*{imagenUrl}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Stock *</label>
+                                <input type="number" class="form-control" th:field="*{stock}" min="0" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Categoría</label>
+                                <select class="form-select" th:field="*{categoria}">
+                                    <option value="HYPERCAR">HYPERCAR</option>
+                                    <option value="SUPERCAR">SUPERCAR</option>
+                                    <option value="SPORTS">SPORTS</option>
+                                    <option value="LUXURY">LUXURY</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" th:field="*{destacado}">
+                                        <label class="form-check-label">Destacado</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" th:field="*{activo}">
+                                        <label class="form-check-label">Activo</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción *</label>
+                        <textarea class="form-control" th:field="*{descripcion}" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Aceleración (0-100 km/h)</label>
+                        <input type="text" class="form-control" th:field="*{aceleracion}" placeholder="Ej: 2.5 segundos" maxlength="100">
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Actualizar Modelo
+                        </button>
+                        <a th:href="@{/admin/gestion_autos}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+</html>

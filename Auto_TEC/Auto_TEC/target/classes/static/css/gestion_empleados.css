@@ -1,0 +1,228 @@
+/* Importar los estilos base de admin */
+@import 'admin.css';
+
+/* Encabezado de empleados */
+.header-empleados {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.header-empleados h1 {
+    color: var(--color-primary);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-empleados h1 i {
+    color: var(--color-secondary);
+}
+
+.btn-agregar {
+    background: var(--gradient-primary);
+    color: var(--bg-darker);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition-normal);
+}
+
+.btn-agregar:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Buscador de empleados */
+.buscador-empleados {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.buscador-empleados .form-control {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    color: #212529;
+    border-radius: 0.5rem;
+    padding: 0.8rem 1rem;
+    flex: 1;
+    transition: var(--transition-normal);
+}
+
+.buscador-empleados .form-control:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.1);
+}
+
+/* Tabla de empleados */
+.tabla-empleados {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.tabla-empleados thead th {
+    background: var(--bg-light);
+    color: var(--color-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 1rem;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.tabla-empleados td {
+    padding: 1rem;
+    color: var(--text-gray);
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+
+.tabla-empleados tbody tr {
+    transition: var(--transition-normal);
+}
+
+.tabla-empleados tbody tr:hover {
+    background: rgba(212, 175, 55, 0.05);
+}
+
+/* Estado del empleado */
+.estado-empleado {
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.estado-empleado.activo {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.estado-empleado.inactivo {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Botones de acción */
+.acciones-empleado {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.btn-accion {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: var(--transition-normal);
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-gray);
+}
+
+.btn-accion:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-accion.editar:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-accion.eliminar:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+/* Modal de empleado */
+.modal-empleado {
+    /* tema oscuro: evitar fondo blanco */
+    background: rgba(11, 11, 13, 0.95);
+}
+
+.modal-empleado .modal-content {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.modal-empleado .modal-header {
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem;
+    background-color: var(--bg-light);
+}
+
+.modal-empleado .modal-title {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.modal-empleado .modal-body {
+    padding: 1.5rem;
+}
+
+.modal-empleado .form-label {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.modal-empleado .form-control,
+.modal-empleado .form-select {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-light);
+    color: var(--text-white);
+}
+
+.modal-empleado .form-control:focus,
+.modal-empleado .form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.1);
+}
+
+.modal-empleado .modal-footer {
+    border-top: 1px solid var(--border-light);
+    padding: 1.5rem;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}

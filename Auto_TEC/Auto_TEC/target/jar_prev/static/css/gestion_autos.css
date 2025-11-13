@@ -1,0 +1,167 @@
+
+/* Importar los estilos base de admin */
+@import 'admin.css';
+
+/* Estilos específicos para la gestión de autos */
+.modelo-img {
+    width: 80px;
+    height: 60px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    border: 1px solid var(--border-light);
+    transition: var(--transition-normal);
+}
+
+.modelo-img:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+}
+
+/* Personalización de la tabla */
+.table-autos {
+    margin-top: 1.5rem;
+}
+
+.table-autos th {
+    background: linear-gradient(45deg, rgba(212, 175, 55, 0.1), rgba(168, 85, 247, 0.1));
+    color: var(--color-primary);
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.table-autos td {
+    vertical-align: middle;
+}
+
+/* Estados de los modelos */
+.estado-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.estado-badge.disponible {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.estado-badge.reservado {
+    background: rgba(234, 179, 8, 0.1);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.estado-badge.vendido {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Botones de acción */
+.btn-accion {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    margin: 0 0.25rem;
+    transition: var(--transition-normal);
+}
+
+.btn-accion:hover {
+    transform: translateY(-2px);
+}
+
+.btn-accion i {
+    font-size: 1rem;
+}
+
+/* Modal de edición */
+.modal-auto {
+    /* tema oscuro */
+    background: rgba(11, 11, 13, 0.95);
+}
+
+.modal-auto .modal-content {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.modal-auto .modal-header {
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem;
+    background-color: var(--bg-light);
+}
+
+.modal-auto .modal-title {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.modal-auto .modal-body {
+    padding: 1.5rem;
+}
+
+.modal-auto .form-label {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.modal-auto .form-control {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    color: #212529;
+}
+
+.modal-auto .form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
+}
+
+.modal-auto .modal-footer {
+    border-top: 1px solid var(--border-light);
+    padding: 1rem;
+    background-color: var(--bg-light);
+}
+
+/* ----------- BOTONES DE MODAL ----------- */
+.btn-secondary {
+  background-color: #ccc2b8;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #a89c8d;
+}
+
+/* Previsualizador de imagen */
+.preview-container {
+    width: 100%;
+    height: 200px;
+    border: 2px dashed var(--border-light);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: var(--transition-normal);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.preview-container:hover {
+    border-color: var(--color-primary);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.preview-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}

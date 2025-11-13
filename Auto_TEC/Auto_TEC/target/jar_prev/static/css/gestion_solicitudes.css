@@ -1,0 +1,282 @@
+
+/* Importar los estilos base de admin */
+@import 'admin.css';
+
+/* Tarjetas de estadísticas */
+.tarjeta-estadistica {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+}
+
+.tarjeta-estadistica:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.tarjeta-estadistica i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tarjeta-estadistica .numero {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+
+.tarjeta-estadistica .texto {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+/* Filtros */
+.seccion-filtros {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.seccion-filtros .form-label {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.seccion-filtros .form-control,
+.seccion-filtros .form-select {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    color: #212529;
+}
+
+.seccion-filtros .form-control:focus,
+.seccion-filtros .form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.1);
+}
+
+.btn-reset {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: var(--transition-normal);
+}
+
+.btn-reset:hover {
+    background: var(--color-primary);
+    color: var(--bg-darker);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Lista de solicitudes */
+.lista-solicitudes {
+    margin-top: 2rem;
+}
+
+.solicitud-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+}
+
+.solicitud-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.solicitud-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+    background: var(--bg-light);
+}
+
+.solicitud-header h5 {
+    color: var(--color-primary);
+    font-weight: 600;
+    margin: 0;
+}
+
+.solicitud-body {
+    padding: 1.5rem;
+}
+
+.solicitud-title {
+    color: var(--text-white);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.solicitud-preview {
+    color: var(--text-gray);
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+/* Estados de solicitud */
+.estado-solicitud {
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.estado-solicitud i {
+    font-size: 0.75rem;
+}
+
+.estado-solicitud.pendiente {
+    background: rgba(234, 179, 8, 0.1);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.estado-solicitud.evaluando {
+    background: rgba(6, 182, 212, 0.1);
+    color: #06b6d4;
+    border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.estado-solicitud.aprobado {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.estado-solicitud.rechazado {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Botones de acción */
+.acciones-solicitud {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn-accion {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: var(--transition-normal);
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-gray);
+}
+
+.btn-accion:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-accion.ver:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-accion.aprobar:hover {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border-color: #22c55e;
+}
+
+.btn-accion.rechazar:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+/* Modal de detalles */
+.modal-solicitud {
+    /* tema oscuro: evitar fondo blanco para consistencia con admin.css */
+    background: rgba(11, 11, 13, 0.95);
+}
+
+.modal-solicitud .modal-content {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.modal-solicitud .modal-header {
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem;
+    background-color: var(--bg-light);
+}
+
+.modal-solicitud .modal-title {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.modal-solicitud .modal-body {
+    padding: 1.5rem;
+}
+
+.modal-solicitud .form-label {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.modal-solicitud .form-control {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-light);
+    color: var(--text-white);
+    min-height: 100px;
+}
+
+.modal-solicitud .form-control:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.1);
+}
+
+.modal-solicitud .modal-footer {
+    border-top: 1px solid var(--border-light);
+    padding: 1.5rem;
+}
+
+/* Animaciones */
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

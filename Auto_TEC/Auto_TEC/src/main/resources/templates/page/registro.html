@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro - AutoTec Motors</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/registro.css">
+</head>
+<body>
+  <div id="registroForm">
+    <div class="register-container">
+      <a href="/index" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+      <h1><i class="fas fa-user-plus"></i> Crear Cuenta</h1>
+
+      <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+      <form th:action="@{/auth/registro}" th:object="${registroDTO}" method="post" class="register-form">
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-user"></i></span>
+          <input type="text" th:field="*{username}" placeholder="Usuario" required />
+        </div>
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-envelope"></i></span>
+          <input type="email" th:field="*{email}" placeholder="Correo electrónico" required />
+        </div>
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-lock"></i></span>
+          <input type="password" th:field="*{password}" placeholder="Contraseña" required minlength="6" />
+        </div>
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-id-card"></i></span>
+          <input type="text" th:field="*{nombres}" placeholder="Nombres" required />
+        </div>
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-id-card"></i></span>
+          <input type="text" th:field="*{apellidos}" placeholder="Apellidos" required />
+        </div>
+        
+        <div class="terms-check">
+          <input type="checkbox" id="terms" name="terms" required>
+          <label for="terms">
+            Acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">términos y condiciones</a>
+          </label>
+        </div>
+
+        <button class="btn-register" type="submit">
+          Crear cuenta <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <p>¿Ya tienes cuenta? <a href="/auth/login">Inicia sesión</a></p>
+    </div>
+  </div>
+
+  <!-- Modal Términos y Condiciones -->
+  <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="termsModalLabel">
+            <i class="fas fa-file-contract"></i> Términos y Condiciones
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <h6>1. Registro y Cuenta</h6>
+          <p>Al crear una cuenta en AutoTec Motors, usted garantiza que:</p>
+          <ul>
+            <li>Es mayor de edad</li>
+            <li>Proporcionará información verdadera y actualizada</li>
+            <li>Mantendrá la confidencialidad de su cuenta y contraseña</li>
+          </ul>
+
+          <h6>2. Uso del Servicio</h6>
+          <p>Nuestros servicios están diseñados para:</p>
+          <ul>
+            <li>Facilitar la búsqueda y compra de vehículos</li>
+            <li>Programar citas de servicio</li>
+            <li>Acceder a información sobre financiamiento</li>
+          </ul>
+
+          <h6>3. Privacidad</h6>
+          <p>Nos comprometemos a:</p>
+          <ul>
+            <li>Proteger su información personal</li>
+            <li>No compartir datos con terceros sin su consentimiento</li>
+            <li>Mantener sus datos seguros y encriptados</li>
+          </ul>
+
+          <h6>4. Comunicaciones</h6>
+          <p>Al registrarse, acepta recibir:</p>
+          <ul>
+            <li>Confirmaciones de citas y servicios</li>
+            <li>Actualizaciones sobre su vehículo</li>
+            <li>Ofertas y promociones (opcional)</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      </form>
+
+      <p>¿Ya tienes cuenta? <a href="/auth/login">Inicia sesión</a></p>
+    </div>
+  </div>
+</body>
+</html>

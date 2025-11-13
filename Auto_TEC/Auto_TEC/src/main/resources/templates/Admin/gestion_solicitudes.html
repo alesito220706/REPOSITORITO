@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoTec Motors - Gestión de Solicitudes</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <!-- Estilos externos -->
+  <link rel="stylesheet" href="/css/gestion_solicitudes.css" />
+</head>
+<body>
+
+  <div th:replace="fragments/headerAdmin :: headerAdmin"></div>
+
+      <div class="col-md-10 p-4">
+        <h1 class="mb-4"><i class="fas fa-file-invoice-dollar me-2"></i>Gestión de Solicitudes de Financiamiento</h1>
+
+        <!-- Alertas -->
+        <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+          <i class="fas fa-check-circle me-2"></i>
+          <span th:text="${param.success}">Operación exitosa</span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-circle me-2"></i>
+          <span th:text="${param.error}">Error en la operación</span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="row mb-4">
+          <div class="col-md-2"><div class="stats-card stats-total"><i class="fas fa-file-alt fa-2x"></i>
+            <div class="stats-number" th:text="${totalSolicitudes}">0</div><div>Total</div></div></div>
+          <div class="col-md-2"><div class="stats-card stats-pendiente"><i class="fas fa-clock fa-2x"></i>
+            <div class="stats-number" th:text="${pendientesCount}">0</div><div>Pendientes</div></div></div>
+          <div class="col-md-2"><div class="stats-card stats-evaluando"><i class="fas fa-search fa-2x"></i>
+            <div class="stats-number" th:text="${evaluandoCount}">0</div><div>Evaluando</div></div></div>
+          <div class="col-md-2"><div class="stats-card stats-aprobado"><i class="fas fa-check-circle fa-2x"></i>
+            <div class="stats-number" th:text="${aprobadosCount}">0</div><div>Aprobados</div></div></div>
+          <div class="col-md-2"><div class="stats-card stats-rechazado"><i class="fas fa-times-circle fa-2x"></i>
+            <div class="stats-number" th:text="${rechazadosCount}">0</div><div>Rechazados</div></div></div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filter-section">
+          <div class="row">
+            <div class="col-md-4">
+              <label for="filter-estado" class="form-label">Filtrar por estado:</label>
+              <select id="filter-estado" class="form-select">
+                <option value="all">Todos los estados</option>
+                <option value="PENDIENTE">Pendiente</option>
+                <option value="EVALUANDO">Evaluando</option>
+                <option value="APROBADO">Aprobado</option>
+                <option value="RECHAZADO">Rechazado</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="search" class="form-label">Buscar:</label>
+              <input type="text" id="search" class="form-control" placeholder="Nombre, email o modelo...">
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+              <button class="btn btn-outline-secondary w-100" id="reset-filters">
+                <i class="fas fa-refresh me-2"></i>Restablecer Filtros
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista de Solicitudes -->
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fas fa-list me-2"></i>Solicitudes Recibidas
+              <span class="badge bg-primary ms-2" th:text="${totalSolicitudes}">0</span>
+            </h5>
+            <a th:href="@{/admin/gestion_solicitudes}" class="btn btn-sm btn-outline-primary">
+              <i class="fas fa-sync-alt me-1"></i>Actualizar
+            </a>
+          </div>
+          <div class="card-body">
+            <div th:if="${solicitudes.empty}" class="text-center py-5">
+              <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+              <h4 class="text-muted">No hay solicitudes para mostrar</h4>
+              <p class="text-muted">Las solicitudes de financiamiento aparecerán aquí cuando los usuarios las envíen.</p>
+            </div>
+
+            <div th:unless="${solicitudes.empty}" id="solicitudes-list">
+              <div th:each="solicitud : ${solicitudes}" 
+                   class="card mb-3 solicitud-item" 
+                   th:attr="data-estado=${solicitud.estado}"
+                   th:classappend="${solicitud.estado.toString().toLowerCase()}">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <h6 class="card-title mb-2" th:text="${solicitud.nombreSolicitante}">Nombre</h6>
+                      <div class="row text-muted small mb-2">
+                        <div class="col-md-6"><i class="fas fa-envelope me-1"></i>
+                          <span th:text="${solicitud.emailSolicitante}">email@example.com</span></div>
+                        <div class="col-md-6"><i class="fas fa-car me-1"></i>
+                          <span th:text="${solicitud.modeloInteres}">Modelo</span></div>
+                      </div>
+                      <div class="row text-muted small mb-2">
+                        <div class="col-md-6"><i class="fas fa-calendar me-1"></i>
+                          <span th:text="${#temporals.format(solicitud.fechaSolicitud, 'dd/MM/yyyy HH:mm')}">Fecha</span></div>
+                        <div class="col-md-6"><i class="fas fa-tag me-1"></i>
+                          <span th:text="${solicitud.planFinanciamiento ?: 'Sin plan específico'}">Plan</span></div>
+                      </div>
+                      <p class="card-text text-muted mensaje-preview mb-0" th:text="${solicitud.mensaje}">Mensaje...</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                      <div class="mb-3">
+                        <span th:switch="${solicitud.estado}" class="badge p-2">
+                          <span th:case="PENDIENTE" class="badge-pendiente">PENDIENTE</span>
+                          <span th:case="EVALUANDO" class="badge-evaluando">EVALUANDO</span>
+                          <span th:case="APROBADO" class="badge-aprobado">APROBADO</span>
+                          <span th:case="RECHAZADO" class="badge-rechazado">RECHAZADO</span>
+                        </span>
+                      </div>
+
+                      <!-- Botones de acción -->
+                      <div class="btn-group-vertical w-100">
+                        <button type="button" class="btn btn-outline-primary btn-sm action-btn ver-detalles" 
+                                th:attr="data-id=${solicitud.id}" 
+                                data-bs-toggle="modal" data-bs-target="#detalleModal">
+                          <i class="fas fa-eye me-1"></i>Detalles
+                        </button>
+
+                        <form th:if="${solicitud.estado != 'EVALUANDO'}" 
+                              th:action="@{/admin/solicitudes/cambiar-estado/{id}(id=${solicitud.id})}" method="post" class="d-inline">
+                          <input type="hidden" name="estado" value="EVALUANDO">
+                          <button type="submit" class="btn btn-outline-info btn-sm action-btn w-100">
+                            <i class="fas fa-search me-1"></i>Evaluar
+                          </button>
+                        </form>
+
+                        <form th:if="${solicitud.estado != 'APROBADO'}" 
+                              th:action="@{/admin/solicitudes/cambiar-estado/{id}(id=${solicitud.id})}" method="post" class="d-inline">
+                          <input type="hidden" name="estado" value="APROBADO">
+                          <button type="submit" class="btn btn-outline-success btn-sm action-btn w-100">
+                            <i class="fas fa-check me-1"></i>Aprobar
+                          </button>
+                        </form>
+
+                        <form th:if="${solicitud.estado != 'RECHAZADO'}" 
+                              th:action="@{/admin/solicitudes/cambiar-estado/{id}(id=${solicitud.id})}" method="post" class="d-inline">
+                          <input type="hidden" name="estado" value="RECHAZADO">
+                          <button type="submit" class="btn btn-outline-danger btn-sm action-btn w-100">
+                            <i class="fas fa-times me-1"></i>Rechazar
+                          </button>
+                        </form>
+
+                        <form th:action="@{/admin/solicitudes/eliminar/{id}(id=${solicitud.id})}" 
+                              method="post" class="d-inline"
+                              onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta solicitud?')">
+                          <button type="submit" class="btn btn-outline-dark btn-sm action-btn w-100">
+                            <i class="fas fa-trash me-1"></i>Eliminar
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- /col -->
+    </div>
+  </div>
+
+  <!-- Modal para Detalles de Solicitud -->
+<div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detalleModalLabel">
+                    <i class="fas fa-file-invoice-dollar me-2"></i>Detalles de Solicitud
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong><i class="fas fa-id-card me-2"></i>ID:</strong> <span id="modal-id"></span></p>
+                        <p><strong><i class="fas fa-user me-2"></i>Nombre:</strong> <span id="modal-nombre"></span></p>
+                        <p><strong><i class="fas fa-envelope me-2"></i>Email:</strong> <span id="modal-email"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong><i class="fas fa-car me-2"></i>Modelo de interés:</strong> <span id="modal-modelo"></span></p>
+                        <p><strong><i class="fas fa-calendar me-2"></i>Fecha de solicitud:</strong> <span id="modal-fecha"></span></p>
+                        <p><strong><i class="fas fa-tag me-2"></i>Plan:</strong> <span id="modal-plan"></span></p>
+                        <p><strong><i class="fas fa-info-circle me-2"></i>Estado:</strong> <span id="modal-estado"></span></p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p><strong><i class="fas fa-comment me-2"></i>Mensaje:</strong></p>
+                    <div class="border p-3 bg-light rounded" id="modal-mensaje"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
