@@ -100,7 +100,12 @@ public String adminModelos(Model model) {
     model.addAttribute("modelo", new modelosEntitie()); 
     return "admin/gestion_autos";
 }
-
+@PostMapping("/guardar")
+public String guardar(modelosEntitie modelo) {
+    modelo.setActivo(true); 
+    modeloService.save(modelo);
+    return "redirect:admin/gestion_autos";
+}
     @PostMapping("/gestion_autos/crear")
     public String crearModelo(@ModelAttribute modelosEntitie modelo, 
                             RedirectAttributes redirectAttributes) {

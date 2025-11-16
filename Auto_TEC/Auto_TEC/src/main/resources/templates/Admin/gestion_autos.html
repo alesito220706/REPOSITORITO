@@ -7,34 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/gestion_autos.css">
-    <style>
-        .modal-custom {
-            display: none;
-            position: fixed;
-            z-index: 1050;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .modal-custom.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-custom-content {
-            background-color: white;
-            padding: 0;
-            border: 1px solid #ddd;
-            border-radius: 0.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-    </style>
+    
 </head>
 <body>
     <div class="container-fluid">
@@ -55,9 +28,10 @@
 
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Gestión de Modelos</h1>
-                    <button class="btn btn-primary" onclick="abrirModalCrear()">
-                        <i class="fas fa-plus me-1"></i>Nuevo Modelo
-                    </button>
+                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearModelo">
+    Agregar Modelo
+</button>
+                    
                 </div>
 
                 <!-- Tabla de Modelos -->
@@ -123,118 +97,140 @@
         </div>
     </div>
 
-    <!-- Modal Crear Modelo - FUNCIONAL SIN BOOTSTRAP -->
-    <div id="modalCrearModelo" class="modal-custom">
-        <div class="modal-custom-content">
-            <div class="modal-header bg-light border-bottom p-3 d-flex justify-content-between align-items-center">
-                <h5 class="modal-title m-0">Crear Nuevo Modelo</h5>
-                <button type="button" class="btn-close" onclick="cerrarModalCrear()" aria-label="Close"></button>
+   
+
+    <!-- Modal Crear Modelo -->
+<div class="modal fade" id="modalCrearModelo" tabindex="-1" aria-labelledby="modalCrearModeloLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="modalCrearModeloLabel">Registrar Nuevo Modelo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
+
             <form th:action="@{/admin/gestion_autos/crear}" method="post" th:object="${modelo}">
-                <div class="modal-body p-4">
-                    <div class="row">
+                <div class="modal-body">
+
+                    <div class="row g-3">
+
+                        <!-- Nombre -->
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Nombre *</label>
-                                <input type="text" class="form-control" th:field="*{nombre}" required maxlength="100">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Marca *</label>
-                                <input type="text" class="form-control" th:field="*{marca}" required maxlength="100">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Motor *</label>
-                                <input type="text" class="form-control" th:field="*{motor}" required maxlength="100">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Potencia *</label>
-                                <input type="text" class="form-control" th:field="*{potencia}" required maxlength="100">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Velocidad Máxima *</label>
-                                <input type="text" class="form-control" th:field="*{velocidadMax}" required maxlength="100">
+                            <label class="form-label">Nombre del Modelo *</label>
+                            <input type="text" class="form-control" th:field="*{nombre}" required>
+                        </div>
+
+                        <!-- Marca -->
+                        <div class="col-md-6">
+                            <label class="form-label">Marca *</label>
+                            <input type="text" class="form-control" th:field="*{marca}" required>
+                        </div>
+
+                        <!-- Motor -->
+                        <div class="col-md-6">
+                            <label class="form-label">Motor *</label>
+                            <input type="text" class="form-control" th:field="*{motor}" required>
+                        </div>
+
+                        <!-- Potencia -->
+                        <div class="col-md-6">
+                            <label class="form-label">Potencia *</label>
+                            <input type="text" class="form-control" th:field="*{potencia}" required>
+                        </div>
+
+                        <!-- Velocidad Máxima -->
+                        <div class="col-md-6">
+                            <label class="form-label">Velocidad Máx *</label>
+                            <input type="text" class="form-control" th:field="*{velocidadMax}" required>
+                        </div>
+
+                        <!-- Aceleración -->
+                        <div class="col-md-6">
+                            <label class="form-label">Aceleración</label>
+                            <input type="text" class="form-control" th:field="*{aceleracion}">
+                        </div>
+                        <!-- Año -->
+                         
+            <div class="col-md-4">
+                <label class="form-label">Año</label>
+                <input type="number" th:field="*{anio}" class="form-control">
+            </div>
+
+                        <!-- Precio -->
+                        <div class="col-md-6">
+                            <label class="form-label">Precio (USD) *</label>
+                            <input type="number" step="0.01" min="0" class="form-control" th:field="*{precio}" required>
+                        </div>
+
+                        <!-- Stock -->
+                        <div class="col-md-6">
+                            <label class="form-label">Stock *</label>
+                            <input type="number" min="1" class="form-control" th:field="*{stock}" required>
+                        </div>
+                        
+                        <div class="col-12">
+                <label class="form-label">Equipamiento</label>
+                <textarea th:field="*{equipamiento}" rows="2" class="form-control"></textarea>
+            </div>
+
+
+                        <!-- Imagen URL -->
+                        <div class="col-md-12">
+                            <label class="form-label">URL de Imagen *</label>
+                            <input type="url" class="form-control" th:field="*{imagenUrl}" required>
+                        </div>
+
+                        <!-- Categoría -->
+                        <div class="col-md-6">
+                            <label class="form-label">Categoría</label>
+                            <select class="form-select" th:field="*{categoria}">
+                                <option value="HYPERCAR">Hypercar</option>
+                                <option value="SUPERDEPORTIVO">Superdeportivo</option>
+                                <option value="DEPORTIVO">Deportivo</option>
+                                <option value="SUV">SUV</option>
+                                <option value="LUJO">Lujo</option>
+                            </select>
+                        </div>
+
+                        <!-- Destacado -->
+                        <div class="col-md-3 mt-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:field="*{destacado}">
+                                <label class="form-check-label">Destacado</label>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Precio *</label>
-                                <input type="number" step="0.01" class="form-control" th:field="*{precio}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">URL Imagen *</label>
-                                <input type="url" class="form-control" th:field="*{imagenUrl}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Stock *</label>
-                                <input type="number" class="form-control" th:field="*{stock}" min="0" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Categoría</label>
-                                <select class="form-select" th:field="*{categoria}">
-                                    <option value="HYPERCAR">HYPERCAR</option>
-                                    <option value="SUPERCAR">SUPERCAR</option>
-                                    <option value="SPORTS">SPORTS</option>
-                                    <option value="LUXURY">LUXURY</option>
-                                </select>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" th:field="*{destacado}">
-                                        <label class="form-check-label">Destacado</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" th:field="*{activo}" checked>
-                                        <label class="form-check-label">Activo</label>
-                                    </div>
-                                </div>
+
+                        <!-- Activo -->
+                        <div class="col-md-3 mt-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:field="*{activo}" checked>
+                                <label class="form-check-label">Activo</label>
                             </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Descripción *</label>
-                        <textarea class="form-control" th:field="*{descripcion}" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Aceleración (0-100 km/h)</label>
-                        <input type="text" class="form-control" th:field="*{aceleracion}" placeholder="Ej: 2.5 segundos" maxlength="100">
+
+                        <!-- Descripción -->
+                        <div class="col-md-12">
+                            <label class="form-label">Descripción *</label>
+                            <textarea class="form-control" rows="4" th:field="*{descripcion}" required></textarea>
+                        </div>
+
                     </div>
                 </div>
-                <div class="modal-footer border-top bg-light p-3 d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-secondary" onclick="cerrarModalCrear()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Crear Modelo</button>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Modelo</button>
                 </div>
+
             </form>
         </div>
     </div>
+</div>
+
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{/js/admin.js}"></script>
-    <script>
-        function abrirModalCrear() {
-            document.getElementById('modalCrearModelo').classList.add('show');
-        }
-
-        function cerrarModalCrear() {
-            document.getElementById('modalCrearModelo').classList.remove('show');
-        }
-
-        // Cerrar modal al hacer clic fuera
-        document.getElementById('modalCrearModelo').addEventListener('click', function(event) {
-            if (event.target === this) {
-                cerrarModalCrear();
-            }
-        });
-
-        // Cerrar modal con tecla Escape
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                cerrarModalCrear();
-            }
-        });
-    </script>
+    
 </body>
 </html>

@@ -1,4 +1,6 @@
     // ========== /static/js/admin-main.js ==========
+
+    // Filtrar tabla en tiempo real
     function filtrarTabla(tablaId, inputElement) {
         const filter = inputElement.value.toUpperCase();
         const table = document.getElementById(tablaId);
@@ -12,6 +14,7 @@
 
     // ===== CLIENTES =====
 
+    // Confirmar eliminación - Cliente
     function confirmarEliminarCliente(id, nombre) {
         if (confirm(`¿Estás seguro de eliminar al cliente "${nombre}"?`)) {
             fetch(`/admin/clientes/${id}`, { method: 'DELETE' })
@@ -42,6 +45,7 @@
 
     // ===== EMPLEADOS =====
 
+    // Confirmar eliminación - Empleado
     function confirmarEliminarEmpleado(id, nombre) {
         if (confirm(`¿Estás seguro de eliminar al empleado "${nombre}"?`)) {
             fetch(`/admin/empleados/${id}`, { method: 'DELETE' })
@@ -62,6 +66,7 @@
         new bootstrap.Modal(document.getElementById('modalEmpleado')).show();
     }
 
+    // Función placeholder para filtrar la tabla si existe
     function filtrarTabla(tablaId, input) {
         let filter = input.value.toUpperCase();
         let table = document.getElementById(tablaId);
@@ -93,7 +98,7 @@
 
     // ===== CITAS =====
 
-
+    // Confirmar eliminación - Cita
     function confirmarEliminarCita(id) {
         if (confirm('¿Estás seguro de eliminar esta cita?')) {
             fetch(`/admin/citas/${id}`, { method: 'DELETE' })
@@ -110,6 +115,7 @@
         }
     }
 
+    // Cambiar estado de cita
     function cambiarEstadoCita(id, nuevoEstado) {
         fetch(`/admin/citas/${id}/estado`, {
             method: 'PUT',
@@ -129,6 +135,7 @@
 
     // ===== SOLICITUDES =====
 
+    // Confirmar eliminación - Solicitud
     function confirmarEliminarSolicitud(id) {
         if (confirm('¿Estás seguro de eliminar esta solicitud?')) {
             fetch(`/admin/solicitudes/${id}`, { method: 'DELETE' })
@@ -145,6 +152,7 @@
         }
     }
 
+    // Cambiar estado de solicitud
     function cambiarEstadoSolicitud(id, nuevoEstado) {
         fetch(`/admin/solicitudes/${id}/estado`, {
             method: 'PUT',
@@ -162,6 +170,8 @@
         .catch(e => console.error('Error:', e));
     }
 
+    // ===== MODELOS (gestion_autos) =====
+    // Funciones para la gestión de modelos en el panel de administración
     class AdminModelosManager {
         constructor() {
             this.init();
@@ -172,6 +182,7 @@
             this.initModalListeners();
         }
 
+        // Auto-cierre de alertas
         autoCloseAlerts() {
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(alert => {
