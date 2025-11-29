@@ -6,7 +6,7 @@
     <title>Editar Modelo - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/gestion_autos.css">
+    <link rel="stylesheet" th:href="@{/css/gestion_autos.css}">
 </head>
 <body>
     <div th:replace="fragments/headerAdmin :: headerAdmin"></div> 
@@ -33,42 +33,58 @@
         <!-- Formulario de Edición -->
         <div class="card">
             <div class="card-body">
-                <form th:action="@{/admin/gestion_autos/actualizar/{id}(id=${modelo.id})}" method="post" th:object="${modelo}">
+                <form id="editarModeloForm" th:action="@{/admin/gestion_autos/actualizar/{id}(id=${modelo.id})}" method="post" th:object="${modelo}" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Nombre *</label>
-                                <input type="text" class="form-control" th:field="*{nombre}" required maxlength="100">
+                                <input id="nombreEdit" name="nombre" type="text" class="form-control" th:field="*{nombre}" required maxlength="100">
+                                <div class="invalid-feedback" data-field="nombre"></div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Marca *</label>
-                                <input type="text" class="form-control" th:field="*{marca}" required maxlength="100">
+                                <input id="marcaEdit" name="marca" type="text" class="form-control" th:field="*{marca}" required maxlength="100">
+                                <div class="invalid-feedback" data-field="marca"></div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Motor *</label>
-                                <input type="text" class="form-control" th:field="*{motor}" required maxlength="100">
+                                <input id="motorEdit" name="motor" type="text" class="form-control" th:field="*{motor}" required maxlength="100">
+                                <div class="invalid-feedback" data-field="motor"></div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Potencia *</label>
-                                <input type="text" class="form-control" th:field="*{potencia}" required maxlength="100">
+                                <input id="potenciaEdit" name="potencia" type="text" class="form-control" th:field="*{potencia}" required maxlength="100">
+                                <div class="invalid-feedback" data-field="potencia"></div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Velocidad Máxima *</label>
-                                <input type="text" class="form-control" th:field="*{velocidadMax}" required maxlength="100">
+                                <input id="velocidadEdit" name="velocidadMax" type="text" class="form-control" th:field="*{velocidadMax}" required maxlength="100">
+                                <div class="invalid-feedback" data-field="velocidadMax"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Precio *</label>
-                                <input type="number" step="0.01" class="form-control" th:field="*{precio}" required>
+                                <input id="precioEdit" name="precio" type="number" step="0.01" class="form-control" th:field="*{precio}" required>
+                                <div class="invalid-feedback" data-field="precio"></div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">URL Imagen *</label>
-                                <input type="url" class="form-control" th:field="*{imagenUrl}" required>
+                                <label class="form-label">Imagen (archivo o URL)</label>
+                                <div class="mb-2">
+                                    <input id="imagenFileEdit" name="imagen" type="file" accept="image/*" class="form-control">
+                                </div>
+                                <div class="mb-2">
+                                    <input id="imagenUrlInput" name="imagenUrl" type="url" class="form-control" th:field="*{imagenUrl}">
+                                    <div class="invalid-feedback" data-field="imagenUrl"></div>
+                                </div>
+                                <div class="mt-2">
+                                    <img id="imagenPreview" src="" alt="Previsualización" class="img-fluid rounded" style="max-height:120px; display:none;" onerror="(function(img){ try{ if (!img.dataset.tried){ img.dataset.tried='1'; var s = img.getAttribute('src') || img.src; var filename = s.split('/').pop(); img.src = '/images/' + filename; } else { img.src='https://via.placeholder.com/200x120?text=Sin+Imagen'; } } catch(e) { img.src='https://via.placeholder.com/200x120?text=Sin+Imagen'; } })(this);">
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Stock *</label>
-                                <input type="number" class="form-control" th:field="*{stock}" min="0" required>
+                                <input id="stockEdit" name="stock" type="number" class="form-control" th:field="*{stock}" min="0" required>
+                                <div class="invalid-feedback" data-field="stock"></div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Categoría</label>
@@ -97,11 +113,24 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Descripción *</label>
-                        <textarea class="form-control" th:field="*{descripcion}" rows="3" required></textarea>
+                        <textarea id="descripcionEdit" name="descripcion" class="form-control" th:field="*{descripcion}" rows="3" required></textarea>
+                        <div class="invalid-feedback" data-field="descripcion"></div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Aceleración (0-100 km/h)</label>
-                        <input type="text" class="form-control" th:field="*{aceleracion}" placeholder="Ej: 2.5 segundos" maxlength="100">
+                        <input id="aceleracionEdit" name="aceleracion" type="text" class="form-control" th:field="*{aceleracion}" placeholder="Ej: 2.5 segundos" maxlength="100">
+                        <div class="invalid-feedback" data-field="aceleracion"></div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Año</label>
+                        <input id="anioEdit" name="anio" type="number" class="form-control" th:field="*{anio}">
+                        <div class="invalid-feedback" data-field="anio"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Equipamiento</label>
+                        <textarea id="equipamientoEdit" name="equipamiento" class="form-control" th:field="*{equipamiento}" rows="2"></textarea>
+                        <div class="invalid-feedback" data-field="equipamiento"></div>
+                    </div>
                     </div>
                     
                     <div class="d-flex gap-2">
@@ -116,6 +145,63 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('imagenUrlInput');
+            const preview = document.getElementById('imagenPreview');
+            if (input && preview) {
+                const updatePreview = () => {
+                    const val = input.value;
+                    if (val) {
+                        preview.src = val;
+                        preview.style.display = 'block';
+                    } else {
+                        preview.style.display = 'none';
+                    }
+                };
+                input.addEventListener('input', updatePreview);
+                // init with current value
+                updatePreview();
+            }
+            // AJAX submit for edit (inline validation + broadcast)
+            const editarForm = document.getElementById('editarModeloForm');
+            let bc = null;
+            try { bc = new BroadcastChannel('modelos_channel'); } catch(e) { /* no soportado */ }
+            if (editarForm) {
+                editarForm.querySelectorAll('input, textarea, select').forEach(el => { el.addEventListener('input', () => { el.classList.remove('is-invalid'); const name = el.name || el.id.replace(/Edit$/, ''); const fb = editarForm.querySelector('.invalid-feedback[data-field="' + name + '"]'); if (fb) fb.textContent = ''; }); });
+                editarForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    if (!editarForm.checkValidity()) { editarForm.reportValidity(); return; }
+                    const btn = editarForm.querySelector('button[type="submit"]'); if (btn) btn.disabled = true;
+                    editarForm.querySelectorAll('.invalid-feedback').forEach(fb => fb.textContent = ''); editarForm.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+                    const formData = new FormData(editarForm);
+                    try {
+                        const response = await fetch(editarForm.action, { method: 'POST', body: formData, credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                        const ct = (response.headers.get('content-type') || '').toLowerCase();
+                        if (response.ok) {
+                            const model = Object.fromEntries(formData.entries());
+                            try { const urlParts = editarForm.action.split('/'); const parsedId = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2]; model.id = parsedId; } catch (e) { model.id = null; }
+                            model.destacado = formData.get('destacado') === 'on' || formData.get('destacado') === 'true';
+                            model.activo = formData.get('activo') === 'on' || formData.get('activo') === 'true';
+                            if (bc) bc.postMessage({ type: 'updated', model });
+                            window.location.href = '/admin/gestion_autos';
+                        } else {
+                            if (ct.includes('application/json')) {
+                                const json = await response.json();
+                                if (json.errors) { Object.keys(json.errors).forEach(field => { const el = editarForm.querySelector('[name="' + field + '"]'); if (el) el.classList.add('is-invalid'); const fb = editarForm.querySelector('.invalid-feedback[data-field="' + field + '"]'); if (fb) fb.textContent = json.errors[field]; }); }
+                                else if (json.message) { alert(json.message); }
+                            } else if (ct.includes('text/html')) {
+                                const text = await response.text(); try { const parser = new DOMParser(); const doc = parser.parseFromString(text, 'text/html'); const feedbacks = doc.querySelectorAll('.invalid-feedback[data-field]'); if (feedbacks.length) { feedbacks.forEach(fb => { const field = fb.getAttribute('data-field'); const msg = fb.textContent.trim(); const el = editarForm.querySelector('[name="' + field + '"]'); if (el) el.classList.add('is-invalid'); const localFb = editarForm.querySelector('.invalid-feedback[data-field="' + field + '"]'); if (localFb) localFb.textContent = msg; }); alert('Corrige los errores marcados en el formulario'); } else { alert('Error al actualizar (servidor): ' + text); } } catch (err) { alert('Error al actualizar (servidor): ' + err.message); }
+                            else { const text = await response.text(); alert('Error al actualizar (servidor): ' + text); }
+                        }
+                    } catch (err) { alert('Error de red: ' + err.message); } finally { if (btn) btn.disabled = false; }
+                });
+                const imagenFileEdit = document.getElementById('imagenFileEdit'); const imagenUrlInputEdit = document.getElementById('imagenUrlInput');
+                if (imagenFileEdit) { imagenFileEdit.addEventListener('change', function () { const file = imagenFileEdit.files && imagenFileEdit.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function (e) { if (preview) { preview.src = e.target.result; preview.style.display = 'block'; } }; reader.readAsDataURL(file); }); }
+                if (imagenUrlInputEdit && preview) { imagenUrlInputEdit.addEventListener('input', function () { const val = imagenUrlInputEdit.value; if (val) { preview.src = val; preview.style.display = 'block'; } else { preview.style.display = 'none'; } }); }
+            }
+        });
+    </script>
     
 </body>
 </html>
