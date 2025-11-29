@@ -2,6 +2,7 @@ package com.organization.Auto_TEC.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.organization.Auto_TEC.DTO.RegistroDTO;
 import com.organization.Auto_TEC.Service.UsuarioService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/auth")
@@ -27,7 +30,7 @@ public class RegistroController {
     }
 
     @PostMapping("/registro")
-    public String registrarUsuario(@ModelAttribute RegistroDTO registroDTO, Model model) {
+    public String registrarUsuario(@ModelAttribute @Valid RegistroDTO registroDTO,BindingResult result, Model model) {
         try {
             usuarioService.registrarUsuario(registroDTO);
             return "redirect:/auth/login?registroExitoso=true"; // ← Asegúrate que sea /auth/login

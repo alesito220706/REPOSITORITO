@@ -79,56 +79,123 @@
     font-size: 1rem;
 }
 
-/* Modal de edición */
-.modal-auto {
-    /* tema oscuro */
-    background: rgba(11, 11, 13, 0.95);
+/* ============================
+   ESTILOS PARA EL MODAL
+============================ */
+
+/* Fondo del modal */
+.modal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9999 !important;
+}
+/* Que el contenido del modal nunca se recorte */
+.modal-dialog {
+    max-height: 90vh !important;
+    display: flex;
+    align-items: center;
+}
+.modal-dialog-scrollable .modal-body {
+    overflow-y: auto;
+    max-height: calc(90vh - 150px);
+}
+main, .container-fluid, .row {
+    overflow: visible !important;
+}
+.modal-content {
+    background: #111827;               /* Azul oscuro elegante */
+    color: #f1f1f1;
+    border-radius: 12px;
+    border: 1px solid #4f46e5;         /* Borde morado */
+    box-shadow: 0 0 25px rgba(79, 70, 229, 0.4);
+    animation: modalFadeIn 0.25s ease-out;
 }
 
-.modal-auto .modal-content {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    box-shadow: var(--shadow-md);
+/* Header */
+.modal-header {
+    background: #0f172a !important;
+    border-bottom: 1px solid #4f46e5;
 }
 
-.modal-auto .modal-header {
-    border-bottom: 1px solid var(--border-light);
-    padding: 1rem;
-    background-color: var(--bg-light);
-}
-
-.modal-auto .modal-title {
-    color: var(--color-primary);
+.modal-title {
     font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
-.modal-auto .modal-body {
-    padding: 1.5rem;
+/* Inputs del modal */
+.modal-content .form-control,
+.modal-content .form-select,
+.modal-content textarea {
+    background: #1e293b;               /* Fondo gris azulado */
+    border: 1px solid #334155;         /* Borde tenue */
+    color: #e5e7eb;                    /* Texto gris claro */
+    border-radius: 8px;
+    transition: 0.25s ease;
 }
 
-.modal-auto .form-label {
-    color: var(--color-primary);
-    margin-bottom: 0.5rem;
+.modal-content .form-control:focus,
+.modal-content .form-select:focus,
+.modal-content textarea:focus {
+    border-color: #6366f1;             /* Moradito */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Labels */
+.modal-content .form-label {
     font-weight: 500;
+    color: #cbd5e1;
 }
 
-.modal-auto .form-control {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    color: #212529;
+/* CheckBox */
+.modal-content .form-check-label {
+    color: #e2e8f0;
 }
 
-.modal-auto .form-control:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
+.modal-content .form-check-input:checked {
+    background-color: #6366f1;
+    border-color: #6366f1;
 }
 
-.modal-auto .modal-footer {
-    border-top: 1px solid var(--border-light);
-    padding: 1rem;
-    background-color: var(--bg-light);
+/* Footer */
+.modal-footer {
+    border-top: 1px solid #4f46e5;
 }
+
+.modal-footer .btn-primary {
+    background-color: #6366f1;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    transition: 0.25s ease;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #4f46e5;
+}
+
+.modal-footer .btn-outline-secondary {
+    border-radius: 8px;
+    color: #cbd5e1;
+    border-color: #64748b;
+}
+
+.modal-footer .btn-outline-secondary:hover {
+    background-color: #334155;
+    color: white;
+}
+
+/* Animación suave */
+@keyframes modalFadeIn {
+    from {
+        transform: translateY(-15px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 
 /* ----------- BOTONES DE MODAL ----------- */
 .btn-secondary {

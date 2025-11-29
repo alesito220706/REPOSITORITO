@@ -34,7 +34,7 @@
       border-right: 1px solid var(--border);
       overflow-y: auto;
       height: calc(100vh - 60px);
-      position: fixed;
+      position: sticky;
       width: 300px;
       top: 60px;
       left: 0;

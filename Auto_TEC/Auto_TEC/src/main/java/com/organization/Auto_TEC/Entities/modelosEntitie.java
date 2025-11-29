@@ -54,6 +54,12 @@ public class modelosEntitie {
     @Column(name="activo",nullable = false)
     private boolean activo = true;
 
+     @Column(name = "anio")
+    private Integer anio;
+
+    @Column(name = "equipamiento", columnDefinition = "TEXT")
+    private String equipamiento;
+
     @CreationTimestamp
     @Column(name = "fecha_creacion", updatable = false, nullable = false)
     private OffsetDateTime fecha_creacion;
@@ -76,7 +82,9 @@ public class modelosEntitie {
                   boolean destacado,
                   int stock,
                   String categoria,
-                  boolean activo) {
+                  boolean activo,
+                  Integer anio,
+                  String equipamiento) {
         this.nombre = nombre;
         this.marca = marca;
         this.descripcion = descripcion;
@@ -90,6 +98,8 @@ public class modelosEntitie {
         this.stock = (stock > 0) ? stock : 1;
         this.categoria = (categoria != null && !categoria.isBlank()) ? categoria : "HYPERCAR";
         this.activo = activo;
+        this.anio = anio;
+        this.equipamiento = equipamiento;
     }
 
     public Long getId() { 
@@ -189,6 +199,13 @@ public class modelosEntitie {
     public void setActivo(boolean activo) { 
         this.activo = activo; 
     }
+    public Integer getAnio() { return anio; }
+    public void setAnio(Integer anio) { this.anio = anio; }
+
+    public String getEquipamiento() { return equipamiento; }
+    public void setEquipamiento(String equipamiento) { this.equipamiento = equipamiento; }
+
+    
 
     public OffsetDateTime getFecha_creacion() { 
         return fecha_creacion; 

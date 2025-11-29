@@ -488,3 +488,5 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener('resize', hideTooltip);
 
 });
+document.body.classList.add("preview-open");
+document.body.classList.remove("preview-open");

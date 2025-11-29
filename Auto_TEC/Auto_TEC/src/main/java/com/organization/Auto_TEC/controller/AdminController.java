@@ -19,6 +19,18 @@ import java.util.List;
 import java.time.OffsetDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
+import jakarta.servlet.http.HttpServletRequest;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.io.IOException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -29,6 +41,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin")
 public class AdminController { 
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
     
     @Autowired
     private UsuarioService usuarioService;
@@ -100,25 +113,51 @@ public String adminModelos(Model model) {
     model.addAttribute("modelo", new modelosEntitie()); 
     return "admin/gestion_autos";
 }
-
+@PostMapping("/guardar")
+public String guardar(modelosEntitie modelo) {
+    modelo.setActivo(true); 
+    modeloService.save(modelo);
+    return "redirect:admin/gestion_autos";
+}
     @PostMapping("/gestion_autos/crear")
-    public String crearModelo(@ModelAttribute modelosEntitie modelo, 
-                            RedirectAttributes redirectAttributes) {
+    public Object crearModelo(@ModelAttribute modelosEntitie modelo,
+                            @RequestParam(value = "imagen", required = false) MultipartFile imagen,
+                            RedirectAttributes redirectAttributes,
+                            HttpServletRequest request) {
+        logger.info("Creando nuevo modelo: {}", modelo.getNombre());
         try {
-if (modelo.getNombre() == null || modelo.getNombre().trim().isEmpty()) {
-                redirectAttributes.addFlashAttribute("error", "El nombre es obligatorio");
-                return "redirect:/admin/gestion_autos";
+            Map<String, String> errors = new HashMap<>();
+            if (modelo.getNombre() == null || modelo.getNombre().trim().isEmpty()) {
+                errors.put("nombre", "El nombre es obligatorio");
             }
-
             if (modelo.getPrecio() == null || modelo.getPrecio().compareTo(java.math.BigDecimal.ZERO) <= 0) {
-                redirectAttributes.addFlashAttribute("error", "El precio debe ser mayor a 0");
-                return "redirect:/admin/gestion_autos";
+                errors.put("precio", "El precio debe ser mayor a 0");
+            }
+            if (!errors.isEmpty()) {
+                if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                    return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON).body(Map.of("errors", errors));
+                } else {
+                    errors.values().forEach(msg -> redirectAttributes.addFlashAttribute("error", msg));
+                    return "redirect:/admin/gestion_autos";
+                }
             }
             
-            modeloService.save(modelo);
-  redirectAttributes.addFlashAttribute("success", "Modelo creado exitosamente");
+            // If an image file was uploaded, save it and set imagenUrl
+            if (imagen != null && !imagen.isEmpty()) {
+                String stored = storeImage(imagen);
+                modelo.setImagenUrl(stored);
+            }
+            modelosEntitie saved = modeloService.save(modelo);
+            redirectAttributes.addFlashAttribute("success", "Modelo creado exitosamente");
+            // If request is AJAX (X-Requested-With), return JSON with saved model
+            if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(saved);
+            }
         } catch (Exception e) {
- redirectAttributes.addFlashAttribute("error", "Error al crear el modelo: " + e.getMessage());
+            if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                return ResponseEntity.status(500).contentType(MediaType.APPLICATION_JSON).body(Map.of("message", "Error al crear el modelo: " + e.getMessage()));
+            }
+            redirectAttributes.addFlashAttribute("error", "Error al crear el modelo: " + e.getMessage());
         }
         return "redirect:/admin/gestion_autos";
     }
@@ -134,17 +173,94 @@ if (modelo.getNombre() == null || modelo.getNombre().trim().isEmpty()) {
         return "redirect:/admin/gestion_autos";
     }
  @PostMapping("/gestion_autos/actualizar/{id}")
-    public String actualizarModelo(@PathVariable Long id, 
+    public Object actualizarModelo(@PathVariable Long id,
                                  @ModelAttribute modelosEntitie modelo,
-                                 RedirectAttributes redirectAttributes) {
+                                 @RequestParam(value = "imagen", required = false) MultipartFile imagen,
+                                 RedirectAttributes redirectAttributes,
+                                 HttpServletRequest request) {
         try {
- modelo.setId(id);
-            modeloService.save(modelo);
+            Map<String, String> errors = new HashMap<>();
+            if (modelo.getNombre() == null || modelo.getNombre().trim().isEmpty()) {
+                errors.put("nombre", "El nombre es obligatorio");
+            }
+            if (modelo.getPrecio() == null || modelo.getPrecio().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+                errors.put("precio", "El precio debe ser mayor a 0");
+            }
+            if (!errors.isEmpty()) {
+                if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                    return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON).body(Map.of("errors", errors));
+                } else {
+                    errors.values().forEach(msg -> redirectAttributes.addFlashAttribute("error", msg));
+                    return "redirect:/admin/gestion_autos";
+                }
+            }
+            modelo.setId(id);
+            Optional<modelosEntitie> existingOpt = modeloService.findById(id);
+            if (imagen != null && !imagen.isEmpty()) {
+                // new file uploaded — store it and override imagenUrl
+                String stored = storeImage(imagen);
+                modelo.setImagenUrl(stored);
+            } else if (existingOpt.isPresent()) {
+                // no new file — sanitize the provided imagenUrl or keep the existing one
+                modelosEntitie existing = existingOpt.get();
+                String provided = modelo.getImagenUrl();
+                if (provided == null || provided.trim().isEmpty()) {
+                    modelo.setImagenUrl(existing.getImagenUrl());
+                } else {
+                    String p = provided.trim();
+                    boolean looksUnsafe = p.toLowerCase().startsWith("file:") || p.contains("\\\\") || p.matches("^[a-zA-Z]:\\.*") || p.contains("work") || p.contains("Catalina");
+                    if (looksUnsafe) {
+                        // keep existing value from DB to avoid referencing temp or server-only paths
+                        modelo.setImagenUrl(existing.getImagenUrl());
+                    } else if (!p.startsWith("/images/") && !p.startsWith("http://") && !p.startsWith("https://")) {
+                        // if it looks like a bare filename, map to /images/filename
+                        try {
+                            String filename = java.nio.file.Paths.get(p).getFileName().toString();
+                            modelo.setImagenUrl("/images/" + filename);
+                        } catch (Exception ex) {
+                            modelo.setImagenUrl(existing.getImagenUrl());
+                        }
+                    }
+                    // otherwise, accept the provided sanitized value (http(s) or /images/)
+                }
+            }
+            modelosEntitie saved = modeloService.save(modelo);
             redirectAttributes.addFlashAttribute("success", "Modelo actualizado exitosamente");
+            if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(saved);
+            }
         } catch (Exception e) {
-  redirectAttributes.addFlashAttribute("error", "Error al actualizar el modelo: " + e.getMessage());
+            if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                return ResponseEntity.status(500).contentType(MediaType.APPLICATION_JSON).body(Map.of("message", "Error al actualizar el modelo: " + e.getMessage()));
+            }
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar el modelo: " + e.getMessage());
         }
         return "redirect:/admin/gestion_autos";
+    }
+
+    private String storeImage(MultipartFile imagen) throws IOException {
+        if (imagen == null || imagen.isEmpty()) return null;
+        String contentType = imagen.getContentType() == null ? "" : imagen.getContentType().toLowerCase();
+        if (!contentType.startsWith("image/")) {
+            throw new IOException("Tipo de archivo no soportado: " + contentType);
+        }
+        // Compute absolute path under the application root to avoid tomcat temp
+            // Prefer a stable folder under user home instead of application/work dir, to avoid Tomcat temp issues
+            String baseDir = System.getProperty("user.home");
+            Path uploadPath = Paths.get(baseDir, "Auto_TEC_uploads", "images");
+        if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
+        String original = StringUtils.cleanPath(imagen.getOriginalFilename());
+        if (original.contains("..")) {
+            throw new IOException("Nombre de archivo inválido: " + original);
+        }
+        String filename = System.currentTimeMillis() + "_" + original.replaceAll("\\s+", "_");
+            Path out = uploadPath.resolve(filename);
+            // Use stream-copy (safer than transferTo when the server uses temp dirs)
+            try (java.io.InputStream in = imagen.getInputStream()) {
+                Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
+            }
+        // Return a web resource path
+        return "/images/" + filename;
     }
 // Eliminar modelo
     @PostMapping("/gestion_autos/eliminar/{id}")
@@ -156,6 +272,111 @@ if (modelo.getNombre() == null || modelo.getNombre().trim().isEmpty()) {
  redirectAttributes.addFlashAttribute("error", "Error al eliminar el modelo: " + e.getMessage());
         }
         return "redirect:/admin/gestion_autos";
+    }
+
+    // ========== MIGRAR IMAGENES (ADMIN) ==========
+    @PostMapping("/gestion_autos/migrate-images")
+    @ResponseBody
+    public ResponseEntity<?> migrateImages(@RequestParam(value = "dryRun", required = false, defaultValue = "true") boolean dryRun) {
+        List<modelosEntitie> modelos = modeloService.findAll();
+        String baseDir = System.getProperty("user.home");
+        Path uploadPath = Paths.get(baseDir, "Auto_TEC_uploads", "images");
+        try {
+            if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body(Map.of("message", "No se puede crear carpeta Auto_TEC_uploads/images: " + e.getMessage()));
+        }
+        List<Map<String, Object>> processed = new java.util.ArrayList<>();
+            for (modelosEntitie m : modelos) {
+                logger.debug("Checking modelo id={} nombre={}", m.getId(), m.getNombre());
+            String url = m.getImagenUrl();
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("id", m.getId());
+            entry.put("oldUrl", url);
+            if (url == null || url.trim().isEmpty()) {
+                entry.put("status", "no-image");
+                processed.add(entry);
+                continue;
+            }
+            String lower = url.toLowerCase();
+            // skip remote URLs
+            if (lower.startsWith("http://") || lower.startsWith("https://")) {
+                entry.put("status", "remote_url_skipped");
+                processed.add(entry);
+                continue;
+            }
+            // Already in /images/ - skip
+            if (url.startsWith("/images/")) {
+                entry.put("status", "already_images");
+                processed.add(entry);
+                continue;
+            }
+            // normalize file: prefix
+            String candidate = url;
+            if (candidate.startsWith("file:")) candidate = candidate.substring(5);
+            // attempt to handle relative or absolute path
+            Path sourcePath = Paths.get(candidate);
+            if (!sourcePath.isAbsolute()) {
+                // often Tomcat work paths contain 'work' or 'Catalina' - try to guess absolute path if not
+                if (candidate.contains("work") || candidate.contains("Catalina") || candidate.contains("temp") || candidate.contains("tmp")) {
+                    // try to resolve from the JVM temp dir
+                    String tmp = System.getProperty("java.io.tmpdir");
+                    Path guess = Paths.get(tmp, candidate);
+                    if (Files.exists(guess)) sourcePath = guess;
+                }
+            }
+            boolean found = Files.exists(sourcePath) && Files.isReadable(sourcePath);
+            if (!found) {
+                // try to find by filename under Tomcat work or default temp
+                String name = sourcePath.getFileName() != null ? sourcePath.getFileName().toString() : null;
+                if (name != null) {
+                    // search under temp, project root, and upload folder for that filename
+                    Path tmp = Paths.get(System.getProperty("java.io.tmpdir"));
+                    Path guess1 = tmp.resolve(name);
+                    if (Files.exists(guess1)) { sourcePath = guess1; found = true; }
+                    else {
+                        // check under project 'target/classes/static/images' (project dir) for the filename
+                        Path projectRoot = Paths.get(System.getProperty("user.dir"));
+                        Path guess2 = projectRoot.resolve(Paths.get("target", "classes", "static", "images", name));
+                        if (Files.exists(guess2)) { sourcePath = guess2; found = true; }
+                        else {
+                            // also check the new upload folder
+                            Path guess3 = uploadPath.resolve(name);
+                            if (Files.exists(guess3)) { sourcePath = guess3; found = true; }
+                        }
+                    }
+                }
+            }
+            if (!found) {
+                logger.debug("Source file not found for modelo id={} url={}", m.getId(), url);
+                entry.put("status", "not_found");
+                processed.add(entry);
+                continue;
+            }
+            // copy file
+            String safeName = System.currentTimeMillis() + "_" + sourcePath.getFileName().toString().replaceAll("\\\s+","_");
+            Path dest = uploadPath.resolve(safeName);
+                try {
+                if (!dryRun) Files.copy(sourcePath, dest, StandardCopyOption.REPLACE_EXISTING);
+                String newUrl = "/images/" + safeName;
+                entry.put("newUrl", newUrl);
+                entry.put("status", "copied");
+                if (!dryRun) {
+                    m.setImagenUrl(newUrl);
+                    modeloService.save(m);
+                }
+            } catch (IOException ex) {
+                    logger.error("Error copying image for modelo id={}: {}", m.getId(), ex.getMessage());
+                entry.put("status", "error_copying");
+                entry.put("message", ex.getMessage());
+            }
+            processed.add(entry);
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("dryRun", dryRun);
+        result.put("processed", processed);
+        result.put("total", processed.size());
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
     }
 
   // Cambiar estado activo/inactivo
