@@ -21,19 +21,19 @@ public class usuarioEntitie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "rol_id", nullable = true)
-    private Rol rol; 
+    private Rol rol;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departamento_id", nullable = true)
-    private Departamentos departamento; 
+    private Departamentos departamento;
 
     @Column(name = "username", nullable = true, length = 50, unique = true)
     private String username;
 
     @Column(name = "password_hash", nullable = true, length = 255)
-    private String passwordHash; 
+    private String passwordHash;
 
     @Column(name = "email", nullable = true, length = 100, unique = true)
     private String email;
@@ -55,19 +55,20 @@ public class usuarioEntitie {
     @Column(name = "ultimo_login")
     private OffsetDateTime ultimoLogin;
 
-    public usuarioEntitie() {}
-    
+    public usuarioEntitie() {
+    }
+
     public usuarioEntitie(Long id,
-                          Rol rol,
-                          Departamentos departamento, // Corregido el nombre
-                          String username,
-                          String passwordHash,
-                          String email,
-                          String nombres,
-                          String apellidos,
-                           String telefono,
-                          boolean activo,
-                          OffsetDateTime ultimoLogin) {
+            Rol rol,
+            Departamentos departamento, // Corregido el nombre
+            String username,
+            String passwordHash,
+            String email,
+            String nombres,
+            String apellidos,
+            String telefono,
+            boolean activo,
+            OffsetDateTime ultimoLogin) {
         this.id = id;
         this.rol = rol;
         this.departamento = departamento; // Corregido el nombre
@@ -104,7 +105,7 @@ public class usuarioEntitie {
 
     public void setDepartamento(Departamentos departamento) { // Corregido el nombre del setter
         this.departamento = departamento;
-    }   
+    }
 
     public String getUsername() {
         return username;
@@ -144,15 +145,17 @@ public class usuarioEntitie {
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
-    
+
     }
- public String getTelefono() {
+
+    public String getTelefono() {
         return telefono;
     }
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
     public boolean isActivo() {
         return activo;
     }

@@ -77,6 +77,9 @@ public class CitaDTO {
 
     public LocalTime getHoraFormulario() { return horaFormulario; }
 
+    public void setHoraFormulario(LocalTime horaFormulario) { 
+    this.horaFormulario = horaFormulario; 
+    }
     public citaEstado getEstado() { return estado; }
     public void setEstado(citaEstado estado) { this.estado = estado; }
 

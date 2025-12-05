@@ -130,19 +130,21 @@ public class CitaService {
     public citaEntitie agendarCita(CitaDTO dto, String usernameOrEmail) {
         // 1. Encontrar el usuario autenticado (Cliente)
         usuarioEntitie usuario = usuarioRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-            .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + usernameOrEmail));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + usernameOrEmail));
 
-        // 2. Crear el objeto LocalDateTime a partir de los campos del DTO (fecha y hora)
-        LocalDateTime fechaHoraCita = dto.getFechaFormulario().atTime(dto.getHoraFormulario());
-        
+        // 2. Crear el objeto LocalDateTime a partir de los campos del DTO (fecha y
+        // hora)
+        LocalDateTime fechaHoraCita = dto.getFechaFormulario().atTime(dto.getHoraCita());
+
         // 3. Crear la entidad
         citaEntitie nuevaCita = new citaEntitie();
         nuevaCita.setUsuario(usuario);
         nuevaCita.setTipoCita(dto.getTipoCita());
         nuevaCita.setFechaCita(fechaHoraCita);
         nuevaCita.setNotas(dto.getNotas());
-        
-        // Asignar valores por defecto (aunque ya están en la Entidad, es buena práctica)
+
+        // Asignar valores por defecto (aunque ya están en la Entidad, es buena
+        // práctica)
         nuevaCita.setEstado(citaEstado.PENDIENTE);
         nuevaCita.setDuracionEstimada(60); // O usa el valor del DTO si lo incluyes
         nuevaCita.setFechaCreacion(LocalDateTime.now());
@@ -150,15 +152,15 @@ public class CitaService {
         // 4. Guardar la cita
         return citaRepository.save(nuevaCita);
     }
+
     // ✅ Estadísticas de citas
     public CitaEstadisticas obtenerEstadisticas() {
         return new CitaEstadisticas(
-            contarTodas(),
-            contarPorEstado(citaEstado.PENDIENTE),
-            contarPorEstado(citaEstado.CONFIRMADA),
-            contarPorEstado(citaEstado.COMPLETADA),
-            contarPorEstado(citaEstado.CANCELADA)
-        );
+                contarTodas(),
+                contarPorEstado(citaEstado.PENDIENTE),
+                contarPorEstado(citaEstado.CONFIRMADA),
+                contarPorEstado(citaEstado.COMPLETADA),
+                contarPorEstado(citaEstado.CANCELADA));
     }
 
     // ✅ Clase interna para estadísticas
@@ -177,15 +179,30 @@ public class CitaService {
             this.canceladas = canceladas;
         }
 
-        public long getTotal() { return total; }
-        public long getPendientes() { return pendientes; }
-        public long getConfirmadas() { return confirmadas; }
-        public long getCompletadas() { return completadas; }
-        public long getCanceladas() { return canceladas; }
+        public long getTotal() {
+            return total;
+        }
+
+        public long getPendientes() {
+            return pendientes;
+        }
+
+        public long getConfirmadas() {
+            return confirmadas;
+        }
+
+        public long getCompletadas() {
+            return completadas;
+        }
+
+        public long getCanceladas() {
+            return canceladas;
+        }
     }
+
     public List<citaEntitie> obtenerCitasHoy() {
-    LocalDateTime inicioDelDia = LocalDateTime.now().toLocalDate().atStartOfDay();
-    LocalDateTime finDelDia = inicioDelDia.plusDays(1);
-    return citaRepository.findByFechaCitaBetween(inicioDelDia, finDelDia);
-}
+        LocalDateTime inicioDelDia = LocalDateTime.now().toLocalDate().atStartOfDay();
+        LocalDateTime finDelDia = inicioDelDia.plusDays(1);
+        return citaRepository.findByFechaCitaBetween(inicioDelDia, finDelDia);
+    }
 }
