@@ -1,12 +1,16 @@
 function mostrarFormularioCotizacion() {
-  document.getElementById("formContainerVentas").style.display = "block";
-  document.getElementById("agendaContainerVentas").style.display = "none";
+  const formContainer = document.getElementById("formContainerVentas");
+  const agendaContainer = document.getElementById("agendaContainerVentas");
+  if (formContainer) formContainer.style.display = "block";
+  if (agendaContainer) agendaContainer.style.display = "none";
   resetForms();
 }
 
 function mostrarAgendaVentas() {
-  document.getElementById("agendaContainerVentas").style.display = "block";
-  document.getElementById("formContainerVentas").style.display = "none";
+  const formContainer = document.getElementById("formContainerVentas");
+  const agendaContainer = document.getElementById("agendaContainerVentas");
+  if (agendaContainer) agendaContainer.style.display = "block";
+  if (formContainer) formContainer.style.display = "none";
   resetForms();
 }
 
@@ -16,62 +20,75 @@ function resetForms() {
     form.classList.remove("was-validated");
     form.reset();
   });
-  document.getElementById("ventasResultado").style.display = "none";
-  document.getElementById("agendaResultado").style.display = "none";
+  const ventasResultado = document.getElementById("ventasResultado");
+  const agendaResultado = document.getElementById("agendaResultado");
+  if (ventasResultado) ventasResultado.style.display = "none";
+  if (agendaResultado) agendaResultado.style.display = "none";
 }
 
-document.getElementById("formCotizacionVentas").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const form = e.target;
-  form.classList.add("was-validated");
-  if (!form.checkValidity()) return;
+// Form Cotización - only attach if element exists
+const formCotizacion = document.getElementById("formCotizacionVentas");
+if (formCotizacion) {
+  formCotizacion.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    form.classList.add("was-validated");
+    if (!form.checkValidity()) return;
 
-  const nombre = document.getElementById("ventasNombre").value.trim();
-  const modelo = document.getElementById("ventasModelo").value.trim();
-  const precio = parseFloat(document.getElementById("ventasPrecio").value);
-  const cuota = parseFloat(document.getElementById("ventasCuota").value);
-  const meses = parseInt(document.getElementById("ventasMeses").value);
+    const nombreEl = document.getElementById("ventasNombre");
+    const modelo = document.getElementById("ventasModelo").value.trim();
+    const precio = parseFloat(document.getElementById("ventasPrecio").value);
+    const cuota = parseFloat(document.getElementById("ventasCuota").value);
+    const meses = parseInt(document.getElementById("ventasMeses").value);
 
-  if (cuota >= precio) {
-    alert("La cuota inicial no puede ser mayor o igual al precio del vehículo.");
-    return;
-  }
+    if (cuota >= precio) {
+      alert("La cuota inicial no puede ser mayor o igual al precio del vehículo.");
+      return;
+    }
 
-  const montoFinanciar = precio - cuota;
-  const cuotaMensual = (montoFinanciar / meses).toFixed(2);
+    const montoFinanciar = precio - cuota;
+    const cuotaMensual = (montoFinanciar / meses).toFixed(2);
 
-  const resultado = document.getElementById("ventasResultado");
-  resultado.innerHTML = `
-    <strong>Hola ${nombre}</strong>, tu cotización para el <strong>${modelo}</strong> es:
-    <ul class="mb-0 mt-2">
-      <li>Precio: $${precio.toLocaleString()}</li>
-      <li>Cuota Inicial: $${cuota.toLocaleString()}</li>
-      <li>Monto a financiar: $${montoFinanciar.toLocaleString()}</li>
-      <li>Plazo: ${meses} meses</li>
-      <li><strong>Cuota mensual aproximada: $${cuotaMensual}</strong></li>
-    </ul>`;
-  resultado.style.display = "block";
-  resultado.focus();
-});
+    const resultado = document.getElementById("ventasResultado");
+    const nombre = nombreEl ? nombreEl.value.trim() : "Cliente";
+    resultado.innerHTML = `
+      <strong>Hola ${nombre}</strong>, tu cotización para el <strong>${modelo}</strong> es:
+      <ul class="mb-0 mt-2">
+        <li>Precio: $${precio.toLocaleString()}</li>
+        <li>Cuota Inicial: $${cuota.toLocaleString()}</li>
+        <li>Monto a financiar: $${montoFinanciar.toLocaleString()}</li>
+        <li>Plazo: ${meses} meses</li>
+        <li><strong>Cuota mensual aproximada: $${cuotaMensual}</strong></li>
+      </ul>`;
+    resultado.style.display = "block";
+    resultado.focus();
+  });
+}
 
-document.getElementById("formAgendaVentas").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const form = e.target;
-  form.classList.add("was-validated");
-  if (!form.checkValidity()) return;
+// Form Agenda - only attach if element exists
+const formAgenda = document.getElementById("formAgendaVentas");
+if (formAgenda) {
+  formAgenda.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    form.classList.add("was-validated");
+    if (!form.checkValidity()) return;
 
-  const nombre = document.getElementById("agendaNombre").value.trim();
-  const fecha = document.getElementById("agendaFecha").value;
-  const hora = document.getElementById("agendaHora").value;
+    const nombre = document.getElementById("agendaNombre").value.trim();
+    const fecha = document.getElementById("agendaFecha").value;
+    const hora = document.getElementById("agendaHora").value;
 
-  const res = document.getElementById("agendaResultado");
-  res.innerHTML = `<strong>Hola ${nombre}</strong>, tu cita fue agendada para <strong>${fecha}</strong> a las <strong>${hora}</strong>. ¡Nos pondremos en contacto contigo!`;
-  res.style.display = "block";
-  res.focus();
-});
+    const res = document.getElementById("agendaResultado");
+    res.innerHTML = `<strong>Hola ${nombre}</strong>, tu cita fue agendada para <strong>${fecha}</strong> a las <strong>${hora}</strong>. ¡Nos pondremos en contacto contigo!`;
+    res.style.display = "block";
+    res.focus();
+  });
+}
 
-// Mostrar por defecto formulario de cotización
-mostrarFormularioCotizacion();
+// Mostrar por defecto formulario de cotización - only if elements exist
+if (document.getElementById('formContainerVentas') && typeof mostrarFormularioCotizacion === 'function') {
+  mostrarFormularioCotizacion();
+}
 
 function mostrarInfoCliente() {
     const select = document.getElementById('clienteSelect');
@@ -126,29 +143,18 @@ function actualizarPrecioDisplay() {
 }
 
 function validarFormulario() {
-    const precio = document.getElementById('precioVenta').value;
-    if (!precio || parseFloat(precio) <= 0) {
+    const precio = document.getElementById('precioVenta');
+    if (!precio || !precio.value || parseFloat(precio.value) <= 0) {
         alert('Por favor ingrese un precio válido mayor a 0');
         return false;
     }
     return true;
 }
- function mostrarFormularioCotizacion() {
-      document.getElementById('formContainerVentas').style.display = 'block';
-      document.getElementById('agendaContainerVentas').style.display = 'none';
-    }
-    
-    function mostrarAgendaVentas() {
-      document.getElementById('formContainerVentas').style.display = 'none';
-      document.getElementById('agendaContainerVentas').style.display = 'block';
-    }
-    
-    // Mostrar agenda por defecto
-    document.addEventListener('DOMContentLoaded', function() {
-      mostrarAgendaVentas();
-    });
 
-// Inicializar display de precio
+// Inicializar display de precio - only if element exists
 document.addEventListener('DOMContentLoaded', function() {
-    actualizarPrecioDisplay();
+    const precioInput = document.getElementById('precioVenta');
+    if (precioInput && typeof actualizarPrecioDisplay === 'function') {
+        actualizarPrecioDisplay();
+    }
 });
