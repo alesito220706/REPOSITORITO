@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Controller
 public class paginaController {
    private static final String[] PAGE = {
-       "index","contacto","gestion","modelos","servicios", "financiamiento", "animacion","ventas"
+       "index","contacto","gestion","modelos","servicios", "financiamiento", "animacion","ventas","citas"
    };
    
    private static final String[] ADMIN = {
@@ -18,7 +18,7 @@ public class paginaController {
    };
    
    // Rutas que tienen controladores específicos
-   private static final String[] EXCLUDED_ROUTES = {"auth", "api"};
+   private static final String[] EXCLUDED_ROUTES = {"auth", "api", "citas", "admin"};
    
    @GetMapping("/")
    public String principal() {

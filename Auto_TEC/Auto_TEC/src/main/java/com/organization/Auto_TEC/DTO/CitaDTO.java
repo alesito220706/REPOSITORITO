@@ -1,11 +1,14 @@
 package com.organization.Auto_TEC.DTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import com.organization.Auto_TEC.Entities.citaEstado;
 import com.organization.Auto_TEC.Entities.citaTipo;
 
 public class CitaDTO {
+    
     private Long id;
     private Long usuarioId;
     private String usuarioNombre;
@@ -14,6 +17,9 @@ public class CitaDTO {
     private citaTipo tipoCita;
     private LocalDateTime fechaCita;
     private Integer duracionEstimada;
+    private LocalDate fechaFormulario;
+    private LocalTime horaCita;
+    private LocalTime horaFormulario;
     private citaEstado estado;
     private String notas;
     private LocalDateTime fechaCreacion;
@@ -39,6 +45,13 @@ public class CitaDTO {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
+    public LocalDate getFechaFormulario() { return fechaFormulario; }
+    public void setFechaFormulario(LocalDate fechaFormulario) { this.fechaFormulario = fechaFormulario; }
+    
+    public LocalTime getHoraCita() { return horaCita; }
+    public void setHoraCita(LocalTime horaCita) { this.horaCita = horaCita; }
+
+    
     public Long getUsuarioId() { return usuarioId; }
     public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
 
@@ -61,6 +74,8 @@ public class CitaDTO {
     public void setDuracionEstimada(Integer duracionEstimada) {
         this.duracionEstimada = (duracionEstimada != null) ? duracionEstimada : 60;
     }
+
+    public LocalTime getHoraFormulario() { return horaFormulario; }
 
     public citaEstado getEstado() { return estado; }
     public void setEstado(citaEstado estado) { this.estado = estado; }

@@ -16,54 +16,43 @@
 <div th:replace="fragments/headerAdmin :: headerAdmin"></div>
 
 
-            <div class="container-fluid">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h1><i class="fas fa-users"></i> Gestión de Clientes</h1>
-            <button class="btn-add" onclick="abrirModalCliente()">
-                <i class="fas fa-plus"></i> Agregar Cliente
+           <div class="container-fluid py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 dashboard-header-lite">
+            <h1><i class="fas fa-users text-primary me-2"></i> Gestión de Administradores</h1>
+            <button class="btn btn-primary btn-action shadow-sm" onclick="abrirModalCliente()">
+                <i class="fas fa-plus me-1"></i> Agregar Administrador
             </button>
         </div>
 
-        <div th:if="${mensaje}" class="alert alert-success">
-            <i class="fas fa-check-circle"></i> <span th:text="${mensaje}"></span>
+        <div th:if="${mensaje}" class="alert alert-success d-flex align-items-center" role="alert">
+            <i class="fas fa-check-circle me-2"></i> <span th:text="${mensaje}"></span>
         </div>
-        <div th:if="${error}" class="alert alert-error">
-            <i class="fas fa-exclamation-circle"></i> <span th:text="${error}"></span>
-        </div>
-
-        <div class="search-section">
-            <input type="text" class="form-control" id="buscarCliente" placeholder="Buscar cliente..." onkeyup="filtrarTabla('tablaClientes', this)">
+        <div th:if="${error}" class="alert alert-danger d-flex align-items-center" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i> <span th:text="${error}"></span>
         </div>
 
-        <div class="table-responsive">
-            <table class="table" id="tablaClientes">
-                <thead>
+        <div class="search-section mb-4">
+            <input type="text" class="form-control" id="buscarCliente" placeholder="Buscar administrador por nombre, correo o usuario..." onkeyup="filtrarTabla('tablaClientes', this)">
+        </div>
+       <div class="table-responsive chart-container p-0">
+            <table class="table table-hover mb-0" id="tablaClientes">
+                <thead class="bg-dark text-white"> 
                     <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Email</th>
                         <th>Nombre</th>
-                        <th>Rol</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th>Apellido</th>
+                        <th>Correo</th>
+                        <th>Username</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="usuario : ${usuarios}">
-                        <td th:text="${usuario.id}"></td>
-                        <td th:text="${usuario.username}"></td>
+                    <tr th:each="usuario : ${usuarios}" class="activity-item-lite">
+                        <td th:text="${usuario.nombres}"></td>
+                        <td th:text="${usuario.apellidos}"></td>
                         <td th:text="${usuario.email}"></td>
-                        <td th:text="${usuario.nombres + ' ' + usuario.apellidos}"></td>
-                        <td><span class="badge bg-info" th:text="${usuario.rol.nombre}"></span></td>
-                        <td>
-                            <span class="badge" th:classappend="${usuario.activo} ? 'bg-success' : 'bg-danger'" 
-                                  th:text="${usuario.activo} ? 'Activo' : 'Inactivo'"></span>
-                        </td>
-                        <td>
-                            <button class="btn-delete" th:onclick="|confirmarEliminarCliente(${usuario.id}, '${usuario.nombres}')|">
-                                <i class="fas fa-trash"></i> Eliminar
-                            </button>
-                        </td>
+                        <td th:text="${usuario.username}"></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(usuarios)}">
+                        <td colspan="4" class="text-center text-muted py-4">No hay administradores registrados.</td>
                     </tr>
                 </tbody>
             </table>
@@ -72,53 +61,52 @@
 
     <!-- Modal -->
     <div class="modal fade" id="modalCliente" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Agregar Cliente</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formCliente" th:action="@{/admin/clientes/guardar}" method="post">
-                        <div class="mb-3">
-                            <label class="form-label">Nombres *</label>
-                            <input type="text" name="nombres" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Apellidos *</label>
-                            <input type="text" name="apellidos" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Username *</label>
-                            <input type="text" name="username" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email *</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Contraseña *</label>
-                            <input type="password" name="password_hash" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Rol *</label>
-                            <select name="roles_id" class="form-select" required>
-                                <option value="">Selecciona un rol</option>
-                                <option value="1">CLIENTE</option>
-                                <option value="2">VENDEDOR</option>
-                                <option value="3">ADMIN</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-check-label">
-                                <input type="checkbox" name="activo" class="form-check-input" checked> Cliente Activo
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Guardar Cliente</button>
-                    </form>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-light border-bottom">
+                <h5 class="modal-title text-dark">Agregar Administrador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="formCliente" th:action="@{/admin/clientes/guardar}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Nombres *</label>
+                        <input type="text" name="nombres" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Apellidos *</label>
+                        <input type="text" name="apellidos" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Username *</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email *</label>
+                        <input type="email" name="email" class="form-control" required>1
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña *</label>
+                        <input type="password" name="password_hash" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Rol</label>
+                        <p class="form-control-static fw-bold">ADMIN</p>
+                        <input type="hidden" name="roles_id" value="3">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="activo" class="form-check-input" checked> Usuario Activo
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100">Guardar Administrador</button>
+                </form>
             </div>
         </div>
+    </div>
+</div>
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

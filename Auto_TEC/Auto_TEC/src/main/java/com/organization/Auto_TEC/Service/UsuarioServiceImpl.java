@@ -102,6 +102,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             departamento.setNombre("General");
             departamento = departamentosRepository.save(departamento);
         }
+        
 
         // Crear nuevo usuario
         usuarioEntitie usuario = new usuarioEntitie();
@@ -115,5 +116,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setActivo(true);
 
         return usuarioRepository.save(usuario);
+    }
+    @Override
+    public Rol findRolById(Long id) {
+        return rolRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + id));
     }
 }

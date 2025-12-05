@@ -1,10 +1,15 @@
 package com.organization.Auto_TEC.Service;
 
+import com.organization.Auto_TEC.DTO.CitaDTO;
 import com.organization.Auto_TEC.Entities.citaEntitie;
 import com.organization.Auto_TEC.Entities.citaEstado;
 import com.organization.Auto_TEC.Entities.citaTipo;
+import com.organization.Auto_TEC.Entities.usuarioEntitie;
 import com.organization.Auto_TEC.Repository.CitaRepository;
+import com.organization.Auto_TEC.Repository.UsuarioRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,8 +19,14 @@ import java.util.Optional;
 @Service
 public class CitaService {
 
+    private final CitaRepository citaRepository;
+    private final UsuarioRepository usuarioRepository; // 👈 NECESARIO
+
     @Autowired
-    private CitaRepository citaRepository;
+    public CitaService(CitaRepository citaRepository, UsuarioRepository usuarioRepository) {
+        this.citaRepository = citaRepository;
+        this.usuarioRepository = usuarioRepository;
+    }
 
     // ✅ Obtener todas las citas
     public List<citaEntitie> obtenerTodas() {
@@ -115,6 +126,30 @@ public class CitaService {
         return citaRepository.findByUsuarioId(usuarioId).size();
     }
 
+    @Transactional
+    public citaEntitie agendarCita(CitaDTO dto, String usernameOrEmail) {
+        // 1. Encontrar el usuario autenticado (Cliente)
+        usuarioEntitie usuario = usuarioRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+            .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + usernameOrEmail));
+
+        // 2. Crear el objeto LocalDateTime a partir de los campos del DTO (fecha y hora)
+        LocalDateTime fechaHoraCita = dto.getFechaFormulario().atTime(dto.getHoraFormulario());
+        
+        // 3. Crear la entidad
+        citaEntitie nuevaCita = new citaEntitie();
+        nuevaCita.setUsuario(usuario);
+        nuevaCita.setTipoCita(dto.getTipoCita());
+        nuevaCita.setFechaCita(fechaHoraCita);
+        nuevaCita.setNotas(dto.getNotas());
+        
+        // Asignar valores por defecto (aunque ya están en la Entidad, es buena práctica)
+        nuevaCita.setEstado(citaEstado.PENDIENTE);
+        nuevaCita.setDuracionEstimada(60); // O usa el valor del DTO si lo incluyes
+        nuevaCita.setFechaCreacion(LocalDateTime.now());
+
+        // 4. Guardar la cita
+        return citaRepository.save(nuevaCita);
+    }
     // ✅ Estadísticas de citas
     public CitaEstadisticas obtenerEstadisticas() {
         return new CitaEstadisticas(
