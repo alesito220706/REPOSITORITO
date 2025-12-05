@@ -1,47 +1,53 @@
     // ========== /static/js/admin-main.js ==========
 
     // Filtrar tabla en tiempo real
-    function filtrarTabla(tablaId, inputElement) {
-        const filter = inputElement.value.toUpperCase();
-        const table = document.getElementById(tablaId);
-        const tr = table.getElementsByTagName('tr');
-        
-        for (let i = 1; i < tr.length; i++) {
-            const txtValue = tr[i].textContent || tr[i].innerText;
-            tr[i].style.display = txtValue.toUpperCase().includes(filter) ? '' : 'none';
+    function filtrarTabla(tableId, inputElement) {
+    var filter = inputElement.value.toUpperCase();
+    var table = document.getElementById(tableId);
+    var tr = table.getElementsByTagName("tr");
+
+    for (var i = 1; i < tr.length; i++) { // Empieza en 1 para saltar el thead
+        var showRow = false;
+        var tds = tr[i].getElementsByTagName("td");
+        for (var j = 0; j < tds.length - 1; j++) { // Itera sobre las columnas (sin la de Acciones)
+            var textValue = tds[j].textContent || tds[j].innerText;
+            if (textValue.toUpperCase().indexOf(filter) > -1) {
+                showRow = true;
+                break;
+            }
         }
+        tr[i].style.display = showRow ? "" : "none";
     }
+}
 
     // ===== CLIENTES =====
 
-    // Confirmar eliminación - Cliente
-    function confirmarEliminarCliente(id, nombre) {
-        if (confirm(`¿Estás seguro de eliminar al cliente "${nombre}"?`)) {
-            fetch(`/admin/clientes/${id}`, { method: 'DELETE' })
-                .then(r => r.json())
-                .then(d => {
-                    if (d.success) {
-                        alert('Cliente eliminado correctamente');
-                        location.reload();
-                    } else {
-                        alert('Error al eliminar');
-                    }
-                })
-                .catch(e => {
-                    console.error('Error:', e);
-                    alert('Error de conexión');
-                });
-        }
+    // Función para confirmar y enviar la eliminación por DELETE
+function confirmarEliminarCliente(id, nombreCliente) {
+    if (confirm("¿Estás seguro de que deseas eliminar al cliente " + nombreCliente + " (ID: " + id + ")? Esta acción es irreversible.")) {
+        // Crear un formulario temporal para enviar la solicitud DELETE/POST
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/admin/clientes/' + id; // Usar el ID para la URL
+        
+        // Agregar un campo oculto para simular el método DELETE (Spring lo interpreta si se usa un filtro)
+        // **NOTA:** Esto asume que tienes configurado el HiddenHttpMethodFilter en Spring.
+        var hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = '_method';
+        hiddenInput.value = 'DELETE';
+        form.appendChild(hiddenInput);
+
+        document.body.appendChild(form);
+        form.submit();
     }
-    function abrirModalCliente() { new bootstrap.Modal(document.getElementById('modalCliente')).show(); }
-    function filtrarTabla(tablaId, input) {
-        const filter = input.value.toUpperCase();
-        const table = document.getElementById(tablaId);
-        const tr = table.getElementsByTagName("tr");
-        for (let i = 1; i < tr.length; i++) {
-            tr[i].style.display = tr[i].textContent.toUpperCase().includes(filter) ? "" : "none";
-        }
-    }
+}
+
+// Función para abrir el modal (Bootstrap 5)
+function abrirModalCliente() {
+    var modal = new bootstrap.Modal(document.getElementById('modalCliente'));
+    modal.show();
+}
 
     // ===== EMPLEADOS =====
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.organization.Auto_TEC.DTO.RegistroDTO;
+import com.organization.Auto_TEC.Entities.Rol;
 import com.organization.Auto_TEC.Entities.usuarioEntitie;
 
 public interface UsuarioService {
@@ -14,7 +15,7 @@ public interface UsuarioService {
     List<usuarioEntitie> findClientes();
     List<usuarioEntitie> findVendedores();
     List<usuarioEntitie> findByActivoTrue();
-    
+    Rol findRolById(Long id);
     usuarioEntitie registrarUsuario(RegistroDTO registroDTO);
     Optional<usuarioEntitie> findByEmail(String email);
 }

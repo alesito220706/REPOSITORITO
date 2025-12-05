@@ -19,20 +19,38 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, 
                                       HttpServletResponse response, 
                                       Authentication authentication) throws IOException, ServletException {
+
+                                        String targetUrl = determineTargetUrl(authentication);
+        
+        // Redirigir al usuario
+        response.sendRedirect(request.getContextPath() + targetUrl);
+    }
+
+
+        protected String determineTargetUrl(Authentication authentication) {
         
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         
-        System.out.println(" ROLES DEL USUARIO AUTENTICADO:");
+        // Prioridad 1: ADMIN
         for (GrantedAuthority authority : authorities) {
-            System.out.println("   - " + authority.getAuthority());
             if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                System.out.println(" Redirigiendo a dashboard admin");
-                response.sendRedirect("/admin/dashboard");
-                return;
+                // ...
+                return "/admin/dashboard";
             }
         }
         
-        System.out.println(" Redirigiendo a página principal");
-        response.sendRedirect("/");
+        // Prioridad 2: USER (Clientes) - ESTA ES LA CLAVE
+        for (GrantedAuthority authority : authorities) {
+            if (authority.getAuthority().equals("ROLE_CLIENTE")) {
+                System.out.println("Redirigiendo a página de citas para clientes");
+                return "/citas"; // 👈 Redirección al área de citas
+            }
+        }
+        
+        // ...
+        return "/index";
     }
+        
+        
 }
+    

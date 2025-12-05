@@ -13,7 +13,6 @@
   <!-- Mantener estilos específicos de ventas, pero cargar el tema principal (index) después
        para que los colores y el diseño global prevalezcan. -->
   <link rel="stylesheet" href="/css/ventas.css" />
-  <link rel="stylesheet" href="/css/index.css" />
 </head>
 <body>
   <!-- ====== NAVBAR ====== -->
@@ -87,109 +86,20 @@
         </div>
 
        
-        <!-- Formulario Agenda (Visible por defecto) -->
-        <div id="agendaContainerVentas">
-          <div class="row justify-content-center">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header bg-primary text-white">
-                  <h4 class="mb-0"><i class="fas fa-calendar-plus me-2"></i>Solicitar Cita de Ventas</h4>
-                </div>
-                <div class="card-body">
-                  <form th:action="@{/ventas/solicitar}" method="post">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="mb-3">
-                          <label class="form-label">Nombre Completo *</label>
-                          <input type="text" class="form-control" name="nombre" required 
-                                 placeholder="Tu nombre completo">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="mb-3">
-                          <label class="form-label">Email *</label>
-                          <input type="email" class="form-control" name="email" required 
-                                 placeholder="tu@email.com">
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="mb-3">
-                          <label class="form-label">Teléfono *</label>
-                          <input type="tel" class="form-control" name="telefono" required 
-                                 placeholder="Tu número de teléfono">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="mb-3">
-                          <label class="form-label">Tipo de Cita *</label>
-                          <select class="form-select" name="tipoCita" required>
-                            <option value="">Seleccionar tipo</option>
-                           
-                             <option th:each="tipo : ${tiposCita}" 
-              th:value="${tipo.name()}" 
-              th:text="${tipo.descripcion}">
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="mb-3">
-                          <label class="form-label">Fecha *</label>
-                          <input type="date" class="form-control" name="fecha" required 
-                                 th:attr="min=${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="mb-3">
-                          <label class="form-label">Hora *</label>
-                          <input type="time" class="form-control" name="hora" required 
-                                 min="09:00" max="18:00">
-                          <small class="text-muted">Horario de atención: 9:00 AM - 6:00 PM</small>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                      <label class="form-label">Notas Adicionales</label>
-                      <textarea class="form-control" name="notas" rows="3" 
-                                placeholder="Describe el motivo de tu cita, modelo de interés, etc..."></textarea>
-                    </div>
-                    
-                    <div class="d-grid gap-2">
-                      <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="fas fa-paper-plane me-2"></i>Solicitar Cita
-                      </button>
-                      <a th:href="@{/ventas/mis-citas}" class="btn btn-outline-secondary">
-                        <i class="fas fa-list me-2"></i>Ver Mis Citas
-                      </a>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              
-              <!-- Información de Contacto -->
-              <div class="card mt-4">
-                <div class="card-body">
-                  <h5><i class="fas fa-info-circle me-2 text-primary"></i>Información Importante</h5>
-                  <ul class="list-unstyled">
-                    <li><i class="fas fa-clock me-2 text-warning"></i>Las citas tienen duración de 1 hora</li>
-                    <li><i class="fas fa-phone me-2 text-success"></i>Te contactaremos para confirmar tu cita</li>
-                    <li><i class="fas fa-map-marker-alt me-2 text-danger"></i>Av. Principal #123, Ciudad</li>
-                    <li><i class="fas fa-car me-2 text-info"></i>Pruebas de manejo disponibles</li>
-                    <li><i class="fas fa-percentage me-2 text-success"></i>Opción de financiamiento</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+       <div id="agendaContainerVentas">
+         <div class="card p-4 text-center border-primary bg-light">
+          <h4 class="mb-3 text-primary"><i class="fas fa-lock me-2"></i>Servicio Exclusivo</h4>
+    <p>Para agendar una cita de venta o servicio, por favor **inicia sesión** o **regístrate** primero.</p>
+    <div sec:authorize="isAuthenticated()">
+      ¡Hola, <strong sec:authentication="name"></strong>! 
+      <a th:href="@{/auth/logout}">Cerrar Sesión</a>
+    </div>
+    <div sec:authorize="!isAuthenticated()">
+      <a th:href="@{/auth/login}">Iniciar Sesión</a>
+      <a th:href="@{/auth/registro}">Registrarse</a>
+</div>
+ </div>
+</div>
     </section>
   </main>
 

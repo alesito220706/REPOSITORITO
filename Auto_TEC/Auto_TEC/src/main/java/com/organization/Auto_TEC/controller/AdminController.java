@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +46,8 @@ public class AdminController {
     
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired 
+    private PasswordEncoder passwordEncoder;
     
   @Autowired
 private CitaService citaService;
@@ -407,16 +410,27 @@ redirectAttributes.addFlashAttribute("error", "Error al cambiar estado del model
     }
     // Agregar cliente
 @PostMapping("/clientes/guardar")
-public String guardarCliente(@ModelAttribute usuarioEntitie usuario, RedirectAttributes redirectAttributes) {
-    try {
-        usuarioService.save(usuario);
-        redirectAttributes.addFlashAttribute("mensaje", "Cliente guardado exitosamente");
-        return "redirect:/admin/gestion_clientes";
-    } catch (Exception e) {
-        redirectAttributes.addFlashAttribute("error", "Error: " + e.getMessage());
-        return "redirect:/admin/gestion_clientes";
+    public String guardarCliente(@ModelAttribute usuarioEntitie usuario, RedirectAttributes redirectAttributes) {
+        try {
+            usuario.setRol(usuarioService.findRolById(null)); 
+
+        
+        String rawPassword = usuario.getPasswordHash();
+        usuario.setPasswordHash(passwordEncoder.encode(rawPassword));
+        
+        
+        if (usuario.getDepartamento() == null) {
+             
+        }
+            usuarioService.save(usuario);
+            redirectAttributes.addFlashAttribute("mensaje", "Administrador guardado exitosamente");
+            return "redirect:/admin/gestion_clientes";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al guardar el administrador: " + e.getMessage());
+            return "redirect:/admin/gestion_clientes";
+        }
     }
-}
+
 
 
     @DeleteMapping("/clientes/{id}")

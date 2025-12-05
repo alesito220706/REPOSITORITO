@@ -33,6 +33,7 @@ public class RegistroController {
     public String registrarUsuario(@ModelAttribute @Valid RegistroDTO registroDTO,BindingResult result, Model model) {
         try {
             usuarioService.registrarUsuario(registroDTO);
+            
             return "redirect:/auth/login?registroExitoso=true"; // ← Asegúrate que sea /auth/login
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
