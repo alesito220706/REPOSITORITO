@@ -18,9 +18,9 @@
 
            <div class="container-fluid py-4">
         <div class="d-flex justify-content-between align-items-center mb-4 dashboard-header-lite">
-            <h1><i class="fas fa-users text-primary me-2"></i> Gestión de Administradores</h1>
+            <h1><i class="fas fa-users text-primary me-2"></i> Gestión de Clientes</h1>
             <button class="btn btn-primary btn-action shadow-sm" onclick="abrirModalCliente()">
-                <i class="fas fa-plus me-1"></i> Agregar Administrador
+                <i class="fas fa-plus me-1"></i> Agregar Cliente
             </button>
         </div>
 
@@ -32,7 +32,7 @@
         </div>
 
         <div class="search-section mb-4">
-            <input type="text" class="form-control" id="buscarCliente" placeholder="Buscar administrador por nombre, correo o usuario..." onkeyup="filtrarTabla('tablaClientes', this)">
+            <input type="text" class="form-control" id="buscarCliente" placeholder="Buscar cliente por nombre, correo o usuario..." onkeyup="filtrarTabla('tablaClientes', this)">
         </div>
        <div class="table-responsive chart-container p-0">
             <table class="table table-hover mb-0" id="tablaClientes">
@@ -52,7 +52,7 @@
                         <td th:text="${usuario.username}"></td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(usuarios)}">
-                        <td colspan="4" class="text-center text-muted py-4">No hay administradores registrados.</td>
+                        <td colspan="4" class="text-center text-muted py-4">No hay clientes registrados.</td>
                     </tr>
                 </tbody>
             </table>
@@ -64,7 +64,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-light border-bottom">
-                <h5 class="modal-title text-dark">Agregar Administrador</h5>
+                <h5 class="modal-title text-dark">Agregar clientes</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             
@@ -93,7 +93,7 @@
                     
                     <div class="mb-3">
                         <label class="form-label">Rol</label>
-                        <p class="form-control-static fw-bold">ADMIN</p>
+                        <p class="form-control-static fw-bold">CLIENTE</p>
                         <input type="hidden" name="roles_id" value="3">
                     </div>
                     <div class="mb-3">
@@ -101,7 +101,7 @@
                             <input type="checkbox" name="activo" class="form-check-input" checked> Usuario Activo
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-dark w-100">Guardar Administrador</button>
+                    <button type="submit" class="btn btn-dark w-100">Guardar Cliente</button>
                 </form>
             </div>
         </div>

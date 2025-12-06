@@ -54,9 +54,9 @@
                             </div>
                         </td>
                         <td>
-                            <span class="badge" th:classappend="${cita.tipoCita == 'VENTA'} ? 'bg-success' : 
-                                                               ${cita.tipoCita == 'SERVICIO'} ? 'bg-info' : 
-                                                               ${cita.tipoCita == 'FINANCIAMIENTO'} ? 'bg-warning' : 'bg-secondary'"
+                            <span class="badge" th:classappend="${cita.tipoCita == 'VENTA' ? 'bg-success' : 
+                                                               cita.tipoCita == 'SERVICIO' ? 'bg-info' : 
+                                                               cita.tipoCita == 'FINANCIAMIENTO' ? 'bg-warning' : 'bg-secondary'}"
                                   th:text="${cita.tipoCita}">
                             </span>
                         </td>
@@ -64,9 +64,9 @@
                             <span th:text="${#temporals.format(cita.fechaCita, 'dd/MM/yyyy HH:mm')}"></span>
                         </td>
                         <td>
-                            <span class="badge" th:classappend="${cita.estado == 'PENDIENTE'} ? 'bg-warning' : 
-                                                               ${cita.estado == 'CONFIRMADA'} ? 'bg-success' : 
-                                                               ${cita.estado == 'COMPLETADA'} ? 'bg-info' : 'bg-danger'"
+                            <span class="badge" th:classappend="${cita.estado == 'PENDIENTE' ? 'bg-warning' : 
+                                                               cita.estado == 'CONFIRMADA' ? 'bg-success' : 
+                                                               cita.estado == 'COMPLETADA' ? 'bg-info' : 'bg-danger'}"
                                   th:text="${cita.estado}">
                             </span>
                         </td>
@@ -140,10 +140,9 @@
                                     <label class="form-label">Tipo de Cita *</label>
                                     <select class="form-select" name="tipoCita" required>
                                         <option value="">Seleccionar tipo</option>
-                                        <option th:each="tipo : ${tiposCita}" 
-                                                th:value="${tipo}" 
-                                                th:text="${tipo}">
-                                        </option>
+                                        <option value="VENTA">VENTA</option>
+                                        <option value="SERVICIO">SERVICIO</option>
+                                        <option value="FINANCIAMIENTO">FINANCIAMIENTO</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">

@@ -5,8 +5,8 @@
 /* Estilos específicos del dashboard */
 .dashboard-header {
     background: var(--bg-white);
-    padding: 2rem;
-    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-light);
     box-shadow: var(--shadow-sm);
 }
@@ -14,14 +14,24 @@
 .dashboard-header h1 {
     color: var(--color-primary);
     margin-bottom: 0.5rem;
+    font-size: 1.75rem;
 }
 
 .welcome-card {
     background: var(--gradient-primary);
     color: var(--bg-darker);
-    padding: 1.5rem;
-    border-radius: 1rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
     box-shadow: var(--shadow-lg);
+}
+
+.welcome-card h5 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-card p {
+    font-size: 0.85rem;
 }
 
 /* Tarjetas de estadísticas */
@@ -31,32 +41,46 @@
     border-radius: 0.5rem;
     transition: var(--transition-normal);
     box-shadow: var(--shadow-sm);
+    max-height: 200px;
+    overflow: hidden;
+}
+
+.stat-card .card-body {
+    padding: 0.75rem !important;
+    max-height: 200px;
+    overflow: hidden;
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-md);
 }
 
 .stat-icon {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.stat-number {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
 
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .stat-title {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     opacity: 0.8;
+    margin-bottom: 0.25rem;
 }
 
 .stat-trend {
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 
 .trend-up {
@@ -89,13 +113,40 @@
     background: var(--bg-white);
     border: 1px solid var(--border-light);
     border-radius: 0.5rem;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
     box-shadow: var(--shadow-sm);
+    max-height: 180px;
+    overflow: hidden;
+}
+
+.chart-container h5 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem !important;
+}
+
+.chart-container canvas {
+    max-height: 120px !important;
+    height: 120px !important;
+}
+
+.recent-activity {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.recent-activity h5 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem !important;
 }
 
 .activity-list {
-    max-height: 400px;
+    max-height: 350px;
     overflow-y: auto;
     background: var(--bg-white);
     border-radius: 0.5rem;
@@ -104,8 +155,8 @@
 .activity-item {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 0.75rem;
+    padding: 0.75rem;
     border-bottom: 1px solid var(--border-light);
     transition: var(--transition-normal);
 }
@@ -114,14 +165,23 @@
     background: rgba(212, 175, 55, 0.05);
 }
 
+.activity-item strong {
+    font-size: 0.85rem;
+}
+
+.activity-item .small {
+    font-size: 0.75rem;
+}
+
 .activity-icon {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.85rem;
+    flex-shrink: 0;
 }
 
 .activity-icon.success { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
@@ -134,23 +194,29 @@
     background: var(--bg-white);
     border: 1px solid var(--border-light);
     border-radius: 0.5rem;
-    padding: 1.5rem;
+    padding: 1rem;
     box-shadow: var(--shadow-sm);
 }
 
+.quick-actions h5 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem !important;
+}
+
 .btn-action {
-    padding: 1rem;
+    padding: 0.6rem 0.75rem;
     border-radius: 0.5rem;
     font-weight: 500;
+    font-size: 0.85rem;
     transition: var(--transition-normal);
-    text-align: left;
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .btn-action:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
@@ -167,6 +233,37 @@
 .metrics-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
+}
+
+/* Contenedor de métricas rápidas */
+.metrics-quick-container {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+    min-height: 180px;
+}
+
+.metrics-quick-container h5 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem !important;
+}
+
+.metrics-quick-container .h5 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.metrics-quick-container .border {
+    border-color: rgba(212, 175, 55, 0.2) !important;
+    transition: var(--transition-normal);
+}
+
+.metrics-quick-container .border:hover {
+    border-color: var(--color-primary) !important;
+    background: rgba(212, 175, 55, 0.05);
+    transform: translateY(-2px);
 }
 
 /* Personalización de scrollbar */

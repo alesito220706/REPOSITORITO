@@ -59,7 +59,10 @@
                                   th:text="${empleado.activo} ? 'Activo' : 'Inactivo'"></span>
                         </td>
                         <td>
-                            <button class="btn-delete" th:onclick="|confirmarEliminarEmpleado(${empleado.id}, '${empleado.nombres}')|">
+                            <button class="btn-delete" 
+                                    th:data-empleado-id="${empleado.id}"
+                                    th:data-empleado-nombre="${empleado.nombres}"
+                                    onclick="confirmarEliminarEmpleado(this.dataset.empleadoId, this.dataset.empleadoNombre)">
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>
                         </td>

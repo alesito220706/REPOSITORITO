@@ -78,7 +78,7 @@
                                     <div class="invalid-feedback" data-field="imagenUrl"></div>
                                 </div>
                                 <div class="mt-2">
-                                    <img id="imagenPreview" src="" alt="Previsualización" class="img-fluid rounded" style="max-height:120px; display:none;" onerror="(function(img){ try{ if (!img.dataset.tried){ img.dataset.tried='1'; var s = img.getAttribute('src') || img.src; var filename = s.split('/').pop(); img.src = '/images/' + filename; } else { img.src='https://via.placeholder.com/200x120?text=Sin+Imagen'; } } catch(e) { img.src='https://via.placeholder.com/200x120?text=Sin+Imagen'; } })(this);">
+                                    <img id="imagenPreview" src="" alt="Previsualización" class="img-fluid rounded" style="max-height:120px; display:none;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E';">
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -192,7 +192,7 @@
                                 else if (json.message) { alert(json.message); }
                             } else if (ct.includes('text/html')) {
                                 const text = await response.text(); try { const parser = new DOMParser(); const doc = parser.parseFromString(text, 'text/html'); const feedbacks = doc.querySelectorAll('.invalid-feedback[data-field]'); if (feedbacks.length) { feedbacks.forEach(fb => { const field = fb.getAttribute('data-field'); const msg = fb.textContent.trim(); const el = editarForm.querySelector('[name="' + field + '"]'); if (el) el.classList.add('is-invalid'); const localFb = editarForm.querySelector('.invalid-feedback[data-field="' + field + '"]'); if (localFb) localFb.textContent = msg; }); alert('Corrige los errores marcados en el formulario'); } else { alert('Error al actualizar (servidor): ' + text); } } catch (err) { alert('Error al actualizar (servidor): ' + err.message); }
-                            else { const text = await response.text(); alert('Error al actualizar (servidor): ' + text); }
+                            } else { const text = await response.text(); alert('Error al actualizar (servidor): ' + text); }
                         }
                     } catch (err) { alert('Error de red: ' + err.message); } finally { if (btn) btn.disabled = false; }
                 });

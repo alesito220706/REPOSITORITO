@@ -41,8 +41,8 @@
 
     <div class="container-fluid">
         <!-- Estadísticas Principales -->
-        <div class="row mb-4">
-            <div class="col-xl-2 col-md-4 mb-3">
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
                 <div class="card stat-card modelos h-100">
                     <div class="card-body text-center">
                         <div class="stat-icon text-primary">
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-4 mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
                 <div class="card stat-card clientes h-100">
                     <div class="card-body text-center">
                         <div class="stat-icon text-success">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-4 mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
                 <div class="card stat-card citas h-100">
                     <div class="card-body text-center">
                         <div class="stat-icon text-info">
@@ -93,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-4 mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
                 <div class="card stat-card citas-pendientes h-100 position-relative">
                     <span class="notification-badge" th:text="${citasPendientes}">0</span>
                     <div class="card-body text-center">
@@ -111,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-4 mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
                 <div class="card stat-card empleados h-100">
                     <div class="card-body text-center">
                         <div class="stat-icon text-secondary">
@@ -128,7 +128,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-4 mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
                 <div class="card stat-card solicitudes h-100 position-relative">
                     <span class="notification-badge" th:text="${solicitudesPendientes}">0</span>
                     <div class="card-body text-center">
@@ -149,14 +149,16 @@
         </div>
 
         <!-- Segunda Fila: Gráficos y Actividad -->
-        <div class="row mb-4">
+        <div class="row mb-3">
             <!-- Gráfico de Citas -->
             <div class="col-lg-8">
                 <div class="chart-container">
                     <h5 class="fw-bold mb-3">
                         <i class="fas fa-chart-line me-2"></i>Resumen de Citas Mensuales
                     </h5>
-                    <canvas id="citasChart" height="250"></canvas>
+                    <div style="height: 120px; max-height: 120px; overflow: hidden; position: relative;">
+                        <canvas id="citasChart"></canvas>
+                    </div>
                 </div>
             </div>
             
@@ -272,32 +274,32 @@
 
             <!-- Métricas Rápidas -->
             <div class="col-lg-4">
-                <div class="chart-container">
-                    <h5 class="fw-bold mb-3">
+                <div class="metrics-quick-container">
+                    <h5 class="fw-bold mb-2">
                         <i class="fas fa-tachometer-alt me-2"></i>Métricas Rápidas
                     </h5>
-                    <div class="row text-center">
-                        <div class="col-6 mb-3">
-                            <div class="border rounded p-3">
-                                <div class="h4 text-primary mb-1" th:text="${modelosActivos}">0</div>
+                    <div class="row text-center g-2">
+                        <div class="col-6 mb-2">
+                            <div class="border rounded p-2">
+                                <div class="h5 text-primary mb-1" th:text="${modelosActivos}">0</div>
                                 <div class="small text-muted">Modelos Activos</div>
                             </div>
                         </div>
-                        <div class="col-6 mb-3">
-                            <div class="border rounded p-3">
-                                <div class="h4 text-success mb-1" th:text="${citasHoy}">0</div>
+                        <div class="col-6 mb-2">
+                            <div class="border rounded p-2">
+                                <div class="h5 text-success mb-1" th:text="${citasHoy}">0</div>
                                 <div class="small text-muted">Citas Hoy</div>
                             </div>
                         </div>
-                        <div class="col-6 mb-3">
-                            <div class="border rounded p-3">
-                                <div class="h4 text-warning mb-1" th:text="${solicitudesNuevas}">0</div>
+                        <div class="col-6 mb-2">
+                            <div class="border rounded p-2">
+                                <div class="h5 text-warning mb-1" th:text="${solicitudesNuevas}">0</div>
                                 <div class="small text-muted">Solicitudes Nuevas</div>
                             </div>
                         </div>
-                        <div class="col-6 mb-3">
-                            <div class="border rounded p-3">
-                                <div class="h4 text-info mb-1" th:text="${tasaConversion} + '%'">0%</div>
+                        <div class="col-6 mb-2">
+                            <div class="border rounded p-2">
+                                <div class="h5 text-info mb-1" th:text="${tasaConversion} + '%'">0%</div>
                                 <div class="small text-muted">Tasa Conversión</div>
                             </div>
                         </div>
