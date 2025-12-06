@@ -53,25 +53,31 @@
                         <tbody>
                             <tr th:each="modelo : ${modelos}">
                                 <td>
-                                     <img th:src="${modelo.imagenUrl}" alt="Imagen" class="modelo-img" 
-                                         onerror="(function(img){ try{ if (!img.dataset.tried){ img.dataset.tried='1'; var s = img.getAttribute('src') || img.src; var filename = s.split('/').pop(); img.src = '/images/' + filename; } else { img.src='https://via.placeholder.com/80x60?text=Sin+Imagen'; } } catch(e) { img.src='https://via.placeholder.com/80x60?text=Sin+Imagen'; } })(this);">
+                                    <img th:src="${modelo.imagenUrl}" 
+                                        alt="Imagen" 
+                                        class="modelo-img" 
+                                        onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E';">
                                 </td>
+                                
                                 <td th:text="${modelo.nombre}"></td>
                                 <td th:text="${modelo.marca}"></td>
                                 <td th:text="'$' + ${#numbers.formatDecimal(modelo.precio, 1, 2, 'COMMA')}"></td>
                                 <td th:text="${modelo.stock}"></td>
+                                
                                 <td>
                                     <span th:if="${modelo.destacado}" class="badge bg-warning">
                                         <i class="fas fa-star"></i> Destacado
                                     </span>
                                 </td>
+                                
                                 <td>
                                     <span th:if="${modelo.activo}" class="badge bg-success status-badge">Activo</span>
                                     <span th:unless="${modelo.activo}" class="badge bg-danger status-badge">Inactivo</span>
                                 </td>
+                                
                                 <td class="table-actions">
                                     <a th:href="@{/admin/gestion_autos/editar/{id}(id=${modelo.id})}" 
-                                       class="btn btn-sm btn-outline-primary" title="Editar">
+                                    class="btn btn-sm btn-outline-primary" title="Editar">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     
@@ -84,7 +90,7 @@
                                     </form>
                                     
                                     <form th:action="@{/admin/gestion_autos/eliminar/{id}(id=${modelo.id})}" method="post" class="d-inline"
-                                          th:onclick="return confirm('¿Estás seguro de eliminar este modelo?')">
+                                        th:onclick="return confirm('¿Estás seguro de eliminar este modelo?')">
                                         <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
                                             <i class="fas fa-trash"></i>
                                         </button>
@@ -193,7 +199,7 @@
                             </div>
                             <!-- URL field removed; create via file upload only -->
                             <div class="mt-2">
-                                <img id="imagenPreviewCreate" src="" alt="Previsualización" class="img-fluid rounded" style="max-height:120px; display:none;" onerror="this.src='https://via.placeholder.com/200x120?text=Sin+Imagen'">
+                                <img id="imagenPreviewCreate" src="" alt="Previsualización" class="img-fluid rounded" style="max-height:120px; display:none;" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E'">
                             </div>
                         </div>
 
@@ -287,7 +293,7 @@
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>
-                        <img src="${escapeHtml(model.imagenUrl)}" alt="Imagen" class="modelo-img" onerror="this.src='https://via.placeholder.com/80x60?text=Sin+Imagen'">
+                        <img src="${escapeHtml(model.imagenUrl)}" alt="Imagen" class="modelo-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E'">
                     </td>
                     <td>${escapeHtml(model.nombre)}</td>
                     <td>${escapeHtml(model.marca)}</td>

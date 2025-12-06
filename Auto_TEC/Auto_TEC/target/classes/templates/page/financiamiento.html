@@ -21,20 +21,20 @@
   <div class="container mt-4">
     <h1 class="text-center mb-4">Opciones de Financiamiento Premium</h1>
 
-    <form action="/financiamiento/solicitar" method="post">
+    <form id="financiamientoForm" action="/financiamiento/solicitar" method="post">
       <div class="mb-3">
         <label class="form-label">Nombre</label>
-        <input type="text" name="nombre" class="form-control" required>
+        <input type="text" id="nombre" name="nombre" class="form-control" required>
       </div>
       
       <div class="mb-3">
         <label class="form-label">Email</label>
-        <input type="email" name="email" class="form-control" required>
+        <input type="email" id="email" name="email" class="form-control" required>
       </div>
       
       <div class="mb-3">
         <label class="form-label">Modelo</label>
-        <select name="modelo" class="form-select" required>
+        <select id="modelo" name="modelo" class="form-select" required>
           <option value="sedan">Sedán</option>
           <option value="suv">SUV</option>
         </select>
@@ -42,7 +42,7 @@
       
       <div class="mb-3">
         <label class="form-label">Mensaje</label>
-        <textarea name="mensaje" class="form-control" required></textarea>
+        <textarea id="mensaje" name="mensaje" class="form-control" required></textarea>
       </div>
       
       <button type="submit" class="btn btn-primary">Enviar Solicitud</button>

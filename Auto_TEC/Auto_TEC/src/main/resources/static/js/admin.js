@@ -367,34 +367,37 @@ function abrirModalCliente() {
       const searchInput = document.getElementById('search');
       const resetBtn = document.getElementById('reset-filters');
       
-      function filtrarSolicitudes() {
-        const estado = filterEstado.value;
-        const busqueda = searchInput.value.toLowerCase();
-        const solicitudes = document.querySelectorAll('.solicitud-item');
+      // Solo ejecutar si los elementos existen
+      if (filterEstado && searchInput && resetBtn) {
+        function filtrarSolicitudes() {
+          const estado = filterEstado.value;
+          const busqueda = searchInput.value.toLowerCase();
+          const solicitudes = document.querySelectorAll('.solicitud-item');
+          
+          solicitudes.forEach(solicitud => {
+            const estadoSolicitud = solicitud.getAttribute('data-estado');
+            const texto = solicitud.textContent.toLowerCase();
+            
+            const coincideEstado = estado === 'all' || estado === estadoSolicitud;
+            const coincideBusqueda = texto.includes(busqueda);
+            
+            if (coincideEstado && coincideBusqueda) {
+              solicitud.style.display = 'block';
+            } else {
+              solicitud.style.display = 'none';
+            }
+          });
+        }
         
-        solicitudes.forEach(solicitud => {
-          const estadoSolicitud = solicitud.getAttribute('data-estado');
-          const texto = solicitud.textContent.toLowerCase();
-          
-          const coincideEstado = estado === 'all' || estado === estadoSolicitud;
-          const coincideBusqueda = texto.includes(busqueda);
-          
-          if (coincideEstado && coincideBusqueda) {
-            solicitud.style.display = 'block';
-          } else {
-            solicitud.style.display = 'none';
-          }
+        filterEstado.addEventListener('change', filtrarSolicitudes);
+        searchInput.addEventListener('input', filtrarSolicitudes);
+        
+        resetBtn.addEventListener('click', function() {
+          filterEstado.value = 'all';
+          searchInput.value = '';
+          filtrarSolicitudes();
         });
       }
-      
-      filterEstado.addEventListener('change', filtrarSolicitudes);
-      searchInput.addEventListener('input', filtrarSolicitudes);
-      
-      resetBtn.addEventListener('click', function() {
-        filterEstado.value = 'all';
-        searchInput.value = '';
-        filtrarSolicitudes();
-      });
       
       // Modal de detalles
       const detalleModal = document.getElementById('detalleModal');
@@ -424,83 +427,132 @@ function abrirModalCliente() {
     // ===== REPORTES =====
 
     document.addEventListener('DOMContentLoaded', function() {
-      inicializarGraficos();
+      const citasChartEl = document.getElementById('citasChart');
+      const solicitudesChartEl = document.getElementById('solicitudesChart');
+      
+      // Solo inicializar si estamos en la página de reportes
+      if (citasChartEl && solicitudesChartEl) {
+        inicializarGraficosReportes();
+      }
     });
 
-    function inicializarGraficos() {
-      // Gráfico de citas por estado
-      const citasCtx = document.getElementById('citasChart').getContext('2d');
-      new Chart(citasCtx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Pendientes', 'Confirmadas', 'Completadas', 'Canceladas'],
-          datasets: [{
-            data: [
-              [[$,{citasPendientes}]],
-              [[$,{citasConfirmadas}]],
-              [[$,{citasCompletadas}]],
-              [[$,{citasCanceladas}]]
-            ],
-            backgroundColor: [
-              '#f39c12', '#27ae60', '#3498db', '#e74c3c'
-            ]
-          }]
-        }
-      });
+    function inicializarGraficosReportes() {
+      // Gráfico de citas por estado (solo para página de reportes)
+      const citasCtx = document.getElementById('citasChart');
+      if (citasCtx) {
+        new Chart(citasCtx.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: ['Pendientes', 'Confirmadas', 'Completadas', 'Canceladas'],
+            datasets: [{
+              data: [10, 20, 30, 5], // Valores de ejemplo
+              backgroundColor: [
+                '#f39c12', '#27ae60', '#3498db', '#e74c3c'
+              ]
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }
+        });
+      }
 
       // Gráfico de solicitudes
-      function inicializarGraficos() {
-      // Gráfico de solicitudes
-      const solicitudesCtx = document.getElementById('solicitudesChart').getContext('2d');
-      new Chart(solicitudesCtx, {
-        type: 'bar',
-        data: {
-          labels: ['Pendientes', 'Evaluando', 'Aprobadas', 'Rechazadas'],
-          datasets: [{
-            label: 'Solicitudes',
-            data: [
-              [[$,{solicitudesPendientes}]],
-              [[$,{solicitudesEvaluando}]],
-              [[$,{solicitudesAprobadas}]],
-              [[$,{solicitudesRechazadas}]]
-            ],
-            backgroundColor: [
-              '#f39c12', '#3498db', '#27ae60', '#e74c3c'
-            ]
-          }]
-        }
-      });
-    }
+      const solicitudesCtx = document.getElementById('solicitudesChart');
+      if (solicitudesCtx) {
+        new Chart(solicitudesCtx.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Pendientes', 'Evaluando', 'Aprobadas', 'Rechazadas'],
+            datasets: [{
+              label: 'Solicitudes',
+              data: [15, 8, 12, 3], // Valores de ejemplo
+              backgroundColor: [
+                '#f39c12', '#3498db', '#27ae60', '#e74c3c'
+              ]
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
 
       // Gráfico de modelos por categoría (datos de ejemplo)
-      const modelosCtx = document.getElementById('modelosChart').getContext('2d');
-      new Chart(modelosCtx, {
-        type: 'pie',
-        data: {
-          labels: ['Sedán', 'SUV', 'Pickup', 'Deportivo'],
-          datasets: [{
-            data: [12, 19, 8, 5],
-            backgroundColor: [
-              '#2c3e50', '#3498db', '#e74c3c', '#f39c12'
-            ]
-          }]
-        }
-      });
+      const modelosCtx = document.getElementById('modelosChart');
+      if (modelosCtx) {
+        new Chart(modelosCtx.getContext('2d'), {
+          type: 'pie',
+          data: {
+            labels: ['Sedán', 'SUV', 'Pickup', 'Deportivo'],
+            datasets: [{
+              data: [12, 19, 8, 5],
+              backgroundColor: [
+                '#2c3e50', '#3498db', '#e74c3c', '#f39c12'
+              ]
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }
+        });
+      }
 
       // Gráfico de citas mensuales (datos de ejemplo)
-      const mensualCtx = document.getElementById('citasMensualesChart').getContext('2d');
-      new Chart(mensualCtx, {
-        type: 'line',
-        data: {
-          labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-          datasets: [{
-            label: 'Citas Mensuales',
-            data: [65, 59, 80, 81, 56, 72],
-            borderColor: '#3498db',
-            tension: 0.1
-          }]
-        }
-      });
+      const mensualCtx = document.getElementById('citasMensualesChart');
+      if (mensualCtx) {
+        new Chart(mensualCtx.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+            datasets: [{
+              label: 'Citas Mensuales',
+              data: [65, 59, 80, 81, 56, 72],
+              borderColor: '#3498db',
+              backgroundColor: 'rgba(52, 152, 219, 0.1)',
+              tension: 0.4,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
     }
 
     function filtrarReportes() {
@@ -523,55 +575,5 @@ function abrirModalCliente() {
       alert('Exportando a Excel...');
     }
 
-    // ====== DASHBOAR ======
-     // Inicializar gráficos cuando el documento esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            // Gráfico de citas mensuales
-            const citasCtx = document.getElementById('citasChart').getContext('2d');
-            new Chart(citasCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    datasets: [{
-                        label: 'Citas Programadas',
-                        data: [65, 59, 80, 81, 56, 72, 45, 67, 55, 42, 60, 75],
-                        borderColor: '#3498db',
-                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }, {
-                        label: 'Citas Completadas',
-                        data: [28, 48, 40, 65, 46, 55, 30, 52, 38, 35, 48, 60],
-                        borderColor: '#27ae60',
-                        backgroundColor: 'rgba(39, 174, 96, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-            // Actualizar contadores en tiempo real (simulado)
-            function actualizarContadores() {
-                // En una implementación real, esto se conectaría a WebSockets o se actualizaría periódicamente
-                console.log('Actualizando contadores...');
-            }
-
-            // Actualizar cada 30 segundos
-            setInterval(actualizarContadores, 30000);
-        });
+    // ====== DASHBOARD ======
+    // Este código se movió a dashboard.js para evitar conflictos

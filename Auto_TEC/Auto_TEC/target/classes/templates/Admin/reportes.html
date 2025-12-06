@@ -141,31 +141,39 @@
 
         <!-- Gráficos -->
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 mb-4">
             <div class="chart-container">
               <h5 class="section-title">Distribución de Citas por Estado</h5>
-              <canvas id="citasChart"></canvas>
+              <div style="height: 300px; position: relative;">
+                <canvas id="citasChart"></canvas>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 mb-4">
             <div class="chart-container">
               <h5 class="section-title">Solicitudes de Financiamiento</h5>
-              <canvas id="solicitudesChart"></canvas>
+              <div style="height: 300px; position: relative;">
+                <canvas id="solicitudesChart"></canvas>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 mb-4">
             <div class="chart-container">
               <h5 class="section-title">Modelos por Categoría</h5>
-              <canvas id="modelosChart"></canvas>
+              <div style="height: 300px; position: relative;">
+                <canvas id="modelosChart"></canvas>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 mb-4">
             <div class="chart-container">
               <h5 class="section-title">Citas Mensuales</h5>
-              <canvas id="citasMensualesChart"></canvas>
+              <div style="height: 300px; position: relative;">
+                <canvas id="citasMensualesChart"></canvas>
+              </div>
             </div>
           </div>
         </div>
@@ -267,7 +275,9 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/admin.js"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="/js/admin.js"></script>
 
 </body>
 </html>
