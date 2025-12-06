@@ -1,69 +1,108 @@
+/* ====== PALETA DE COLORES – AutoTec Motors ====== */
+:root {
+  --clr-bg-light: #0c0c10;       /* Fondo claro para tarjetas/fondo secundario */
+  --clr-bg-dark: #000000;        /* Fondo principal oscuro */
+  --clr-text-light: #f1f1f1;     /* Texto claro */
+  --clr-text-dark: #000000;      /* Texto oscuro (para modales, etc.) */
+  --clr-dorado: #d4af37;         /* Dorado clásico (oro real) */
+  --clr-morado: #a855f7;         /* Morado vibrante (neón suave) */
+  --clr-card: #0f0f12;           /* Fondo de tarjetas */
+}
+
 /* ====== ESTILOS GENERALES ====== */
 body {
-  font-family: "Poppins", sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
+  font-family: "Poppins", "Segoe UI", "Inter", system-ui, sans-serif;
+  background-color: var(--clr-bg-dark);
+  color: var(--clr-text-light);
   margin: 0;
   padding: 0;
 }
 
 h2.display-6 {
-  font-weight: 600;
-  color: #0d6efd;
+  font-weight: 700;
+  color: var(--clr-dorado);
   text-align: center;
   margin-bottom: 2rem;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
 }
 
-/* ====== NAVBAR (fragmento) ====== */
+/* ====== NAVBAR ====== */
 header.navbar {
-  background-color: #0d6efd !important;
+  background-color: #000 !important;
+  border-bottom: 2px solid var(--clr-dorado);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
 }
+
 header.navbar a {
-  color: #fff !important;
+  color: var(--clr-text-light) !important;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
+
 header.navbar a:hover {
-  color: #ffc107 !important;
+  color: var(--clr-dorado) !important;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
 }
 
 /* ====== CONTENEDOR PRINCIPAL ====== */
 main {
   min-height: 80vh;
+  padding-top: 1rem;
 }
 
 /* ====== TARJETAS ====== */
 .card {
   border: none;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  border-radius: 16px;
   padding: 2rem;
-  background: #fff;
+  background: var(--clr-card);
+  border: 1px solid rgba(168, 85, 247, 0.15);
 }
 
 .card-header {
-  border-radius: 12px 12px 0 0;
+  background: rgba(212, 175, 55, 0.05);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 16px 16px 0 0;
+  font-weight: 600;
+  color: var(--clr-dorado);
 }
 
 /* ====== BOTONES ====== */
 .btn-gradient {
-  background: linear-gradient(90deg, #0d6efd, #6610f2);
-  color: white;
+  background: linear-gradient(90deg, var(--clr-dorado), var(--clr-morado));
+  color: var(--clr-text-dark);
   border: none;
   padding: 0.75rem 1.25rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.35s ease;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .btn-gradient:hover {
-  background: linear-gradient(90deg, #6610f2, #0d6efd);
+  background: linear-gradient(90deg, var(--clr-morado), var(--clr-dorado));
   transform: scale(1.05);
-  color: #fff;
+  color: var(--clr-text-dark);
+  box-shadow:
+    0 0 12px rgba(212, 175, 55, 0.6),
+    0 0 18px rgba(168, 85, 247, 0.5);
 }
 
 .btn-outline-primary {
-  border-radius: 8px;
-  font-weight: 500;
+  border: 2px solid var(--clr-dorado);
+  color: var(--clr-dorado);
+  border-radius: 50px;
+  font-weight: 600;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--clr-dorado);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
 }
 
 /* ====== ICONOS EN CÍRCULOS ====== */
@@ -74,58 +113,81 @@ main {
   justify-content: center;
   align-items: center;
   font-size: 24px;
+  background: linear-gradient(135deg, var(--clr-dorado), #b89425);
+  color: var(--clr-text-dark);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 /* ====== FORMULARIOS ====== */
 form label {
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 0.4rem;
+  color: var(--clr-dorado);
 }
 
 form input,
 form select,
 form textarea {
+  background: #08080c;
+  color: var(--clr-text-light);
+  border: 1px solid #333;
   border-radius: 8px;
-  border: 1px solid #ced4da;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 0.65rem 1rem;
+  transition: all 0.3s ease;
 }
 
 form input:focus,
 form select:focus,
 form textarea:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  border-color: var(--clr-dorado);
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.3);
+  outline: none;
+}
+
+/* Placeholder legible */
+form input::placeholder,
+form textarea::placeholder {
+  color: #777;
 }
 
 /* ====== RESULTADO DE COTIZACIÓN ====== */
 #ventasResultado {
   margin-top: 1.5rem;
-  background-color: #e9f7ef;
-  border: 1px solid #a1e3af;
+  background-color: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.4);
   padding: 1rem;
-  border-radius: 8px;
-  color: #155724;
-  font-weight: 500;
+  border-radius: 10px;
+  color: var(--clr-dorado);
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
 }
 
 /* ====== SECCIÓN DE INFORMACIÓN ====== */
 .card-body ul li {
   margin: 0.5rem 0;
   font-size: 0.95rem;
+  color: #c5cde0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .card-body ul li i {
-  width: 20px;
+  min-width: 20px;
+  color: var(--clr-morado);
+  margin-top: 0.2rem;
 }
 
 /* ====== FOOTER ====== */
 footer {
-  background: #0d6efd;
-  color: white;
+  background: #000;
+  color: #aaa;
   text-align: center;
-  padding: 1.5rem 0;
+  padding: 1.8rem 0;
   margin-top: 4rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  border-top: 2px solid var(--clr-dorado);
 }
 
 footer p {
@@ -137,6 +199,7 @@ footer p {
   .btn-gradient,
   .btn-outline-primary {
     width: 100%;
+    margin-bottom: 0.75rem;
   }
 
   .card {
@@ -151,5 +214,9 @@ footer p {
     width: 50px;
     height: 50px;
     font-size: 20px;
+  }
+
+  main {
+    padding: 0.5rem;
   }
 }

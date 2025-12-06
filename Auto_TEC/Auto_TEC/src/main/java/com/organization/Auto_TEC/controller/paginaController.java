@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Controller
 public class paginaController {
    private static final String[] PAGE = {
-       "index","contacto","gestion","modelos","servicios", "financiamiento", "animacion","ventas","citas"
+       "index","contacto","gestion","modelos","servicios", "financiamiento","ventas","citas"
    };
    
    private static final String[] ADMIN = {
@@ -22,7 +22,7 @@ public class paginaController {
    
    @GetMapping("/")
    public String principal() {
-       return "page/animacion";
+       return "page/index";
    }
    
    @GetMapping("/{view}")

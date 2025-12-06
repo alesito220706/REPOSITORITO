@@ -1,56 +1,178 @@
-/* Minimal, elegante y robusto para la página de contacto */
-:root{
-  --bg: #0b0b0c;
-  --card: #0f1113;
-  --muted: #9aa3ad;
-  --accent: #d4af37; /* dorado suave */
-  --accent-2: #ffffff;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  background:var(--bg);
-  color:#e6eef6;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+/* === ESTILO NEON PREMIUM - AutoTec Motors === */
+:root {
+  --bg: #000;
+  --card-bg: #0a0a0f;
+  --text: #ffffff;
+  --text-muted: #b0b8c4;
+  --neon-gold: #d4af37;
+  --neon-purple: #a855f7;
+  --glow-gold: 0 0 12px rgba(212, 175, 55, 0.8), 0 0 24px rgba(212, 175, 55, 0.6);
+  --glow-purple: 0 0 14px rgba(168, 85, 247, 0.9), 0 0 28px rgba(168, 85, 247, 0.7);
+  --glow-combo: 0 0 16px var(--neon-gold), 0 0 26px var(--neon-purple);
 }
 
-/* Hero */
-.contact-hero{padding:48px 0;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));}
-.contact-hero h1{font-weight:600;color:var(--accent);margin:0 0 8px;font-size:2rem}
-.contact-hero p.lead{color:var(--muted);margin-bottom:16px}
-
-/* Card layout */
-.contact-card{background:var(--card);border-radius:12px;padding:22px;border:1px solid rgba(255,255,255,0.03)}
-.contact-card .card-title{color:#fff;font-weight:600;margin-bottom:8px}
-.contact-card p{color:var(--muted);margin-bottom:14px}
-
-.contact-list{list-style:none;padding:0;margin:0}
-.contact-list li{display:flex;gap:10px;align-items:center;color:var(--muted);margin-bottom:10px}
-.contact-list i{color:var(--accent);min-width:20px}
-
-.contact-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:8px 12px;border-radius:8px}
-.btn-primary{background:var(--accent);color:#0b0b0c;padding:10px 14px;border-radius:8px;border:none;font-weight:600}
-
-/* Form */
-.contact-form{background:transparent;padding:0}
-.form-control{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#e6eef6;border-radius:8px;padding:10px}
-.form-control:focus{outline:none;border-color:rgba(212,175,55,0.9);box-shadow:0 6px 18px rgba(212,175,55,0.06)}
-.form-label{color:var(--muted);font-weight:600;font-size:.9rem}
-
-.form-actions{text-align:right;margin-top:12px}
-
-/* Footer tidiness inside contact */
-.contact-meta{margin-top:18px;padding:16px;background:transparent;border-radius:8px;color:var(--muted)}
-
-/* Responsive */
-@media (max-width:768px){
-  .contact-hero h1{font-size:1.6rem}
-  .form-actions{text-align:center}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Small helpers */
-.muted{color:var(--muted)}
-.visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* === HERO / TÍTULO === */
+.hero-section {
+  text-align: center;
+  padding: 60px 20px 40px;
+  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05), transparent 30%);
+}
+
+.hero-section h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--neon-gold), var(--neon-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: var(--glow-combo);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.hero-section p.subtitle {
+  color: var(--text-muted);
+  max-width: 650px;
+  margin: 0 auto 32px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* === FORMULARIO NEON === */
+.neon-form {
+  background: var(--card-bg);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 620px;
+  margin: 0 auto 50px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-form::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-gold), var(--neon-purple), var(--neon-gold));
+  z-index: -1;
+  border-radius: 18px;
+  opacity: 0.6;
+  animation: borderGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlow {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  color: var(--neon-gold);
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+.form-control,
+.form-select {
+  width: 100%;
+  padding: 14px;
+  background: #000;
+  border: 2px solid var(--neon-purple);
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--neon-gold);
+  box-shadow: var(--glow-combo);
+}
+
+.form-control::placeholder {
+  color: #555;
+}
+
+/* === BOTÓN NEON === */
+.btn-neon {
+  background: linear-gradient(90deg, var(--neon-gold), var(--neon-purple));
+  color: #000;
+  font-weight: 800;
+  font-size: 1.1rem;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: block;
+  margin: 30px auto 0;
+  width: fit-content;
+  min-width: 240px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--glow-combo);
+}
+
+.btn-neon:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 0 20px var(--neon-gold), 0 0 32px var(--neon-purple);
+}
+
+.btn-neon:active {
+  transform: translateY(0) scale(1);
+}
+
+/* === FOOTER === */
+footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(168, 85, 247, 0.2);
+  font-size: 0.95rem;
+  margin-top: 20px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+  .neon-form {
+    padding: 24px;
+    margin: 0 16px 40px;
+  }
+  .btn-neon {
+    width: 100%;
+    min-width: auto;
+  }
+}

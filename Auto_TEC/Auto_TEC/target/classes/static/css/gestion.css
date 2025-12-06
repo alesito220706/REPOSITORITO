@@ -1,175 +1,329 @@
-/* ====== PALETA ====== */
-    :root {
-      --clr-bg-dark: #0b0b0b;
-      --clr-text-dark: #f1f1f1;
-      --clr-dorado: #ffb300;
-      --clr-morado: #6a0dad;
-      --clr-card: #1a1a1a;
-    }
-
-    body {
-      background: var(--clr-bg-dark);
-      color: var(--clr-text-dark);
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding-top: 70px;
-       padding: 0;
-    }
-
-    
-    /* --- Navbar --- */
-    .navbar {
-      background: #000;
-      border-bottom: 2px solid #d4af37; /* dorado */
-      box-shadow: 0 0 20px rgba(212,175,55,0.5);
-    }
-/* --- logo --- */
-    .navbar-brand {
-      color: #d4af37 !important;
-      font-weight: bold;
-      font-size: 1.3rem;
-      margin-left: 50px;/* ---ajusta el texto--- */
-      
-    }
-
-    .navbar-brand i {
-      margin-right: 8px;
-      color: #a855f7; /* morado */
-    }
-.navbar-toggler {
-  margin-left: 20px; /* Mueve el botón a la derecha */
-  
+/* ====== PALETA DE COLORES – AutoTec Motors ====== */
+:root {
+  --clr-bg-dark: #000000;
+  --clr-text-dark: #f1f1f1;
+  --clr-dorado: #d4af37;        /* Dorado clásico (oro real) */
+  --clr-morado: #a855f7;        /* Morado vibrante (neón suave) */
+  --clr-card: #0f0f12;
 }
-/* --- Offcanvas personalizado --- */
+
+/* ====== ESTILOS GENERALES ====== */
+body {
+  background: var(--clr-bg-dark);
+  color: var(--clr-text-dark);
+  font-family: "Segoe UI", "Inter", system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  padding-top: 70px; /* Ajuste para navbar fijo */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ====== NAVBAR ====== */
+.navbar {
+  background: #000;
+  border-bottom: 2px solid var(--clr-dorado);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+}
+
+.navbar-brand {
+  color: var(--clr-dorado) !important;
+  font-weight: bold;
+  font-size: 1.35rem;
+  margin-left: 50px;
+}
+
+.navbar-brand i {
+  margin-right: 8px;
+  color: var(--clr-morado);
+}
+
+.navbar-toggler {
+  margin-left: 20px;
+}
+
+/* ====== OFFCANVAS (Menú móvil) ====== */
 .offcanvas {
-  background: #161613 !important;
-  border-right: 2px solid #a855f7;
-  box-shadow: 0 0 20px rgba(168,85,247,0.2);
+  background: #0c0c10 !important;
+  border-right: 2px solid var(--clr-morado);
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
 }
 
 .offcanvas-header {
-  background: #10141f;
-  color: #222;
-  border-bottom: 1px solid #a855f7;
+  background: #0a0a0f;
+  border-bottom: 1px solid var(--clr-morado);
 }
 
 .offcanvas-title {
-  color: #d4af37;
+  color: var(--clr-dorado);
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
 }
 
 .offcanvas .dropdown-item {
-  color: #f5f5f5 !important;
+  color: #e0e0ff !important;
   font-weight: 500;
-  border-radius: 6px;
-  margin-bottom: 4px;
-  transition: all 0.3s;
+  border-radius: 8px;
+  margin: 4px 0;
   padding: 10px 18px;
+  transition: all 0.3s ease;
+  background: transparent;
 }
 
 .offcanvas .dropdown-item:hover,
 .offcanvas .dropdown-item:focus {
-  background: linear-gradient(90deg, #d4af37 0%, #a855f7 100%);
-  color: #111 !important;
-  text-shadow: 0 0 10px #d4af37;
+  background: linear-gradient(90deg, var(--clr-dorado), var(--clr-morado));
+  color: #000 !important;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
 .offcanvas .dropdown-item.active {
-  color: #d4af37 !important;
-  background: #222;
+  color: var(--clr-dorado) !important;
+  background: rgba(212, 175, 55, 0.1);
 }
 
-    /* ====== TITULOS ====== */
-    h2.section-title {
-      text-align: center;
-      font-weight: 800;
-      margin-bottom: 3rem;
-      font-size: 2.5rem;
-      background: linear-gradient(90deg, var(--clr-dorado), var(--clr-morado));
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 15px rgba(255, 179, 0, 0.8);
-      animation: glow 2s infinite alternate;
-    }
+/* ====== TÍTULOS ====== */
+h2.section-title {
+  text-align: center;
+  font-weight: 800;
+  margin: 3rem 0 2.5rem;
+  font-size: 2.4rem;
+  background: linear-gradient(90deg, var(--clr-dorado), var(--clr-morado));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+  animation: glowTitle 2.5s infinite alternate;
+}
 
-    @keyframes glow {
-      from { text-shadow: 0 0 8px var(--clr-dorado); }
-      to { text-shadow: 0 0 16px var(--clr-morado); }
-    }
+@keyframes glowTitle {
+  from {
+    text-shadow: 0 0 10px var(--clr-dorado), 0 0 18px var(--clr-morado);
+  }
+  to {
+    text-shadow: 0 0 16px var(--clr-dorado), 0 0 28px var(--clr-morado);
+  }
+}
 
-    /* ====== CARDS ====== */
-    .card {
-      background: var(--clr-card);
-      border-radius: 15px;
-      padding: 2rem;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 0 25px var(--clr-dorado), 0 0 35px var(--clr-morado);
-    }
+/* ====== TARJETAS (CARDS) ====== */
+.card {
+  background: var(--clr-card);
+  border-radius: 16px;
+  padding: 2.2rem 1.5rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border: 1px solid rgba(168, 85, 247, 0.15);
+}
 
-    .card i {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: var(--clr-dorado);
-      transition: color 0.4s ease;
-    }
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow:
+    0 0 22px rgba(212, 175, 55, 0.7),
+    0 0 32px rgba(168, 85, 247, 0.6);
+}
 
-    .card:hover i {
-      color: var(--clr-morado);
-    }
+.card i {
+  font-size: 3rem;
+  margin-bottom: 1.2rem;
+  color: var(--clr-dorado);
+  transition: all 0.4s ease;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
 
-    /* ====== BOTONES ====== */
-    .btn-custom {
-      border-radius: 50px;
-      padding: 0.6rem 1.6rem;
-      font-weight: 600;
-      background: transparent;
-      border: 2px solid var(--clr-dorado);
-      color: var(--clr-dorado);
-      transition: all 0.3s ease;
-    }
+.card:hover i {
+  color: var(--clr-morado);
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.7);
+  transform: scale(1.15);
+}
 
-    .btn-custom:hover {
-      background: linear-gradient(90deg, var(--clr-dorado), var(--clr-morado));
-      border: none;
-      color: #fff;
-      box-shadow: 0 0 15px var(--clr-dorado);
-    }
+.card h5 {
+  font-size: 1.3rem;
+  margin: 0.8rem 0;
+  color: #fff;
+}
 
-    /* ====== FORMULARIOS ====== */
-    input, textarea {
-      background: #111 !important;
-      border: 1px solid #333 !important;
-      color: var(--clr-text-dark) !important;
-      border-radius: 8px !important;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
+.card p {
+  color: #b0b8c5;
+  font-size: 0.95rem;
+  margin-bottom: 1.4rem;
+  flex-grow: 1;
+}
 
-    input:focus, textarea:focus {
-      border-color: var(--clr-dorado) !important;
-      box-shadow: 0 0 10px var(--clr-morado);
-    }
+/* ====== BOTONES ====== */
+.btn-custom {
+  border-radius: 50px;
+  padding: 0.65rem 1.8rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: transparent;
+  border: 2px solid var(--clr-dorado);
+  color: var(--clr-dorado);
+  transition: all 0.35s ease;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
 
-    label {
-      font-weight: 600;
-      color: var(--clr-dorado);
-    }
+.btn-custom:hover {
+  background: linear-gradient(90deg, var(--clr-dorado), var(--clr-morado));
+  border: none;
+  color: #000;
+  box-shadow:
+    0 0 16px rgba(212, 175, 55, 0.8),
+    0 0 24px rgba(168, 85, 247, 0.6);
+  transform: scale(1.05);
+}
 
-    /* ====== FOOTER ====== */
-    footer {
-      background: #000;
-      padding: 2rem 0;
-      text-align: center;
-      color: #aaa;
-      margin-top: 4rem;
-      border-top: 2px solid var(--clr-dorado);
-    }
-    footer p {
-      margin: 0.3rem 0;
-    }
+/* ====== FORMULARIOS ====== */
+input,
+textarea,
+select {
+  background: #08080c !important;
+  border: 1px solid #333 !important;
+  color: var(--clr-text-dark) !important;
+  border-radius: 8px !important;
+  padding: 10px 12px !important;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--clr-dorado) !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3) !important;
+  outline: none;
+}
+
+label {
+  font-weight: 600;
+  color: var(--clr-dorado);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* ====== MODALES — Corrección: texto negro y fondo claro para legibilidad ====== */
+.modal-content {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.modal-header {
+  border-bottom: 1px solid #eee;
+  padding: 1.25rem 1.5rem;
+}
+
+.modal-title {
+  color: #000 !important;
+  font-weight: 700;
+  font-size: 1.35rem;
+}
+
+.modal-body {
+  color: #333 !important;
+  padding: 1.5rem;
+}
+
+.modal-footer {
+  border-top: 1px solid #eee;
+  padding: 1rem 1.5rem;
+}
+
+/* Botones dentro del modal (Close, Save, etc.) */
+.modal .btn {
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 600;
+}
+
+.modal .btn-primary {
+  background-color: var(--clr-dorado);
+  border-color: var(--clr-dorado);
+  color: #000;
+}
+
+.modal .btn-primary:hover {
+  background-color: #b89425;
+  border-color: #b89425;
+  color: #000;
+}
+
+.modal .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: #fff;
+}
+
+.modal .btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+/* Inputs y selects dentro del modal */
+.modal input,
+.modal textarea,
+.modal select {
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid #ddd !important;
+}
+
+.modal label {
+  color: #333 !important;
+  font-weight: 600;
+}
+
+/* ====== FOOTER ====== */
+footer {
+  background: #000;
+  padding: 2.2rem 0;
+  text-align: center;
+  color: #999;
+  margin-top: 5rem;
+  border-top: 2px solid var(--clr-dorado);
+  font-size: 0.95rem;
+}
+
+footer p {
+  margin: 0.4rem 0;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  h2.section-title {
+    font-size: 1.8rem;
+    margin: 2.5rem 0 2rem;
+  }
+
+  .card {
+    padding: 1.8rem 1.2rem;
+  }
+
+  .btn-custom {
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  body {
+    padding-top: 60px;
+  }
+
+  /* Ajuste para modal en móvil */
+  .modal-dialog {
+    padding: 0 10px;
+  }
+
+  .modal-content {
+    font-size: 0.95rem;
+  }
+}
