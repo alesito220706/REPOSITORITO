@@ -4,20 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired; // Importar
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails; // Importar
+import org.springframework.security.core.userdetails.UserDetailsService; // Importar
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*; // Simplificado
 
 import com.organization.Auto_TEC.DTO.LoginRequestDTO;
 import com.organization.Auto_TEC.DTO.LoginResponseDTO;
 import com.organization.Auto_TEC.Service.AuthService;
+import com.organization.Auto_TEC.Service.JwtService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -29,22 +28,36 @@ public class AuthController {
 
     private final AuthService authService;
 
+    // Inyectamos JwtService y UserDetailsService
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
-    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO body, HttpServletRequest request) {
+    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO body,
+            HttpServletRequest request) {
         String ip = getClientIp(request);
         String userAgent = Optional.ofNullable(request.getHeader("User-Agent")).orElse("unknown");
 
+        // 1. Ejecutar tu lógica de negocio existente (validar pass, kick user, etc.)
         LoginResponseDTO resp = authService.loginSoloUnaSesion(
                 body.getUsernameOrEmail(),
                 body.getPassword(),
                 body.isKickPrevious(),
                 ip,
-                userAgent
-        );
+                userAgent);
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(body.getUsernameOrEmail());
+
+        String jwtToken = jwtService.generateToken(userDetails);
+
+        resp.setToken(jwtToken);
+        resp.setMensaje("Autenticación exitosa vía API");
 
         return ResponseEntity.ok(resp);
     }

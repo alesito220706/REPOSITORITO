@@ -2,6 +2,7 @@ package com.organization.Auto_TEC.Service;
 
 import java.util.Collections;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,13 +15,14 @@ import com.organization.Auto_TEC.Repository.AdministradorRepository;
 import com.organization.Auto_TEC.Repository.UsuarioRepository;
 
 @Service
+@Primary
 public class CombinedUserDetailsService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
     private final AdministradorRepository administradorRepository;
 
-    public CombinedUserDetailsService(UsuarioRepository usuarioRepository, 
-                                    AdministradorRepository administradorRepository) {
+    public CombinedUserDetailsService(UsuarioRepository usuarioRepository,
+            AdministradorRepository administradorRepository) {
         this.usuarioRepository = usuarioRepository;
         this.administradorRepository = administradorRepository;
     }
@@ -39,9 +41,9 @@ public class CombinedUserDetailsService implements UserDetailsService {
             System.out.println("   Username: " + admin.getUsername());
             System.out.println("   Email: " + admin.getEmail());
             System.out.println("   Rol: " + admin.getRol().getNombre());
-            
+
             String role = "ROLE_" + admin.getRol().getNombre();
-            
+
             return User.builder()
                     .username(admin.getUsername())
                     .password(admin.getPasswordHash())
@@ -58,9 +60,9 @@ public class CombinedUserDetailsService implements UserDetailsService {
             System.out.println("   Username: " + usuario.getUsername());
             System.out.println("   Email: " + usuario.getEmail());
             System.out.println("   Rol: " + usuario.getRol().getNombre());
-            
+
             String role = "ROLE_" + usuario.getRol().getNombre();
-            
+
             return User.builder()
                     .username(usuario.getUsername())
                     .password(usuario.getPasswordHash())
