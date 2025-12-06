@@ -14,7 +14,9 @@ import com.organization.Auto_TEC.DTO.RegistroDTO;
 import com.organization.Auto_TEC.Entities.Departamentos;
 import com.organization.Auto_TEC.Entities.Rol;
 import com.organization.Auto_TEC.Entities.Sesiones;
+import com.organization.Auto_TEC.Entities.administradorEntitie;
 import com.organization.Auto_TEC.Entities.usuarioEntitie;
+import com.organization.Auto_TEC.Repository.AdministradorRepository;
 import com.organization.Auto_TEC.Repository.DepartamentosRepository;
 import com.organization.Auto_TEC.Repository.RolRepository;
 import com.organization.Auto_TEC.Repository.SesionRepository;
@@ -24,17 +26,20 @@ import com.organization.Auto_TEC.Repository.UsuarioRepository;
 public class AuthService {
 
     private final UsuarioRepository usuarioRepo;
+    private final AdministradorRepository administradorRepo;
     private final SesionRepository sesionRepo;
     private final RolRepository rolRepository;
     private final DepartamentosRepository departamentosRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UsuarioRepository usuarioRepo, 
-                      SesionRepository sesionRepo, 
-                      RolRepository rolRepository,
-                      DepartamentosRepository departamentosRepository,
-                      PasswordEncoder passwordEncoder) {
+    public AuthService(UsuarioRepository usuarioRepo,
+            AdministradorRepository administradorRepo,
+            SesionRepository sesionRepo,
+            RolRepository rolRepository,
+            DepartamentosRepository departamentosRepository,
+            PasswordEncoder passwordEncoder) {
         this.usuarioRepo = usuarioRepo;
+        this.administradorRepo = administradorRepo;
         this.sesionRepo = sesionRepo;
         this.rolRepository = rolRepository;
         this.departamentosRepository = departamentosRepository;
@@ -72,13 +77,24 @@ public class AuthService {
         usuario.setApellidos(registroDTO.getApellidos());
         usuario.setRol(rolCliente);
         usuario.setActivo(true);
-        
+
         return usuarioRepo.save(usuario);
     }
 
     @Transactional
-    public LoginResponseDTO loginSoloUnaSesion(String usernameOrEmail, String rawPassword, boolean kickPrevious, String ip, String userAgent) {
-        
+    public LoginResponseDTO loginSoloUnaSesion(String usernameOrEmail, String rawPassword, boolean kickPrevious,
+            String ip, String userAgent) {
+
+        // Primero intentar buscar en administradores
+        Optional<administradorEntitie> adminOpt = administradorRepo.findByUsernameOrEmail(usernameOrEmail,
+                usernameOrEmail);
+
+        if (adminOpt.isPresent()) {
+            // Es un administrador
+            return loginAdmin(adminOpt.get(), rawPassword, ip, userAgent);
+        }
+
+        // Si no es admin, buscar en usuarios normales
         usuarioEntitie user = usuarioRepo
                 .findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
@@ -99,12 +115,13 @@ public class AuthService {
             Sesiones s = actual.get();
             if (s.getFechaExpiracion().isAfter(OffsetDateTime.now())) {
                 if (!kickPrevious) {
-                    return new LoginResponseDTO(
+                    LoginResponseDTO response = new LoginResponseDTO(
                             null,
                             s.getFechaExpiracion(),
                             user.getId(),
-                            "Ya tienes una sesión activa."
-                    );
+                            "Ya tienes una sesión activa.");
+                    response.setUsername(user.getUsername());
+                    return response;
                 } else {
                     s.setActiva(false);
                     s.setFechaCierre(OffsetDateTime.now());
@@ -139,11 +156,44 @@ public class AuthService {
         user.setUltimoLogin(ahora);
         usuarioRepo.save(user);
 
-        return new LoginResponseDTO(
+        LoginResponseDTO response = new LoginResponseDTO(
                 nueva.getSessionToken(),
                 nueva.getFechaExpiracion(),
                 user.getId(),
-                "Login correcto"
-        );
+                "Login correcto");
+        response.setUsername(user.getUsername());
+        return response;
+    }
+
+    private LoginResponseDTO loginAdmin(administradorEntitie admin, String rawPassword, String ip, String userAgent) {
+        // Verificar si el admin está activo
+        if (!admin.getActivo()) {
+            throw new IllegalArgumentException("Administrador desactivado");
+        }
+
+        // Verificar contraseña
+        if (!passwordEncoder.matches(rawPassword, admin.getPasswordHash())) {
+            throw new IllegalArgumentException("Credenciales inválidas");
+        }
+
+        // Para administradores, no usamos la tabla Sesiones
+        // Solo actualizamos los campos de último login
+        OffsetDateTime ahora = OffsetDateTime.now();
+        admin.setUltimoLogin(ahora);
+        admin.setUltimoIp(ip);
+        admin.setUltimoUserAgent(userAgent);
+        administradorRepo.save(admin);
+
+        // Generar token de sesión único para el admin
+        String sessionToken = UUID.randomUUID().toString();
+        OffsetDateTime expiracion = ahora.plusHours(1);
+
+        LoginResponseDTO response = new LoginResponseDTO(
+                sessionToken,
+                expiracion,
+                admin.getId(),
+                "Login correcto");
+        response.setUsername(admin.getUsername());
+        return response;
     }
 }

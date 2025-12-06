@@ -13,7 +13,7 @@
 
         <main>
         <section id="citas" class="container my-5">
-            <h2 class="display-6">Agendar Cita de Venta y Servicio</h2>
+            <h2 class="display-6">Agendar Cita </h2>
             <p class="lead">Bienvenido(a), <strong sec:authentication="name">Usuario</strong>. Completa el formulario para solicitar tu cita.</p>
             
                         <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -72,32 +72,6 @@
                 </form>
             </div>
             
-                                    
-            <div class="card p-4 shadow-sm mt-4">
-                                <h4 class="mb-3 text-warning"><i class="fas fa-calculator me-2"></i>Calcular Cuota Mensual</h4>
-                <div id="formContainerVentas">
-                                        <form id="formCotizacionVentas" novalidate>
-                        <div class="mb-3">
-                            <label for="ventasModelo">Modelo del Vehículo</label>
-                            <input type="text" id="ventasModelo" class="form-control" placeholder="Modelo del vehículo" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="ventasPrecio">Precio del Vehículo ($)</label>
-                            <input type="number" id="ventasPrecio" min="1" class="form-control" placeholder="Precio total en dólares" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="ventasCuota">Cuota Inicial ($)</label>
-                            <input type="number" id="ventasCuota" min="0" class="form-control" placeholder="Monto de cuota inicial" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="ventasMeses">Plazo en Meses</label>
-                            <input type="number" id="ventasMeses" min="1" class="form-control" placeholder="Número de meses para financiar" required />
-                        </div>
-                        <button type="submit" class="btn btn-warning w-100">Calcular Cuota (Ejemplo)</button>
-                    </form>
-                    <div id="ventasResultado" style="display:none;" class="mt-3"></div>
-                </div>
-            </div>
         </section>
     </main>
     
