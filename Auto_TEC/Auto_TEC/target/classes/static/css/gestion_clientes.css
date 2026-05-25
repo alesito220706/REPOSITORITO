@@ -1,138 +1,94 @@
-/* Paleta de Contraste Oscuro: Gris Oscuro (#747474), Blanco (#FFFFFF), Gris Claro (#E9ECEF) */
+/* --- AUTOTEC ELITE UI: CLIENT MANAGEMENT MODULE --- */
+:root {
+    --bg-deep: #050505;
+    --card-bg: rgba(15, 15, 15, 0.8);
+    --gold: #d4af37;
+    --violet: #8b5cf6;
+    --text-main: #e0e0e0;
+}
 
-/* === Estilos Generales y Fondo === */
 body {
-    /* Usar el color oscuro que definiste como fondo principal */
-    background-color: #747474;
-    color: #ffffff; /* Asegurar que el texto principal sea blanco */
+    background-color: var(--bg-deep) !important;
+    background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
+    color: var(--text-main) !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-.container-fluid {
-    /* Mantener un padding consistente */
-    padding: 1.5rem 1rem;
-}
-
-/* === Encabezado de la Página y Contenedores (Simulación de Tarjeta Blanca) === */
-.dashboard-header-lite, 
-.chart-container {
-    /* Estos elementos deben resaltar sobre el fondo oscuro */
-    background-color: #ffffff; 
-    color: #343a40; /* Texto oscuro sobre blanco */
-    border: 1px solid #c0c0c0; /* Borde gris sutil */
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada para contraste */
-    padding: 1.5rem; /* Ajustar padding para el header */
-    margin-bottom: 1.5rem;
-}
-
+/* Header con impacto visual */
 .dashboard-header-lite {
-    padding: 1rem 1.5rem;
-    display: flex; /* Asegurar que el HTML mantenga el layout */
-    justify-content: space-between;
-    align-items: center;
+    background: linear-gradient(90deg, #111 0%, #000 100%) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    border-radius: 0 !important;
+    padding: 1.5rem !important;
 }
 
 .dashboard-header-lite h1 {
-    font-size: 1.8rem;
-    color: #343a40; 
+    color: var(--gold) !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-/* Las alertas de éxito/error deben mantener su color para la UX */
-.alert-success { background-color: #d4edda; color: #155724; }
-.alert-danger { background-color: #f8d7da; color: #721c24; }
-
-
-/* === Estilo del Botón de Acción (Agregar) === */
-.btn-action {
-    /* Usamos el btn-dark para el color de fondo */
-    background-color: #343a40 !important;
-    color: #ffffff !important;
-    border: none;
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+/* Tabla Estilo Showroom */
+.chart-container {
+    background: var(--card-bg) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    border-radius: 0 !important;
+    backdrop-filter: blur(10px);
 }
 
-.btn-action:hover {
-    background-color: #212529 !important; /* Negro más oscuro en hover */
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4); 
-}
-
-/* === Mejoras en el Campo de Búsqueda === */
-.search-section {
-    margin-bottom: 1.5rem;
-}
-
-.search-section .form-control {
-    border-radius: 0.5rem; /* Menos redondeado que el pill, más elegante */
-    padding: 0.75rem 1rem;
-    border-color: #c0c0c0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-    background-color: #f8f9fa; /* Fondo blanco para mejor visibilidad del texto */
-    color: #343a40;
-}
-
-/* === Estilo de la Tabla (Mejorado con Líneas) === */
-.chart-container .table {
-    /* La tabla debe ser ligera dentro de su contenedor (chart-container) */
-    background-color: #ffffff; 
-}
-
-/* Encabezado de la tabla */
 .table thead {
-    background-color: #343a40;
-    color: #ffffff;
+    background: rgba(212, 175, 55, 0.1) !important;
+    border-bottom: 2px solid var(--gold) !important;
 }
 
 .table thead th {
-    font-weight: 700;
-    border-bottom: 2px solid #212529; /* Separador más fuerte */
-    padding: 1rem;
+    color: var(--gold) !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
 }
 
-/* Cuerpo de la tabla */
-.table tbody td {
-    border-color: #e9ecef; /* Líneas divisorias claras */
-    padding: 0.75rem 1rem;
+.table tbody tr {
+    transition: 0.3s;
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Efecto Hover en las Filas */
-.table-hover > tbody > tr:hover > * {
-    /* Tono de gris sutil en hover sobre el fondo blanco de la tabla */
-    background-color: #f0f0f0 !important; 
-    transition: background-color 0.15s ease-in-out;
+.table-hover > tbody > tr:hover {
+    background: rgba(139, 92, 246, 0.1) !important;
 }
 
-/* === CORRECCIÓN VISUAL DEL MODAL === */
+/* Botones de acción */
+.btn-action {
+    background: transparent !important;
+    border: 1px solid var(--gold) !important;
+    color: var(--gold) !important;
+    border-radius: 0 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-/* Asegurar que el cuerpo del modal sea blanco para que el formulario destaque */
+.btn-action:hover {
+    background: var(--gold) !important;
+    color: #000 !important;
+}
+
+/* Modal "Glass" */
 .modal-content {
-    background-color: #ffffff; 
-    color: #343a40; /* Texto oscuro sobre fondo blanco */
+    background: #0a0a0a !important;
+    border: 1px solid var(--gold) !important;
+    color: #fff !important;
 }
 
-/* Hacer que los campos de formulario sean claros y visibles */
-.modal-body .form-control {
-    background-color: #ffffff; /* Fondo blanco */
-    border: 1px solid #ced4da; /* Borde gris claro */
-    color: #495057; /* Texto oscuro */
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+.modal-header { border-bottom: 1px solid var(--gold) !important; }
+.form-control {
+    background: #111 !important;
+    border: 1px solid #333 !important;
+    color: #fff !important;
+    border-radius: 0 !important;
 }
 
-/* Mejorar el foco del campo */
-.modal-body .form-control:focus {
-    background-color: #ffffff;
-    border-color: #a0a0a0; /* Borde más oscuro al enfocar */
-    box-shadow: 0 0 0 0.25rem rgba(100, 100, 100, 0.25); /* Sombra de foco grisácea */
-}
-
-/* Estilo para el texto "ADMIN" fijo para asegurar que sea visible */
-.modal-body .form-control-static {
-    background-color: #f8f9fa; /* Fondo gris muy claro para diferenciarlo del input */
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    padding: 0.375rem 0.75rem;
+.form-control:focus {
+    border-color: var(--violet) !important;
+    box-shadow: 0 0 5px var(--violet) !important;
 }

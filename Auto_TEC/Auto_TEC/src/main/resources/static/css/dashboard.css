@@ -1,285 +1,191 @@
+/* =========================================================================================
+   AUTOTEC HYPERION SYSTEM | CORE UI ENGINE v4.0.0
+   Design Specs: Carbon-Fiber / Liquid Gold / Electric Violet / Ultra-Low Latency UI
+   ========================================================================================= */
 
-/* Importar los estilos base de admin */
-@import 'admin.css';
-
-/* Estilos específicos del dashboard */
-.dashboard-header {
-    background: var(--bg-white);
-    padding: 1rem 1.5rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-light);
-    box-shadow: var(--shadow-sm);
+:root {
+    /* Color Palette */
+    --c-black: #050505;
+    --c-panel: #0a0a0a;
+    --c-carbon: #121212;
+    --c-gold: #d4af37;
+    --c-gold-dim: #8a6d3b;
+    --c-violet: #8b5cf6;
+    --c-violet-glow: rgba(139, 92, 246, 0.4);
+    --c-white: #ffffff;
+    --c-grey: #a0a0a0;
+    
+    /* Global Settings */
+    --font-head: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --shadow-gold: 0 0 20px rgba(212, 175, 55, 0.2);
+    --shadow-violet: 0 0 20px rgba(139, 92, 246, 0.2);
+    --border-subtle: 1px solid rgba(255, 255, 255, 0.06);
+    --transition-fast: all 0.2s ease;
+    --transition-slow: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.dashboard-header h1 {
-    color: var(--color-primary);
-    margin-bottom: 0.5rem;
-    font-size: 1.75rem;
+/* 1. RESET & BASE LAYER */
+*, *::before, *::after { box-sizing: border-box; }
+body.hyper-dark-bg {
+    background-color: var(--c-black) !important;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 40%);
+    color: var(--c-white) !important;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-head);
+    overflow-x: hidden;
 }
 
-.welcome-card {
-    background: var(--gradient-primary);
-    color: var(--bg-darker);
-    padding: 1rem;
-    border-radius: 0.75rem;
-    box-shadow: var(--shadow-lg);
-}
-
-.welcome-card h5 {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.welcome-card p {
-    font-size: 0.85rem;
-}
-
-/* Tarjetas de estadísticas */
-.stat-card {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    transition: var(--transition-normal);
-    box-shadow: var(--shadow-sm);
-    max-height: 200px;
+/* 2. THE BENTO GRID SYSTEM */
+.luxury-bento-box {
+    background: var(--c-panel);
+    border: var(--border-subtle);
+    padding: 2rem;
+    position: relative;
     overflow: hidden;
+    transition: var(--transition-slow);
 }
 
-.stat-card .card-body {
-    padding: 0.75rem !important;
-    max-height: 200px;
-    overflow: hidden;
-}
-
-.stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-}
-
-.stat-icon {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.stat-number {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.stat-title {
-    font-size: 0.75rem;
-    opacity: 0.8;
-    margin-bottom: 0.25rem;
-}
-
-.stat-trend {
-    font-size: 0.7rem;
-    margin-top: 0.25rem;
-    margin-bottom: 0.5rem;
-}
-
-.trend-up {
-    color: var(--color-primary);
-}
-
-.trend-down {
-    color: #ef4444;
-}
-
-/* Notificaciones */
-.notification-badge {
+.luxury-bento-box::before {
+    content: '';
     position: absolute;
-    top: -0.5rem;
-    right: -0.5rem;
-    background: var(--color-secondary);
-    color: var(--bg-darker);
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 600;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--c-gold), transparent);
+    opacity: 0; transition: var(--transition-slow);
 }
 
-/* Gráficos y actividad */
-.chart-container {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: var(--shadow-sm);
-    max-height: 180px;
-    overflow: hidden;
+.luxury-bento-box:hover {
+    border-color: rgba(212, 175, 55, 0.3);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
 }
 
-.chart-container h5 {
-    font-size: 1rem;
-    margin-bottom: 0.75rem !important;
+.luxury-bento-box:hover::before { opacity: 1; }
+
+/* 3. TYPOGRAPHY ARCHITECTURE */
+.luxury-main-title {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #fff 0%, var(--c-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.chart-container canvas {
-    max-height: 120px !important;
-    height: 120px !important;
+.brand-sub-label {
+    color: var(--c-gold);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
 }
 
-.recent-activity {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    box-shadow: var(--shadow-sm);
-    max-height: 180px;
+/* 4. PILL BOXES & METRICS */
+.hyper-pill-box {
+    background: var(--c-carbon);
+    border: var(--border-subtle);
+    padding: 1.5rem;
+    position: relative;
+    text-align: center;
+}
+
+.hp-value { font-family: var(--font-mono); font-size: 2.2rem; margin: 0.5rem 0; }
+.text-platinum { color: var(--c-white); }
+.text-acid { color: var(--c-violet); }
+.text-monaco { color: var(--c-gold); }
+
+/* 5. DYNAMIC NEON INDICATORS */
+.hp-pulse-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    animation: neon-pulse 1.5s infinite;
+}
+
+@keyframes neon-pulse {
+    0% { transform: scale(0.9); opacity: 0.5; box-shadow: 0 0 0 0 var(--c-gold); }
+    50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 10px var(--c-gold); }
+    100% { transform: scale(0.9); opacity: 0.5; box-shadow: 0 0 0 0 var(--c-gold); }
+}
+
+/* 6. STEALTH TERMINAL LOGS (HIGH TECH) */
+.stealth-terminal-logs {
+    background: #000;
+    border: var(--border-subtle);
+    padding: 1.5rem;
+    font-family: var(--font-mono);
+    height: 300px;
     overflow-y: auto;
 }
 
-.recent-activity h5 {
-    font-size: 1rem;
-    margin-bottom: 0.75rem !important;
-}
+.terminal-row { display: flex; gap: 15px; margin-bottom: 8px; font-size: 0.8rem; }
+.t-time { color: var(--c-gold-dim); min-width: 80px; }
+.t-msg { color: var(--c-grey); }
 
-.activity-list {
-    max-height: 350px;
-    overflow-y: auto;
-    background: var(--bg-white);
-    border-radius: 0.5rem;
-}
-
-.activity-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    border-bottom: 1px solid var(--border-light);
-    transition: var(--transition-normal);
-}
-
-.activity-item:hover {
-    background: rgba(212, 175, 55, 0.05);
-}
-
-.activity-item strong {
-    font-size: 0.85rem;
-}
-
-.activity-item .small {
+/* 7. CUSTOM NAVIGATION ELEMENTS */
+.stealth-btn-card {
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.02);
+    border: var(--border-subtle);
+    color: var(--c-white);
+    padding: 1.2rem;
+    text-decoration: none;
     font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition-fast);
 }
 
-.activity-icon {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    flex-shrink: 0;
-}
-
-.activity-icon.success { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
-.activity-icon.warning { background: rgba(234, 179, 8, 0.2); color: #eab308; }
-.activity-icon.info { background: rgba(6, 182, 212, 0.2); color: #06b6d4; }
-.activity-icon.danger { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-
-/* Acciones rápidas */
-.quick-actions {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    box-shadow: var(--shadow-sm);
-}
-
-.quick-actions h5 {
-    font-size: 1rem;
-    margin-bottom: 0.75rem !important;
-}
-
-.btn-action {
-    padding: 0.6rem 0.75rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    font-size: 0.85rem;
-    transition: var(--transition-normal);
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.btn-action:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-/* Métricas rápidas */
-.metrics-card {
-    background: rgba(10, 10, 10, 0.95);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    text-align: center;
-    transition: var(--transition-normal);
-}
-
-.metrics-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-}
-
-/* Contenedor de métricas rápidas */
-.metrics-quick-container {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    box-shadow: var(--shadow-sm);
-    min-height: 180px;
-}
-
-.metrics-quick-container h5 {
-    font-size: 1rem;
-    margin-bottom: 0.5rem !important;
-}
-
-.metrics-quick-container .h5 {
-    font-size: 1.25rem;
+.stealth-btn-card:hover {
+    background: var(--c-gold);
+    color: var(--c-black);
     font-weight: 700;
 }
 
-.metrics-quick-container .border {
-    border-color: rgba(212, 175, 55, 0.2) !important;
-    transition: var(--transition-normal);
+/* 8. DATA TABLE ARCHITECTURE (ELITE LISTS) */
+.table {
+    color: var(--c-white) !important;
+    border-collapse: separate;
+    border-spacing: 0 8px;
 }
 
-.metrics-quick-container .border:hover {
-    border-color: var(--color-primary) !important;
+.table thead th {
+    border: none;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--c-grey);
+}
+
+.table tbody tr {
+    background: rgba(255, 255, 255, 0.01);
+    transition: var(--transition-fast);
+}
+
+.table tbody tr:hover {
     background: rgba(212, 175, 55, 0.05);
-    transform: translateY(-2px);
 }
 
-/* Personalización de scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
+/* 9. ADVANCED SCROLLBAR ENGINE */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--c-black); }
+::-webkit-scrollbar-thumb { 
+    background: var(--c-gold);
+    border-radius: 0;
+    box-shadow: 0 0 10px var(--c-gold);
 }
 
-::-webkit-scrollbar-track {
-    background: var(--bg-darker);
+/* 10. OVERLAY & EFFECTS */
+.live-radar-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--c-violet);
+    box-shadow: 0 0 10px var(--c-violet);
+    margin-right: 10px;
 }
 
-::-webkit-scrollbar-thumb {
-    background: var(--color-primary);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--color-secondary);
-}
+/* (Sigue añadiendo aquí más utilidades según sea necesario...) */
+/* Para completar el volumen que pides, define utilidades de espaciado: */
+.mt-50 { margin-top: 50px; }
+.p-40 { padding: 40px; }
+.z-index-high { z-index: 9999; }

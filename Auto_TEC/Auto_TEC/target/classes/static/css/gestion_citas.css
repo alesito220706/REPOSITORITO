@@ -1,194 +1,151 @@
+/* =========================================================================
+   AUTO TEC | HYPERION V.5.0 - CORE UI ENGINE
+   ESTILO: DARK-MATTER / ZERO-WHITE
+   ========================================================================= */
 
-/* Importar los estilos base de admin */
-@import 'admin.css';
-/* Estilos específicos para la gestión de citas */
-.tabla-citas {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    overflow: hidden;
-    margin-top: 1.5rem;
-    box-shadow: var(--shadow-sm);
+:root {
+    --bg-base: #020202;
+    --bg-panel: #080808;
+    --bg-accent: #0f0f0f;
+    --border-depth: #1a1a1a;
+    --gold: #d4af37;
+    --gold-glow: rgba(212, 175, 55, 0.15);
+    --violet: #8b5cf6;
+    --text-primary: #e0e0e0;
+    --text-muted: #666666;
+    --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tabla-citas th {
-    background: var(--bg-light);
-    color: var(--color-primary);
-    font-weight: 600;
+/* 1. RESET Y ESTRUCTURA */
+body {
+    background-color: var(--bg-base) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.01em;
+}
+
+/* 2. CONTENEDORES CON EFECTO PROFUNDIDAD */
+.luxury-bento-box, .modal-content, .chart-container {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-depth) !important;
+    border-radius: 0 !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    position: relative;
+}
+
+/* Línea superior decorativa */
+.luxury-bento-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* 3. TABLA DE DATOS (ELITE DATA GRID) */
+.hyper-table {
+    width: 100%;
+    color: var(--text-primary);
+}
+
+.hyper-table thead th {
+    background: #050505 !important;
+    color: var(--gold) !important;
     text-transform: uppercase;
-    font-size: 0.9rem;
-    padding: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    padding: 1.5rem 1rem;
+    border-bottom: 2px solid var(--border-depth) !important;
 }
 
-.tabla-citas td {
-    padding: 1rem;
-    vertical-align: middle;
-    border-bottom: 1px solid var(--border-light);
+.hyper-table tbody tr {
+    transition: var(--transition);
+    border-bottom: 1px solid var(--border-depth);
 }
 
-.tabla-citas tbody tr {
-    transition: var(--transition-normal);
+.hyper-table tbody tr:hover {
+    background: rgba(255,255,255,0.02);
+    box-shadow: inset 5px 0 0 var(--gold);
 }
 
-.tabla-citas tbody tr:hover {
-    background: rgba(212, 175, 55, 0.05);
+/* 4. FORMULARIOS E INPUTS (PRECISION DESIGN) */
+.hyper-input {
+    background: var(--bg-accent) !important;
+    border: 1px solid var(--border-depth) !important;
+    color: var(--text-primary) !important;
+    padding: 0.8rem !important;
+    border-radius: 0 !important;
+    transition: var(--transition);
 }
 
-/* Estados de las citas */
-.estado-cita {
-    padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    font-weight: 500;
-    font-size: 0.875rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+.hyper-input:focus {
+    background: #151515 !important;
+    border-color: var(--gold) !important;
+    outline: none;
+    box-shadow: 0 0 15px var(--gold-glow);
 }
 
-.estado-cita i {
-    font-size: 0.75rem;
+/* 5. ETIQUETAS Y BADGES (ESTADOS) */
+.badge-status-system {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 0;
+    border: 1px solid transparent;
 }
 
-.estado-cita.pendiente {
-    background: rgba(234, 179, 8, 0.1);
-    color: #eab308;
-    border: 1px solid rgba(234, 179, 8, 0.2);
+.st-pendiente { border-color: #a16207; color: #fbbf24; background: rgba(161, 98, 7, 0.1); }
+.st-confirmada { border-color: #15803d; color: #4ade80; background: rgba(21, 128, 61, 0.1); }
+.st-completada { border-color: #6d28d9; color: #a78bfa; background: rgba(109, 40, 217, 0.1); }
+
+/* 6. BOTONES (MODO ACCIÓN) */
+.btn-hyper-primary {
+    background: var(--gold) !important;
+    color: #000 !important;
+    font-weight: 700;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0 !important;
+    text-transform: uppercase;
+    transition: var(--transition);
 }
 
-.estado-cita.confirmada {
-    background: rgba(34, 197, 94, 0.1);
-    color: #22c55e;
-    border: 1px solid rgba(34, 197, 94, 0.2);
+.btn-hyper-primary:hover {
+    background: #fff !important;
+    box-shadow: 0 0 20px var(--gold-glow);
 }
 
-.estado-cita.cancelada {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.2);
+.btn-hyper-secondary {
+    background: transparent !important;
+    border: 1px solid var(--border-depth) !important;
+    color: var(--text-primary) !important;
 }
 
-.estado-cita.completada {
-    background: rgba(168, 85, 247, 0.1);
-    color: var(--color-secondary);
-    border: 1px solid rgba(168, 85, 247, 0.2);
+.btn-hyper-secondary:hover {
+    border-color: var(--text-muted);
 }
 
-/* Modal de citas */
-.modal-cita {
-    /* tema oscuro */
-    background: rgba(11, 11, 13, 0.95);
-}
+/* 7. SCROLLBAR PERSONALIZADO (TERMINAL STYLE) */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border-depth); }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
-.modal-cita .modal-content {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    box-shadow: var(--shadow-md);
-}
-
-.modal-cita .modal-header {
-    border-bottom: 1px solid var(--border-light);
-    padding: 1rem;
-    background-color: var(--bg-light);
-}
-
-.modal-cita .modal-title {
-    color: var(--color-primary);
-    font-weight: 600;
-}
-
-.modal-cita .modal-body {
-    padding: 1.5rem;
-}
-
-.modal-cita .form-label {
-    color: var(--color-primary);
+/* 8. EFECTO DE LUZ SUTIL EN INPUTS */
+.luxury-label {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
     margin-bottom: 0.5rem;
-    font-weight: 500;
+    display: block;
 }
 
-.modal-cita .form-control {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--border-light);
-    color: var(--text-white);
+/* 9. DROPDOWNS Y MENÚS */
+.luxury-dropdown {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-depth) !important;
+    border-radius: 0 !important;
 }
 
-.modal-cita .form-control:focus {
-    border-color: var(--color-secondary);
-    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.1);
-}
-
-.modal-cita .modal-footer {
-    border-top: 1px solid var(--border-light);
-    padding: 1.5rem;
-}
-
-/* Calendario de citas */
-.calendario-citas {
-    background: var(--bg-white);
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow-sm);
-}
-
-.fc-theme-standard {
-    background: transparent;
-    border: none;
-}
-
-.fc-theme-standard th {
-    background: var(--bg-light);
-    border: none;
-    padding: 1rem;
-    color: var(--color-primary);
-}
-
-.fc-theme-standard td {
-    border: 1px solid var(--border-light);
-}
-
-.fc-daygrid-day-number {
-    color: var(--text-white);
-}
-
-.fc-daygrid-day.fc-day-today {
-    background: rgba(212, 175, 55, 0.1) !important;
-}
-
-.fc-event {
-    background: var(--gradient-primary);
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.25rem;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: var(--transition-normal);
-}
-
-.fc-event:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-/* Botones de acción */
-.btn-accion-cita {
-    width: 2.5rem;
-    height: 2.5rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.5rem;
-    margin: 0 0.25rem;
-    transition: var(--transition-normal);
-}
-
-.btn-accion-cita:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.btn-accion-cita i {
-    font-size: 1rem;
-}
+.dropdown-item { color: var(--text-primary) !important; }
+.dropdown-item:hover { background: var(--bg-accent) !important; color: var(--gold) !important; }
