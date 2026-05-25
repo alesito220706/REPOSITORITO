@@ -1,359 +1,220 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AutoTec Motors - Servicios</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <!-- Estilos externos -->
-  <link rel="stylesheet" href="/css/servicios.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio de Servicios | AutoTec Motors Elite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Urbanist:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/servicios.css">
 </head>
-<body>  
-  <div th:replace="fragments/header :: header"></div>
+<body>
 
-  <!-- Sección de Servicios -->
-  <div class="container my-5">
-    <h1 class="text-center mb-5">Nuestros Servicios Premium</h1>
-    <div class="row g-4">
-      <!-- Servicio 1 -->
-      <div class="col-md-4">
-        <div class="feature-card h-100">
-          <i class="fas fa-percent icon-service"></i>
-          <h5>Tasas Competitivas</h5>
-          <p>Intereses bajos diseñados para tu bolsillo.</p>
-          <button type="button" class="btn btn-details" data-bs-toggle="modal" data-bs-target="#modalTasas">
-            Ver Detalles
-          </button>
+    <div id="processingOverlay" class="processing-overlay" style="display:none;">
+        <div class="loader-content">
+            <div class="scanner-circle"></div>
+            <p class="mt-4">AUTENTICANDO ACCESO PATRIMONIAL...</p>
         </div>
-      </div>
-
-      <!-- Servicio 2 -->
-      <div class="col-md-4">
-        <div class="feature-card h-100">
-          <i class="fas fa-calendar-alt icon-service"></i>
-          <h5>Plazos Flexibles</h5>
-          <p>Hasta 72 meses para pagar cómodamente.</p>
-          <button type="button" class="btn btn-details" data-bs-toggle="modal" data-bs-target="#modalPlazos">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
-
-      <!-- Servicio 3 -->
-      <div class="col-md-4">
-        <div class="feature-card h-100">
-          <i class="fas fa-shield-alt icon-service"></i>
-          <h5>Seguros Incluidos</h5>
-          <p>Cobertura total contra robo, accidentes y más.</p>
-          <button type="button" class="btn btn-details" data-bs-toggle="modal" data-bs-target="#modalSeguros">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
-
-      <!-- Servicio 4 -->
-      <div class="col-md-4">
-        <div class="feature-card h-100">
-          <i class="fas fa-bolt icon-service"></i>
-          <h5>Aprobación Express</h5>
-          <p>Decisión en menos de 24 horas.</p>
-          <button type="button" class="btn btn-details" data-bs-toggle="modal" data-bs-target="#modalAprobacion">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
-
-      <!-- Servicio 5 -->
-      <div class="col-md-4">
-        <div class="feature-card h-100">
-          <i class="fas fa-tools icon-service"></i>
-          <h5>Mantenimiento Inicial</h5>
-          <p>Primer servicio gratuito al financiar.</p>
-          <button type="button" class="btn btn-details" data-bs-toggle="modal" data-bs-target="#modalMantenimiento">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
-
-      <!-- Servicio 6 -->
-      <div class="col-md-4">
-        <div class="feature-card h-100">
-          <i class="fas fa-headset icon-service"></i>
-          <h5>Soporte 24/7</h5>
-          <p>Asistencia personalizada en todo momento.</p>
-          <button type="button" class="btn btn-details" data-bs-toggle="modal" data-bs-target="#modalSoporte">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
     </div>
 
-    <!-- Botón para abrir Calculadora -->
-    <div class="text-center mt-5">
-      <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#cuotasModal">
-        <i class="fas fa-calculator me-2"></i>Calcular tus Cuotas
-      </button>
-    </div>
-  </div>
+    <div th:replace="fragments/header :: header"></div>
 
-  <!-- ========== MODAL: Tasas Competitivas ========== -->
-  <div class="modal fade" id="modalTasas" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-percent me-2"></i>Tasas Competitivas</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Nuestras tasas parten desde <strong>7.9% anual</strong>, las más bajas del mercado para financiamiento automotriz.</p>
-          <p>Incluimos opciones fijas y variables según tu perfil crediticio.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    <main class="container py-5 mt-5">
+        <header class="text-center mb-5">
+            <span class="gold-label">ENGINEERING EXCELLENCE</span>
+            <h1 class="luxury-title">SOLUCIONES <span class="thin">ELITE</span></h1>
+            <div class="luxury-divider"></div>
+        </header>
 
-  <!-- ========== MODAL: Plazos Flexibles ========== -->
-  <div class="modal fade" id="modalPlazos" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-calendar-alt me-2"></i>Plazos Flexibles</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Elige el plazo que mejor se adapte a ti:</p>
-          <ul>
-            <li>12 meses – Ideal para pagos rápidos</li>
-            <li>24-36 meses – Equilibrio entre cuota y plazo</li>
-            <li>48-72 meses – Cuotas más bajas</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== MODAL: Seguros Incluidos ========== -->
-  <div class="modal fade" id="modalSeguros" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-shield-alt me-2"></i>Seguros Incluidos</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Todos nuestros planes incluyen:</p>
-          <ul>
-            <li>Cobertura contra robo total</li>
-            <li>Daños por accidentes o desastres naturales</li>
-            <li>Asistencia vial 24/7</li>
-            <li>Protección de cristales y neumáticos</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== MODAL: Aprobación Express ========== -->
-  <div class="modal fade" id="modalAprobacion" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-bolt me-2"></i>Aprobación Express</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Con solo DNI y comprobante de ingresos, obtén una respuesta en:</p>
-          <p class="text-center display-6 fw-bold" style="color: #d4af37;">&lt; 24 horas</p>
-          <p>¡Sin trámites largos ni papeleos innecesarios!</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== MODAL: Mantenimiento Inicial ========== -->
-  <div class="modal fade" id="modalMantenimiento" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-tools me-2"></i>Mantenimiento Inicial Gratis</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Al financiar con AutoTec, recibes:</p>
-          <ul>
-            <li>Cambio de aceite y filtro</li>
-            <li>Revisión completa de frenos, luces y niveles</li>
-            <li>Diagnóstico electrónico gratuito</li>
-            <li>Válido en cualquiera de nuestras 25 sucursales</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== MODAL: Soporte 24/7 ========== -->
-  <div class="modal fade" id="modalSoporte" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-headset me-2"></i>Soporte 24/7</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>¿Tienes dudas o emergencias? Nuestro equipo está contigo:</p>
-          <p class="text-center">
-            <i class="fas fa-phone me-2"></i> <strong>+51 900-000-000</strong><br>
-            <i class="fas fa-envelope me-2"></i> soporte@autotecmotors.com
-          </p>
-          <p>Disponible los 365 días del año, en cualquier horario.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== MODAL: Calculadora de Cuotas (ya existente) ========== -->
-  <div class="modal fade" id="cuotasModal" tabindex="-1" aria-labelledby="cuotasModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="cuotasModalLabel">
-            <i class="fas fa-calculator me-2"></i>Calculadora de Cuotas
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="cuotasForm">
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="monto" class="form-label">
-                  <i class="fas fa-dollar-sign me-2"></i>Monto del Vehículo
-                </label>
-                <input type="number" class="form-control" id="monto" placeholder="Ej: 25000" min="1000" step="100" required>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="inicial" class="form-label">
-                  <i class="fas fa-money-bill-wave me-2"></i>Cuota Inicial
-                </label>
-                <input type="number" class="form-control" id="inicial" placeholder="Ej: 5000" min="0" step="100">
-              </div>
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4">
+                <div class="luxury-card highlight" onclick="activarTerminal()">
+                    <div class="card-status">RECOMENDADO</div>
+                    <i class="fas fa-landmark"></i>
+                    <h4>Asset Management</h4>
+                    <p>Estructuración financiera de alto impacto con tasas preferenciales del 4.25%.</p>
+                    <span class="btn-explore">CONFIGURAR INVERSIÓN <i class="fas fa-arrow-right ms-2"></i></span>
+                </div>
             </div>
+
+            <div class="col-lg-4">
+                <div class="luxury-card">
+                    <i class="fas fa-plane-luxury"></i>
+                    <h4>Global Logistics</h4>
+                    <p>Transporte transcontinental en contenedores climatizados y monitoreo satelital.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="luxury-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Ballistic Protection</h4>
+                    <p>Blindaje discreto de nivel 5 desarrollado con compuestos aeroespaciales.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="luxury-card">
+                    <i class="fas fa-palette"></i>
+                    <h4>Bespoke Atelier</h4>
+                    <p>Personalización ilimitada con materiales exóticos y metales preciosos.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="luxury-card">
+                    <i class="fas fa-flag-checkered"></i>
+                    <h4>Track Day Support</h4>
+                    <p>Gestión completa de telemetría y logística en circuitos internacionales.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="luxury-card">
+                    <i class="fas fa-warehouse-full"></i>
+                    <h4>Estate Storage</h4>
+                    <p>Almacenamiento con atmósfera controlada y protocolos de mantenimiento activo.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="luxury-card">
+                    <i class="fas fa-microchip"></i>
+                    <h4>Hyper Performance</h4>
+                    <p>Reprogramación de ECU y optimización de flujo de aire para potencias >1000 HP.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="vaultModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content asset-terminal">
+                <div class="terminal-header">
+                    <div class="status-indicator">
+                        <span class="pulse-dot"></span> ENCRYPTED TERMINAL V.2.6
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                
+                <div class="row g-0">
+                    <div class="col-lg-4 terminal-sidebar">
+                        <div class="portfolio-stats">
+                            <small class="text-gold">TOTAL ASSET VALUE</small>
+                            <h2 id="displayMonto">$1,000,000</h2>
+                            
+                            <div class="chart-container mt-4">
+                                <div class="composition-bar">
+                                    <div class="bar-principal" id="barPrinc"></div>
+                                    <div class="bar-interes" id="barInt"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <small><i class="fas fa-square text-white"></i> Capital</small>
+                                    <small><i class="fas fa-square text-gold"></i> Interés</small>
+                                </div>
+                            </div>
+
+                            <div class="terminal-data mt-5">
+                                <div class="data-row"><span>Tasa VIP</span><span class="text-gold">4.25%</span></div>
+                                <div class="data-row"><span>Cargo Gestión</span><span>0.00%</span></div>
+                                <div class="data-row"><span>Seguro Premium</span><span>Incluido</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 p-5">
+                        <h3 class="terminal-title mb-4">ENGINEERING <span class="text-gold">FINANCE</span></h3>
+                        
+                        <div class="mb-5">
+                            <label class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">VALOR DEL VEHÍCULO (USD)</span>
+                                <span class="text-gold fw-bold" id="rangeVal">$1,000,000</span>
+                            </label>
+                            <input type="range" class="luxury-range" id="rangeMonto" min="500000" max="10000000" step="50000" value="1000000">
+                        </div>
+
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <label class="small text-muted mb-3 d-block">PLAZO DE ESTRUCTURACIÓN</label>
+                                <div class="plazo-grid">
+                                    <button class="btn-plazo active" data-m="24">24M</button>
+                                    <button class="btn-plazo" data-m="48">48M</button>
+                                    <button class="btn-plazo" data-m="72">72M</button>
+                                    <button class="btn-plazo" data-m="120">120M</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="result-box">
+                                    <small>MEMBRESÍA MENSUAL</small>
+                                    <h2 id="finalCuota">$0</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn-apply" onclick="enviarProtocolo()">
+                            INICIAR PROTOCOLO DE ADQUISICIÓN
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 py-4 border-top border-secondary">
+        <div class="container text-center">
+            <p class="small text-muted mb-0">© 2026 AutoTec Motors. All Rights Reserved. Private Banking & Asset Logistics.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentPlazo = 24;
+        const modal = new bootstrap.Modal(document.getElementById('vaultModal'));
+        const range = document.getElementById('rangeMonto');
+
+        function activarTerminal() {
+            document.getElementById('processingOverlay').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('processingOverlay').style.display = 'none';
+                modal.show();
+                updateFinances();
+            }, 1800);
+        }
+
+        function updateFinances() {
+            const m = parseFloat(range.value);
+            const r = 0.0425 / 12; // 4.25% tasa
+            const n = currentPlazo;
             
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="plazo" class="form-label">
-                  <i class="fas fa-calendar me-2"></i>Plazo (meses)
-                </label>
-                <select class="form-select" id="plazo" required>
-                  <option value="">Seleccionar plazo</option>
-                  <option value="12">12 meses</option>
-                  <option value="24">24 meses</option>
-                  <option value="36">36 meses</option>
-                  <option value="48">48 meses</option>
-                  <option value="60">60 meses</option>
-                  <option value="72">72 meses</option>
-                </select>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="tasa" class="form-label">
-                  <i class="fas fa-percent me-2"></i>Tasa de Interés Anual (%)
-                </label>
-                <input type="number" class="form-control" id="tasa" placeholder="Ej: 8.5" min="0" max="50" step="0.1" value="8.5" required>
-              </div>
-            </div>
+            document.getElementById('rangeVal').innerText = `$${m.toLocaleString()}`;
+            document.getElementById('displayMonto').innerText = `$${m.toLocaleString()}`;
 
-            <button type="submit" class="btn btn-calculate w-100">
-              <i class="fas fa-calculator me-2"></i>Calcular Cuotas
-            </button>
-          </form>
+            const cuota = (m * r) / (1 - Math.pow(1 + r, -n));
+            const totalInterest = (cuota * n) - m;
+            const interestPercent = (totalInterest / (cuota * n)) * 100;
 
-          <div id="resultBox" class="result-box mt-4" style="display:none;">
-            <h5 class="text-center mb-4" style="color: #d4af37;">
-              <i class="fas fa-chart-line me-2"></i>Resultado del Cálculo
-            </h5>
-            <div class="result-item d-flex justify-content-between py-2">
-              <span class="result-label">Monto a Financiar:</span>
-              <span class="result-value" id="montoFinanciar">$0.00</span>
-            </div>
-            <div class="result-item d-flex justify-content-between py-2">
-              <span class="result-label">Cuota Mensual:</span>
-              <span class="result-value" id="cuotaMensual">$0.00</span>
-            </div>
-            <div class="result-item d-flex justify-content-between py-2">
-              <span class="result-label">Total de Intereses:</span>
-              <span class="result-value" id="totalIntereses">$0.00</span>
-            </div>
-            <div class="result-item d-flex justify-content-between py-2">
-              <span class="result-label">Total a Pagar:</span>
-              <span class="result-value" id="totalPagar">$0.00</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            document.getElementById('finalCuota').innerText = `$${Math.round(cuota).toLocaleString()}`;
+            document.getElementById('barInt').style.width = `${interestPercent}%`;
+            document.getElementById('barPrinc').style.width = `${100 - interestPercent}%`;
+        }
 
-  <!-- Footer -->
-  <footer class="text-center py-4 mt-5">
-    <p>© 2025 AutoTec Motors. Todos los derechos reservados.</p>
-  </footer>
+        document.querySelectorAll('.btn-plazo').forEach(btn => {
+            btn.onclick = (e) => {
+                document.querySelector('.btn-plazo.active').classList.remove('active');
+                e.target.classList.add('active');
+                currentPlazo = parseInt(e.target.dataset.m);
+                updateFinances();
+            };
+        });
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        range.oninput = updateFinances;
 
-  <!-- Script para Calculadora (opcional: agrégalo si lo usas) -->
-  <script>
-    document.getElementById('cuotasForm')?.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const monto = parseFloat(document.getElementById('monto').value) || 0;
-      const inicial = parseFloat(document.getElementById('inicial').value) || 0;
-      const plazo = parseInt(document.getElementById('plazo').value);
-      const tasa = parseFloat(document.getElementById('tasa').value) || 0;
-
-      if (!plazo) return;
-
-      const financiar = monto - inicial;
-      const tasaMensual = tasa / 100 / 12;
-      let cuota = 0;
-
-      if (tasaMensual > 0) {
-        cuota = financiar * (tasaMensual * Math.pow(1 + tasaMensual, plazo)) / (Math.pow(1 + tasaMensual, plazo) - 1);
-      } else {
-        cuota = financiar / plazo;
-      }
-
-      const totalPagar = cuota * plazo;
-      const totalIntereses = totalPagar - financiar;
-
-      document.getElementById('montoFinanciar').textContent = '$' + financiar.toFixed(2);
-      document.getElementById('cuotaMensual').textContent = '$' + cuota.toFixed(2);
-      document.getElementById('totalIntereses').textContent = '$' + totalIntereses.toFixed(2);
-      document.getElementById('totalPagar').textContent = '$' + totalPagar.toFixed(2);
-      
-      document.getElementById('resultBox').style.display = 'block';
-    });
-  </script>
+        function enviarProtocolo() {
+            const btn = document.querySelector('.btn-apply');
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> ENCRIPTANDO...';
+            setTimeout(() => { btn.innerHTML = 'PROTOCOLO ENVIADO'; btn.style.background = '#00ff00'; btn.style.color = 'black'; }, 2000);
+        }
+    </script>
 </body>
 </html>

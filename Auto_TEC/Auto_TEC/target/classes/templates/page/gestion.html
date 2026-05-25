@@ -1,252 +1,167 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AutoTec Motors - Gestión Empresarial</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- FontAwesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-
-  <!-- Tu CSS externo -->
-  <link rel="stylesheet" href="/css/gestion.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestión Elite | AutoTec Motors</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/gestion.css">
 </head>
 <body>
 
-  <!-- ====== NAVBAR ====== -->
-  <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/header :: header"></div> 
 
-  <!-- ====== CONTENIDO ====== -->
-  <section id="gestion" class="container py-5">
-    <h2 class="section-title text-center mb-5">Gestión Empresarial</h2>
-    <div class="row g-4">
-      <!-- Gerencia General -->
-      <div class="col-lg-4 col-md-6">
-        <div class="card">
-          <i class="fas fa-user-cog icon-card"></i>
-          <h5>Gerencia General</h5>
-          <p>Dirección estratégica y supervisión integral de operaciones.</p>
-          <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#modalGerencia">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
+    <div class="management-bg"></div>
 
-      <!-- Marketing -->
-      <div class="col-lg-4 col-md-6">
-        <div class="card">
-          <i class="fas fa-bullhorn icon-card"></i>
-          <h5>Marketing y Ventas</h5>
-          <p>Estrategias digitales, campañas y fidelización de clientes.</p>
-          <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#modalMarketing">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
+    <main class="management-wrapper py-5">
+        <header class="section-header container text-center mb-5">
+            <span class="top-tag">SISTEMA DE GESTIÓN EMPRESARIAL</span>
+            <h2 class="glitch-title">DIVISIÓN <span class="text-gold">CORPORATIVA</span></h2>
+            <div class="title-underline"></div>
+        </header>
 
-      <!-- Administración -->
-      <div class="col-lg-4 col-md-6">
-        <div class="card">
-          <i class="fas fa-calculator icon-card"></i>
-          <h5>Administración Financiera</h5>
-          <p>Contabilidad, presupuestos y análisis financiero.</p>
-          <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#modalAdmin">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
+        <section id="gestion" class="container">
+            <div class="row g-4 justify-content-center">
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="management-card card-gold">
+                        <div class="card-inner">
+                            <div class="icon-box">
+                                <i class="fas fa-user-shield"></i>
+                                <div class="icon-aura"></div>
+                            </div>
+                            <h5>Gerencia General</h5>
+                            <p>Dirección estratégica y supervisión general de activos.</p>
+                            <div class="card-footer-action">
+                                <button class="btn-neo" onclick="abrirTerminal('Gerencia General', 'admin@autotec.example')">
+                                    <span>CONTACTAR</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-border-glow"></div>
+                    </div>
+                </div>
 
-      <!-- Recursos Humanos -->
-      <div class="col-lg-4 col-md-6">
-        <div class="card">
-          <i class="fas fa-users icon-card"></i>
-          <h5>Recursos Humanos</h5>
-          <p>Reclutamiento, capacitación y bienestar del personal.</p>
-          <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#modalRRHH">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="management-card card-purple">
+                        <div class="card-inner">
+                            <div class="icon-box">
+                                <i class="fas fa-project-diagram"></i>
+                                <div class="icon-aura"></div>
+                            </div>
+                            <h5>Marketing</h5>
+                            <p>Promociones y estrategias de mercadeo global.</p>
+                            <div class="card-footer-action">
+                                <button class="btn-neo" onclick="abrirTerminal('Marketing', 'mkt@autotec.example')">
+                                    <span>CONSULTAR</span>
+                                    <i class="fas fa-search-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-border-glow"></div>
+                    </div>
+                </div>
 
-      <!-- Servicio Técnico -->
-      <div class="col-lg-4 col-md-6">
-        <div class="card">
-          <i class="fas fa-tools icon-card"></i>
-          <h5>Servicio Técnico</h5>
-          <p>Mantenimiento, diagnóstico y reparación especializada.</p>
-          <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#modalTecnico">
-            Ver Detalles
-          </button>
-        </div>
-      </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="management-card card-white">
+                        <div class="card-inner">
+                            <div class="icon-box">
+                                <i class="fas fa-calculator"></i>
+                                <div class="icon-aura"></div>
+                            </div>
+                            <h5>Administración</h5>
+                            <p>Contabilidad y gestión operativa administrativa.</p>
+                            <div class="card-footer-action">
+                                <button class="btn-neo" onclick="abrirTerminal('Administración', 'admin@autotec.example')">
+                                    <span>CONSULTAR</span>
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-border-glow"></div>
+                    </div>
+                </div>
 
-      <!-- Logística -->
-      <div class="col-lg-4 col-md-6">
-        <div class="card">
-          <i class="fas fa-truck icon-card"></i>
-          <h5>Logística y Almacén</h5>
-          <p>Gestión de inventario, repuestos y distribución eficiente.</p>
-          <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#modalLogistica">
-            Ver Detalles
-          </button>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal fade" id="terminalModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content elite-terminal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-terminal me-2"></i> <span id="terminalTitle">PROTOCOLO</span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="terminalForm">
+                        <div class="mb-4">
+                            <label class="terminal-label">DESTINATARIO DEPARTAMENTAL</label>
+                            <input type="text" id="terminalDest" class="form-control terminal-input" readonly>
+                        </div>
+                        <div class="mb-4">
+                            <label class="terminal-label">MENSAJE ENCRIPTADO</label>
+                            <textarea id="terminalMsg" class="form-control terminal-input" rows="4" placeholder="Escriba aquí su requerimiento..." required></textarea>
+                        </div>
+                        <button type="submit" id="btnSubmitTerminal" class="btn-terminal-submit">
+                            INICIAR TRANSMISIÓN
+                        </button>
+                    </form>
+                    <div id="loaderTerminal" class="terminal-loader" style="display:none;">
+                        <div class="spinner-border text-warning" role="status"></div>
+                        <p class="mt-3">ESTABLECIENDO CONEXIÓN SEGURA...</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
 
-  <!-- ========== MODAL: Gerencia General ========== -->
-  <div class="modal fade" id="modalGerencia" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-user-cog me-2"></i>Gerencia General</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Dirigida por el Director Ejecutivo, esta área supervisa:</p>
-          <ul>
-            <li>Visión estratégica a 5 años</li>
-            <li>Cumplimiento normativo y legal</li>
-            <li>Relación con socios e inversionistas</li>
-            <li>Coordinación entre todos los departamentos</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
+    <div id="hudNotify" class="hud-notification">
+        <i class="fas fa-broadcast-tower"></i> <span id="hudMsg">TRANSMISIÓN EXITOSA</span>
     </div>
-  </div>
 
-  <!-- ========== MODAL: Marketing ========== -->
-  <div class="modal fade" id="modalMarketing" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-bullhorn me-2"></i>Marketing y Ventas</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Nuestro equipo impulsa la marca con:</p>
-          <ul>
-            <li>Campañas en redes sociales y Google Ads</li>
-            <li>Eventos de lanzamiento y pruebas de manejo</li>
-            <li>Programas de fidelización (AutoTec Club)</li>
-            <li>Análisis de mercado y tendencias</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- ========== MODAL: Administración ========== -->
-  <div class="modal fade" id="modalAdmin" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-calculator me-2"></i>Administración Financiera</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Área clave para la salud financiera de AutoTec:</p>
-          <ul>
-            <li>Control de ingresos y egresos</li>
-            <li>Elaboración de estados financieros</li>
-            <li>Gestión de impuestos y declaraciones</li>
-            <li>Asesoría en financiamiento para clientes</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    <script>
+        const terminalModal = new bootstrap.Modal(document.getElementById('terminalModal'));
+        const form = document.getElementById('terminalForm');
+        const loader = document.getElementById('loaderTerminal');
+        const btnSubmit = document.getElementById('btnSubmitTerminal');
 
-  <!-- ========== MODAL: RRHH ========== -->
-  <div class="modal fade" id="modalRRHH" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-users me-2"></i>Recursos Humanos</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Nos aseguramos de tener el mejor talento:</p>
-          <ul>
-            <li>Selección de personal técnico y administrativo</li>
-            <li>Capacitaciones mensuales en tecnología automotriz</li>
-            <li>Programas de bienestar y bonos por desempeño</li>
-            <li>Cultura organizacional premium</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        function abrirTerminal(depto, email) {
+            document.getElementById('terminalTitle').innerText = `PROTOCOLO: ${depto.toUpperCase()}`;
+            document.getElementById('terminalDest').value = email;
+            terminalModal.show();
+        }
 
-  <!-- ========== MODAL: Servicio Técnico ========== -->
-  <div class="modal fade" id="modalTecnico" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-tools me-2"></i>Servicio Técnico</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Contamos con:</p>
-          <ul>
-            <li>Técnicos certificados por marcas premium</li>
-            <li>Equipos de diagnóstico de última generación</li>
-            <li>Taller con 12 bahías de servicio</li>
-            <li>Repuestos originales con garantía</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Efecto de carga
+            form.style.opacity = '0.2';
+            form.style.pointerEvents = 'none';
+            loader.style.display = 'block';
 
-  <!-- ========== MODAL: Logística ========== -->
-  <div class="modal fade" id="modalLogistica" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class "modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fas fa-truck me-2"></i>Logística y Almacén</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Gestionamos eficientemente:</p>
-          <ul>
-            <li>Inventario de +10,000 repuestos</li>
-            <li>Abastecimiento diario a todas las sucursales</li>
-            <li>Sistema de trazabilidad en tiempo real</li>
-            <li>Alianzas con transportistas especializados</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+            setTimeout(() => {
+                loader.style.display = 'none';
+                form.style.opacity = '1';
+                form.style.pointerEvents = 'all';
+                form.reset();
+                terminalModal.hide();
+                
+                lanzarNotificacion("SOLICITUD PROCESADA POR EL NÚCLEO");
+            }, 2000);
+        });
 
-  <!-- ====== FOOTER ====== -->
-  <footer class="text-center py-4 mt-5">
-    <p>&copy; 2025 AutoTec Motors - Todos los derechos reservados</p>
-    <p class="text-muted">Concesionario autorizado | Servicio técnico especializado | Financiamiento disponible</p>
-  </footer>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        function lanzarNotificacion(msg) {
+            const toast = document.getElementById('hudNotify');
+            document.getElementById('hudMsg').innerText = msg;
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 4000);
+        }
+    </script>
 </body>
 </html>

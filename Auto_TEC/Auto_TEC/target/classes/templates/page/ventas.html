@@ -1,116 +1,193 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AutoTec Motors - Ventas</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- FontAwesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <!-- Estilos externos -->
-  <!-- Mantener estilos específicos de ventas, pero cargar el tema principal (index) después
-       para que los colores y el diseño global prevalezcan. -->
-  <link rel="stylesheet" href="/css/ventas.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ventas & Adquisiciones | AutoTec Motors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Urbanist:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/ventas.css" />
 </head>
 <body>
-  <!-- ====== NAVBAR ====== -->
-<div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/header :: header"></div>
 
-  <!-- Contenido -->
-  <main>
-    <section id="ventas" class="container my-5">
-      <h2 class="display-6">Departamento de Ventas</h2>
-      <div class="card">
-        <h4 class="mb-4">Nuestro Equipo de Ventas</h4>
-        <div class="row mb-4 g-4">
-          <div class="col-md-6 d-flex gap-3 align-items-center">
-            <div class="bg-warning rounded-circle p-3 text-dark">
-              <i class="fas fa-user-tie fa-lg"></i>
-            </div>
-            <div>
-              <strong>Gerente de Ventas</strong>
-              <p class="mb-0">Supervisión y estrategias</p>
-            </div>
-          </div>
-          <div class="col-md-6 d-flex gap-3 align-items-center">
-            <div class="bg-warning rounded-circle p-3 text-dark">
-              <i class="fas fa-handshake fa-lg"></i>
-            </div>
-            <div>
-              <strong>Asesores de Ventas</strong>
-              <p class="mb-0">Atención personalizada</p>
-            </div>
-          </div>
+    <div class="live-comments-bar">
+        <div class="marquee">
+            <span><i class="fas fa-circle text-success me-2"></i> @Client_Alpha: "Kit de frenos cerámicos recibido en Múnich. Excelente empaque."</span>
+            <span><i class="fas fa-circle text-success me-2"></i> @TechPro: "El software de reprogramación Stage 3 funciona impecable."</span>
+            <span><i class="fas fa-circle text-success me-2"></i> @Collector_X: "Reserva confirmada para el Hypercar 2026. Trato impecable."</span>
+            <span><i class="fas fa-circle text-success me-2"></i> @AutoService: "Stock de turbocompresores verificado por el sistema."</span>
+            <span><i class="fas fa-circle text-success me-2"></i> @Executive_V: "Cotización de flota blindada procesada en tiempo récord."</span>
         </div>
-        <hr />
-
-        <div class="d-flex gap-3 mb-4 flex-wrap">
-          <button class="btn btn-gradient" type="button" onclick="mostrarFormularioCotizacion()">Solicitar Cotización</button>
-          <button class="btn btn-outline-primary" type="button" onclick="mostrarAgendaVentas()">Agendar Cita</button>
-        </div>
-
-        <!-- Formulario Cotización -->
-        <div id="formContainerVentas" style="display:none;">
-          <h5 class="mb-3 fw-bold">Completa tus datos</h5>
-          <form id="formCotizacionVentas" novalidate>
-            <div class="mb-3">
-              <label for="ventasNombre">Nombre</label>
-              <input type="text" id="ventasNombre" class="form-control" placeholder="Tu nombre completo" required />
-              <div class="invalid-feedback">Por favor, ingresa tu nombre.</div>
-            </div>
-            <div class="mb-3">
-              <label for="ventasModelo">Modelo del Vehículo</label>
-              <input type="text" id="ventasModelo" class="form-control" placeholder="Modelo del vehículo" required />
-              <div class="invalid-feedback">Por favor, ingresa el modelo.</div>
-            </div>
-            <div class="mb-3">
-              <label for="ventasPrecio">Precio del Vehículo ($)</label>
-              <input type="number" id="ventasPrecio" min="1" class="form-control" placeholder="Precio total en dólares" required />
-              <div class="invalid-feedback">Por favor, ingresa un precio válido.</div>
-            </div>
-            <div class="mb-3">
-              <label for="ventasCuota">Cuota Inicial ($)</label>
-              <input type="number" id="ventasCuota" min="0" class="form-control" placeholder="Monto de cuota inicial" required />
-              <div class="invalid-feedback">Por favor, ingresa una cuota válida.</div>
-            </div>
-            <div class="mb-3">
-              <label for="ventasMeses">Plazo en Meses</label>
-              <input type="number" id="ventasMeses" min="1" class="form-control" placeholder="Número de meses para financiar" required />
-              <div class="invalid-feedback">Por favor, ingresa un plazo válido.</div>
-            </div>
-            <button type="submit" class="btn btn-gradient w-100">Calcular Cuota</button>
-          </form>
-          <div id="ventasResultado" style="display:none;"></div>
-        </div>
-
-       
-       <div id="agendaContainerVentas">
-         <div class="card p-4 text-center border-primary bg-light">
-          <h4 class="mb-3 text-primary"><i class="fas fa-lock me-2"></i>Servicio Exclusivo</h4>
-    <p>Para agendar una cita de venta o servicio, por favor **inicia sesión** o **regístrate** primero.</p>
-    <div sec:authorize="isAuthenticated()">
-      ¡Hola, <strong sec:authentication="name"></strong>! 
-      <a th:href="@{/auth/logout}">Cerrar Sesión</a>
     </div>
-    <div sec:authorize="!isAuthenticated()">
-      <a th:href="@{/auth/login}">Iniciar Sesión</a>
-      <a th:href="@{/auth/registro}">Registrarse</a>
-</div>
- </div>
-</div>
-    </section>
-  </main>
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 AutoTec Motors - Todos los derechos reservados</p>
-    <p>Concesionario autorizado | Servicio técnico especializado | Financiamiento disponible</p>
-  </footer>
+    <main class="container py-5">
+        <header class="text-center mb-5 mt-4">
+            <span class="gold-label">PREMIUM ASSET DIVISION</span>
+            <h1 class="luxury-title">VENTAS & <span class="thin">REPUESTOS</span></h1>
+            <div class="luxury-divider"></div>
+        </header>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/ventas.js"></script>
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="luxury-card h-100">
+                    <h4 class="section-subtitle"><i class="fas fa-microchip me-2"></i>Componentes de Alto Rendimiento</h4>
+                    <p class="text-muted small">Suministramos repuestos originales y upgrades de grado competición.</p>
+                    
+                    <div class="parts-grid mt-4">
+                        <div class="part-item">
+                            <i class="fas fa-compact-disc"></i>
+                            <span>Frenos</span>
+                        </div>
+                        <div class="part-item">
+                            <i class="fas fa-wind"></i>
+                            <span>Turbos</span>
+                        </div>
+                        <div class="part-item">
+                            <i class="fas fa-memory"></i>
+                            <span>ECU</span>
+                        </div>
+                        <div class="part-item">
+                            <i class="fas fa-oil-can"></i>
+                            <span>Fluidos</span>
+                        </div>
+                    </div>
+
+                    <div class="team-section mt-5">
+                        <h4 class="section-subtitle">Protocolo de Atención</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="team-badge">
+                                    <div class="icon-box"><i class="fas fa-user-tie"></i></div>
+                                    <div>
+                                        <strong>Gerencia Ventas</strong>
+                                        <p class="mb-0 small opacity-50">Estrategias Globales</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="team-badge">
+                                    <div class="icon-box"><i class="fas fa-handshake"></i></div>
+                                    <div>
+                                        <strong>Asesores Elite</strong>
+                                        <p class="mb-0 small opacity-50">Soporte Concierge</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="luxury-card border-gold">
+                    <div class="terminal-action mb-4">
+                        <button class="btn-terminal" onclick="mostrarFormularioCotizacion()">
+                            <i class="fas fa-calculator me-2"></i>ACTIVAR TERMINAL DE COTIZACIÓN
+                        </button>
+                    </div>
+
+                    <div id="formContainerVentas" class="terminal-form-box" style="display:none;">
+                        <form id="formCotizacionVentas">
+                            <div class="mb-3">
+                                <label class="tech-label">IDENTIFICACIÓN DEL TITULAR</label>
+                                <input type="text" id="ventasNombre" class="form-control tech-input" placeholder="Nombre completo" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="tech-label">ACTIVO O NÚMERO DE PARTE</label>
+                                <input type="text" id="ventasModelo" class="form-control tech-input" placeholder="Ej. Motor V12 / McLaren 720S" required />
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="tech-label">PRECIO (USD)</label>
+                                    <input type="number" id="ventasPrecio" class="form-control tech-input" placeholder="0.00" required />
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="tech-label">INICIAL (USD)</label>
+                                    <input type="number" id="ventasCuota" class="form-control tech-input" placeholder="0.00" required />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="tech-label">PLAZO DE ESTRUCTURACIÓN</label>
+                                <select id="ventasMeses" class="form-select tech-input">
+                                    <option value="12">12 Meses</option>
+                                    <option value="24" selected>24 Meses</option>
+                                    <option value="48">48 Meses</option>
+                                    <option value="60">60 Meses</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-calculate">PROCESAR ADQUISICIÓN</button>
+                        </form>
+                        <div id="ventasResultado" class="mt-4" style="display:none;"></div>
+                    </div>
+
+                    <div class="auth-section mt-4">
+                        <div class="auth-card">
+                            <h5 class="small fw-bold"><i class="fas fa-lock me-2 text-gold"></i>RESERVAS EXCLUSIVAS</h5>
+                            <p class="x-small text-muted">Autentíquese para acceder a la agenda del servicio técnico.</p>
+                            <div class="d-flex gap-2">
+                                <a th:href="@{/auth/login}" class="btn-auth-outline">LOGIN</a>
+                                <a th:href="@{/auth/registro}" class="btn-auth-gold">REGISTRO</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer-luxury">
+        <p>© 2026 AutoTec Motors - Luxury Asset Management</p>
+        <p class="small text-muted">Ventas | Repuestos | Blindaje | Logística Global</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function mostrarFormularioCotizacion() {
+            const container = document.getElementById('formContainerVentas');
+            if (container.style.display === 'none' || container.style.display === '') {
+                container.style.display = 'block';
+                container.classList.add('fade-in');
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        document.getElementById('formCotizacionVentas').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('ventasNombre').value;
+            const modelo = document.getElementById('ventasModelo').value;
+            const precio = parseFloat(document.getElementById('ventasPrecio').value);
+            const inicial = parseFloat(document.getElementById('ventasCuota').value);
+            const meses = parseInt(document.getElementById('ventasMeses').value);
+            const res = document.getElementById('ventasResultado');
+
+            if (inicial >= precio) {
+                alert("La inversión inicial debe ser menor al precio total.");
+                return;
+            }
+
+            const tasaMensual = 0.0425 / 12;
+            const monto = precio - inicial;
+            const cuota = (monto * tasaMensual) / (1 - Math.pow(1 + tasaMensual, -meses));
+
+            res.style.display = 'block';
+            res.innerHTML = `
+                <div class="report-ticket">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-gold text-dark">ESTIMACIÓN APROBADA</span>
+                        <i class="fas fa-check-circle text-success"></i>
+                    </div>
+                    <h6>${modelo.toUpperCase()}</h6>
+                    <div class="d-flex justify-content-between mt-3 border-top border-secondary pt-2">
+                        <span>PAGO MENSUAL:</span>
+                        <span class="text-gold fw-bold">$${cuota.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+                    </div>
+                    <small class="x-small text-muted mt-2 d-block">* Tasa preferencial del 4.25% anual aplicada.</small>
+                </div>
+            `;
+        });
+    </script>
 </body>
 </html>

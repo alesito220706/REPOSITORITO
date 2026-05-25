@@ -1,155 +1,98 @@
-/* ====== ESTILOS GENERALES ====== */
+:root {
+    --gold: #d4af37;
+    --dark: #030303;
+    --surface: #0a0a0a;
+}
+
 body {
-  font-family: "Poppins", sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
-  margin: 0;
-  padding: 0;
+    background-color: var(--dark);
+    color: #e0e0e0;
+    font-family: 'Urbanist', sans-serif;
+    letter-spacing: 0.5px;
 }
 
-h2.display-6 {
-  font-weight: 600;
-  color: #0d6efd;
-  text-align: center;
-  margin-bottom: 2rem;
+/* MARQUEE ACTIVITY */
+.live-comments-bar {
+    background: #000;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 12px 0;
+    overflow: hidden;
+}
+.marquee {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 40s linear infinite;
+}
+.marquee span {
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-right: 60px;
+    color: #888;
+    text-transform: uppercase;
 }
 
-/* ====== NAVBAR (fragmento) ====== */
-header.navbar {
-  background-color: #0d6efd !important;
-}
-header.navbar a {
-  color: #fff !important;
-  font-weight: 500;
-}
-header.navbar a:hover {
-  color: #ffc107 !important;
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
 }
 
-/* ====== CONTENEDOR PRINCIPAL ====== */
-main {
-  min-height: 80vh;
+/* TITULOS */
+.luxury-title { font-family: 'Cinzel', serif; font-size: 3rem; letter-spacing: 10px; font-weight: 700; }
+.thin { font-weight: 300; color: #555; }
+.gold-label { color: var(--gold); font-size: 0.7rem; font-weight: 900; letter-spacing: 4px; }
+.luxury-divider { width: 60px; height: 2px; background: var(--gold); margin: 25px auto; }
+
+/* CARDS */
+.luxury-card {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 40px;
+    border-radius: 0;
 }
+.border-gold { border: 1px solid var(--gold) !important; }
+.section-subtitle { font-family: 'Cinzel', serif; font-size: 1.1rem; margin-bottom: 20px; color: var(--gold); }
 
-/* ====== TARJETAS ====== */
-.card {
-  border: none;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  padding: 2rem;
-  background: #fff;
+/* GRID DE REPUESTOS */
+.parts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+.part-item {
+    background: #000;
+    border: 1px solid #1a1a1a;
+    padding: 20px 10px;
+    text-align: center;
+    transition: 0.3s;
 }
+.part-item i { font-size: 1.5rem; color: var(--gold); display: block; margin-bottom: 10px; }
+.part-item span { font-size: 0.65rem; font-weight: 900; color: #aaa; text-transform: uppercase; }
+.part-item:hover { border-color: var(--gold); background: #0d0d0d; transform: scale(1.05); }
 
-.card-header {
-  border-radius: 12px 12px 0 0;
+/* TEAM BADGE */
+.team-badge { display: flex; align-items: center; gap: 15px; background: #000; padding: 15px; border: 1px solid #1a1a1a; }
+.icon-box { width: 45px; height: 45px; background: rgba(212,175,55,0.1); border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); }
+
+/* FORMULARIOS TERMINAL */
+.btn-terminal {
+    width: 100%; padding: 15px; background: transparent; border: 1px solid var(--gold);
+    color: var(--gold); font-weight: 900; letter-spacing: 2px; transition: 0.3s;
 }
+.btn-terminal:hover { background: var(--gold); color: black; }
 
-/* ====== BOTONES ====== */
-.btn-gradient {
-  background: linear-gradient(90deg, #0d6efd, #6610f2);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.25rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
+.tech-label { font-size: 0.6rem; letter-spacing: 2px; color: #555; margin-bottom: 8px; font-weight: 900; }
+.tech-input { background: #000 !important; border: 1px solid #222 !important; color: white !important; border-radius: 0 !important; font-size: 0.85rem; padding: 12px; }
+.tech-input:focus { border-color: var(--gold) !important; box-shadow: none !important; }
 
-.btn-gradient:hover {
-  background: linear-gradient(90deg, #6610f2, #0d6efd);
-  transform: scale(1.05);
-  color: #fff;
-}
+.btn-calculate { width: 100%; padding: 18px; background: var(--gold); color: black; border: none; font-weight: 900; letter-spacing: 2px; margin-top: 10px; transition: 0.3s; }
+.btn-calculate:hover { background: white; transform: scale(1.02); }
 
-.btn-outline-primary {
-  border-radius: 8px;
-  font-weight: 500;
-}
+/* RESULT TICKET */
+.report-ticket { background: #111; padding: 25px; border-left: 4px solid var(--gold); animation: slideUp 0.4s ease; }
+.bg-gold { background-color: var(--gold); }
+.x-small { font-size: 0.6rem; }
 
-/* ====== ICONOS EN CÍRCULOS ====== */
-.bg-warning.rounded-circle {
-  width: 60px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-}
+/* AUTH SECTION */
+.auth-card { background: #000; padding: 20px; border: 1px solid #1a1a1a; text-align: center; }
+.btn-auth-outline { flex: 1; padding: 10px; border: 1px solid #444; color: white; text-decoration: none; font-size: 0.7rem; font-weight: 900; }
+.btn-auth-gold { flex: 1; padding: 10px; background: var(--gold); color: black; text-decoration: none; font-size: 0.7rem; font-weight: 900; }
 
-/* ====== FORMULARIOS ====== */
-form label {
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-}
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-form input,
-form select,
-form textarea {
-  border-radius: 8px;
-  border: 1px solid #ced4da;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-form input:focus,
-form select:focus,
-form textarea:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-}
-
-/* ====== RESULTADO DE COTIZACIÓN ====== */
-#ventasResultado {
-  margin-top: 1.5rem;
-  background-color: #e9f7ef;
-  border: 1px solid #a1e3af;
-  padding: 1rem;
-  border-radius: 8px;
-  color: #155724;
-  font-weight: 500;
-}
-
-/* ====== SECCIÓN DE INFORMACIÓN ====== */
-.card-body ul li {
-  margin: 0.5rem 0;
-  font-size: 0.95rem;
-}
-
-.card-body ul li i {
-  width: 20px;
-}
-
-/* ====== FOOTER ====== */
-footer {
-  background: #0d6efd;
-  color: white;
-  text-align: center;
-  padding: 1.5rem 0;
-  margin-top: 4rem;
-  font-size: 0.9rem;
-}
-
-footer p {
-  margin: 0.3rem 0;
-}
-
-/* ====== RESPONSIVE ====== */
-@media (max-width: 768px) {
-  .btn-gradient,
-  .btn-outline-primary {
-    width: 100%;
-  }
-
-  .card {
-    padding: 1.5rem;
-  }
-
-  h2.display-6 {
-    font-size: 1.8rem;
-  }
-
-  .bg-warning.rounded-circle {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
-  }
-}
+footer.footer-luxury { padding: 40px 0; text-align: center; border-top: 1px solid #111; margin-top: 60px; background: #000; }

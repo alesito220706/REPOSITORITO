@@ -1,6 +1,8 @@
 package com.organization.Auto_TEC.Service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -14,18 +16,30 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Logger;
 
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
+    private static final Logger logger = Logger.getLogger(JwtService.class.getName());
+
+    // Se agrega un valor por defecto tras los ":" para evitar errores de inyección
+    @Value("${jwt.secret:UsIpuXd1FqMS3Nduu5WbiMrOq8qdZQAr}")
     private String secretKey;
 
-    @Value("${jwt.expiration}")
+    @Value("${jwt.expiration:86400000}")
     private long jwtExpiration;
 
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        try {
+            return extractClaim(token, Claims::getSubject);
+        } catch (ExpiredJwtException e) {
+            logger.warning("Token expirado: " + e.getMessage());
+            return null;
+        } catch (JwtException e) {
+            logger.warning("Token inválido: " + e.getMessage());
+            return null;
+        }
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -48,12 +62,21 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        try {
+            final String username = extractUsername(token);
+            return (username != null && username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        } catch (Exception e) {
+            logger.warning("Error validando token: " + e.getMessage());
+            return false;
+        }
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        try {
+            return extractExpiration(token).before(new Date());
+        } catch (ExpiredJwtException e) {
+            return true;
+        }
     }
 
     private Date extractExpiration(String token) {
@@ -69,7 +92,12 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+        try {
+            byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+            return Keys.hmacShaKeyFor(keyBytes);
+        } catch (IllegalArgumentException e) {
+            // Si la clave no es Base64 válida, usa los bytes directos
+            return Keys.hmacShaKeyFor(secretKey.getBytes());
+        }
     }
 }

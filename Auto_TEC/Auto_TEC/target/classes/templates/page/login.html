@@ -2,38 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login - AutoTec Motors</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Access - AutoTec Motors</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-    <div th:fragment="loginForm">
-        <div class="login-container">
-            <a href="/index" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
-            <h1><i class="fas fa-user-circle"></i> Iniciar Sesión</h1>
-            <form method="post" action="/auth/login" class="login-form">
-                <div class="input-group">
-                    <span class="input-icon"><i class="fas fa-user"></i></span>
-                    <input type="text" name="username" placeholder="Usuario" required>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <div class="auth-wrapper">
+        <div class="login-card-elite">
+            <div class="card-glow"></div>
+            
+            <a href="/" class="btn-back-minimal">
+                <i class="fas fa-chevron-left"></i> <span>Protocolo de Retorno</span>
+            </a>
+
+            <header class="login-header">
+                <div class="logo-aura">
+                    <i class="fas fa-crown"></i>
                 </div>
-                <div class="input-group">
-                    <span class="input-icon"><i class="fas fa-lock"></i></span>
-                    <input type="password" name="password" placeholder="Contraseña" required>
+                <h1>ELITE <span class="text-gradient">ACCESS</span></h1>
+                <p class="subtitle">Identificación de Usuario Autorizado</p>
+            </header>
+
+            <form th:action="@{/login}" method="post" class="innovative-form">
+                
+                <div class="input-field">
+                    <input type="text" name="username" id="username" required placeholder=" ">
+                    <label for="username"><i class="fas fa-user-ninja"></i> Identificador</label>
+                    <div class="input-bar"></div>
                 </div>
-                <button type="submit" class="btn-login">Ingresar <i class="fas fa-sign-in-alt"></i></button>
-                <div th:if="${param.error}" style="color:#ff6b6b">Credenciales inválidas</div>
-                <div th:if="${param.logout}" style="color:#4caf50">Sesión cerrada</div>
-                <div th:if="${param.registroExitoso}" style="color:#4caf50">
-                    ¡Registro exitoso! Por favor inicia sesión.
+
+                <div class="input-field">
+                    <input type="password" name="password" id="password" required placeholder=" ">
+                    <label for="password"><i class="fas fa-key"></i> Clave Maestra</label>
+                    <div class="input-bar"></div>
                 </div>
-                <div th:if="${param.accessDenied}" style="color:#ff6b6b">
-                    No tienes permisos para acceder a esa página.
+
+                <div class="system-messages">
+                    <div th:if="${param.error}" class="msg error"><i class="fas fa-exclamation-triangle"></i> Acceso Denegado</div>
+                    <div th:if="${param.logout}" class="msg success"><i class="fas fa-check-circle"></i> Sesión Finalizada</div>
                 </div>
+
+                <button type="submit" class="btn-hyper-action">
+                    <span class="btn-text">DESBLOQUEAR</span>
+                    <i class="fas fa-unlock-alt"></i>
+                </button>
             </form>
-            <p th:if="${error}" style="color:red;" th:text="${error}"></p>
-            <p>¿No tienes cuenta? <a href="/auth/registro">Regístrate</a></p>
+
+            <footer class="login-footer">
+                <p>¿Sin credenciales? <a href="/registro" class="link-glow">Crear Perfil</a></p>
+            </footer>
         </div>
     </div>
 </body>

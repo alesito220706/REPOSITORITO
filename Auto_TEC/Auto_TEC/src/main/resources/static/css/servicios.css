@@ -1,144 +1,76 @@
- /* --- Estilos base --- */
-   html, body {
-      background-color: #0a0a0a;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      height: 100%;
-  margin: 0;
-  padding: 0;
-    }
+:root {
+    --gold: #d4af37;
+    --dark: #030303;
+    --card-bg: #0a0a0a;
+    --glass: rgba(255, 255, 255, 0.02);
+}
+
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+    background-color: var(--dark);
+    color: #fff;
+    font-family: 'Urbanist', sans-serif;
+    overflow-x: hidden;
 }
 
-    /* --- Navbar --- */
-    .navbar {
-      background: #000;
-      border-bottom: 2px solid #d4af37; /* dorado */
-      box-shadow: 0 0 20px rgba(212,175,55,0.5);
-    }
-/* --- logo --- */
-    .navbar-brand {
-      color: #d4af37 !important;
-      font-weight: bold;
-      font-size: 1.3rem;
-      margin-left: 50px;/* ---ajusta el texto--- */
-      
-    }
+/* Tipografía y Header */
+.luxury-title { font-family: 'Cinzel', serif; font-size: 3.5rem; letter-spacing: 12px; margin-bottom: 0; }
+.luxury-title .thin { color: #444; font-weight: 300; }
+.gold-label { color: var(--gold); font-size: 0.7rem; letter-spacing: 6px; font-weight: 900; }
+.luxury-divider { width: 80px; height: 2px; background: var(--gold); margin: 30px auto; }
 
-    .navbar-brand i {
-      margin-right: 8px;
-      color: #a855f7; /* morado */
-    }
-.navbar-toggler {
-  margin-left: 20px; /* Mueve el botón a la derecha */
-  
-}
-/* --- Offcanvas personalizado --- */
-.offcanvas {
-  background: #161613 !important;
-  border-right: 2px solid #a855f7;
-  box-shadow: 0 0 20px rgba(168,85,247,0.2);
+/* Cards de Lujo */
+.luxury-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    padding: 50px 30px;
+    transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    height: 100%;
+    cursor: pointer;
+    position: relative;
 }
 
-.offcanvas-header {
-  background: #10141f;
-  color: #222;
-  border-bottom: 1px solid #a855f7;
+.luxury-card i { font-size: 2.2rem; color: var(--gold); margin-bottom: 30px; display: block; }
+.luxury-card h4 { font-family: 'Cinzel', serif; font-size: 1.1rem; margin-bottom: 20px; letter-spacing: 2px; }
+.luxury-card p { font-size: 0.85rem; color: #666; line-height: 1.8; font-weight: 300; }
+
+.luxury-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    background: #0d0d0d;
 }
 
-.offcanvas-title {
-  color: #d4af37;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+.luxury-card.highlight { border: 1px solid var(--gold); }
+.card-status { position: absolute; top: 15px; right: 15px; background: var(--gold); color: black; font-size: 0.5rem; font-weight: 900; padding: 4px 10px; }
 
-.offcanvas .dropdown-item {
-  color: #f5f5f5 !important;
-  font-weight: 500;
-  border-radius: 6px;
-  margin-bottom: 4px;
-  transition: all 0.3s;
-  padding: 10px 18px;
-}
+/* Terminal de Activos (Modal) */
+.asset-terminal { background: #000; border: 1px solid var(--gold); border-radius: 0; }
+.terminal-header { padding: 15px 25px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; }
+.status-indicator { font-size: 0.6rem; color: #00ff00; letter-spacing: 2px; font-weight: 900; }
+.pulse-dot { width: 6px; height: 6px; background: #00ff00; border-radius: 50%; display: inline-block; margin-right: 8px; animation: blink 1.5s infinite; }
 
-.offcanvas .dropdown-item:hover,
-.offcanvas .dropdown-item:focus {
-  background: linear-gradient(90deg, #d4af37 0%, #a855f7 100%);
-  color: #111 !important;
-  text-shadow: 0 0 10px #d4af37;
-}
+.terminal-sidebar { background: #080808; padding: 60px 40px; border-right: 1px solid #1a1a1a; }
+.composition-bar { display: flex; height: 6px; background: #222; border-radius: 10px; overflow: hidden; margin-top: 15px; }
+.bar-principal { background: #fff; transition: 0.8s ease; }
+.bar-interes { background: var(--gold); transition: 0.8s ease; }
 
-.offcanvas .dropdown-item.active {
-  color: #d4af37 !important;
-  background: #222;
-}
-   
-    /* --- Sección principal --- */
-     main {
-  flex: 1; /* hace que el main ocupe todo el espacio libre */
-}
-    h1 {
-      text-align: center;
-      font-weight: bold;
-      margin: 50px 0 20px;
-      color: #d4af37;
-      text-shadow: 0 0 15px #a855f7, 0 0 25px #d4af37;
-      animation: pulseTitle 2s infinite alternate;
-    }
+.data-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #111; font-size: 0.75rem; color: #888; }
 
-    @keyframes pulseTitle {
-      from { text-shadow: 0 0 15px #a855f7, 0 0 25px #d4af37; }
-      to { text-shadow: 0 0 25px #d4af37, 0 0 40px #a855f7; }
-    }
+/* Controles del Modal */
+.plazo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.btn-plazo { background: transparent; border: 1px solid #333; color: #777; padding: 12px 0; font-size: 0.75rem; font-weight: 900; transition: 0.3s; }
+.btn-plazo.active { border-color: var(--gold); color: #fff; background: rgba(212,175,55,0.1); }
 
+.result-box { background: #0a0a0a; border: 1px dashed #444; padding: 25px; text-align: center; }
+.result-box h2 { color: var(--gold); font-weight: 900; font-size: 2.2rem; }
 
-/* --- Cards con animación --- */
-.feature-card {
-  background: #111;
-  border-radius: 12px;
-  padding: 30px;
-      text-align: center;
-      transition: all 0.4s ease;
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 0 15px rgba(0,0,0,0.6);
-    }
+.luxury-range { -webkit-appearance: none; width: 100%; background: #1a1a1a; height: 2px; }
+.luxury-range::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 10px; background: var(--gold); cursor: pointer; }
 
-    .feature-card i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      color: #d4af37;
-      transition: all 0.4s ease;
-    }
+.btn-apply { width: 100%; padding: 25px; background: var(--gold); color: black; border: none; font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 3px; margin-top: 30px; }
 
-    .feature-card:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 0 25px #a855f7, 0 0 45px #d4af37;
-      border: 1px solid #d4af37;
-    }
-
-    .feature-card:hover i {
-      color: #a855f7;
-      text-shadow: 0 0 15px #d4af37;
-    }
-
-    /* --- Footer --- */
-    footer {
-  width: 100vw;
-  left: 0;
-  position: relative;
-  text-align: center;
-  padding: 1rem 0;
-  background: #000;
-  border-top: 2px solid #a855f7;
-  box-shadow: 0 0 20px rgba(168,85,247,0.4);
-  margin-top: auto;
-  z-index: 10;
-}
-
-    footer p {
-      margin: 0;
-      color: #d4af37;
-    }
+/* Animaciones */
+@keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+.processing-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.scanner-circle { width: 80px; height: 80px; border: 2px solid var(--gold); border-radius: 50%; border-top-color: transparent; animation: spin 1s infinite linear; }
+@keyframes spin { to { transform: rotate(360deg); } }

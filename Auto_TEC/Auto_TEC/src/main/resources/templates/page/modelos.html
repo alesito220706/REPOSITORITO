@@ -1,305 +1,104 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modelos - Auto TEC</title>
-
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- CSS personalizado -->
-  <link rel="stylesheet" th:href="@{/css/modelos.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos Exclusivos | AutoTEC Motors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Urbanist:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/modelos.css}">
 </head>
-
 <body>
 
-  <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/header :: header"></div>
 
-  <!-- Area de preview -->
-  <div class="preview-area">
-    <div class="preview-background"></div>
-    <div class="preview-container">
-      <div class="preview-content">
-        <img class="preview-img" alt="Preview del modelo" style="display: none;">
-        <div class="preview-controls">
-          <button class="prev-model" title="Modelo anterior">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="next-model" title="Siguiente modelo">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-      </div>
-      <div class="preview-details" style="display: none;">
-        <div class="preview-header">
-          <h3 class="preview-title"></h3>
-          <p class="preview-description"></p>
-        </div>
-        <div class="preview-specs">
-          <!-- Generado dinámicamente por JS -->
-        </div>
-        <div class="preview-actions">
-          <button class="btn" onclick="document.getElementById('btnSolicitar').click()">
-            <i class="fas fa-calculator"></i>
-            <span>Solicitar Cotización</span>
-          </button>
-        </div>
-      </div>
+    <div class="main-layout">
+        <aside class="sidebar-nav">
+            <div class="brand-section">
+                <span class="small-title">Catálogo de Ingeniería</span>
+                <h2 class="cinzel text-gold">Modelos</h2>
+            </div>
+            
+            <ul class="model-list">
+                <li th:each="m : ${modelos}" 
+                    class="model-link"
+                    th:data-id="${m.id}"
+                    th:data-img="${m.imagenUrl}"
+                    th:data-desc="${m.descripcion}"
+                    th:data-year="${m.anio}"
+                    th:data-engine="${m.motor}"
+                    th:data-power="${m.potencia}"
+                    th:data-price="'$' + ${#numbers.formatDecimal(m.precio, 0, 'COMMA', 2, 'POINT')}"
+                    th:data-equipment="${m.equipamiento}"
+                    th:text="${m.nombre}">
+                </li>
+            </ul>
+        </aside>
+
+        <main class="showcase">
+            <div class="image-display">
+                <img src="" class="main-preview-img" id="heroImage" alt="AutoTEC Luxury">
+                
+                <div class="info-overlay">
+                    <div class="overlay-content" id="heroContent">
+                        <h1 class="display-title cinzel"></h1>
+                        <p class="display-desc text-secondary"></p>
+                        
+                        <div class="specs-row" id="heroSpecs">
+                            </div>
+
+                        <div class="action-zone">
+                            <button class="btn-luxe" id="btnExplorarIngenieria">
+                                <i class="fas fa-plus-circle me-2"></i> Explorar Ingeniería
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-  </div>
 
-  <div class="main-container">
-
-    <!-- =================================== -->
-    <!--        MENÚ LATERAL DINÁMICO        -->
-    <!-- =================================== -->
-    <aside class="menu-lateral">
-      <h5 class="text-white mb-3">Filtrar por Marca</h5>
-
-      <ul id="menuModelosList">
-        <li th:each="m : ${modelos}"
-            class="modelo-item"
-            th:data-img="${m.imagenUrl}"
-            th:data-desc="${m.descripcion}"
-            th:data-year="${m.anio}"
-            th:data-engine="${m.motor}"
-            th:data-power="${m.potencia}"
-            th:data-price="'$' + ${m.precio}"
-            th:data-equipment="${m.equipamiento}"
-            th:text="${m.nombre}">
-        </li>
-      </ul>
-    </aside>
-
-    <!-- =================================== -->
-    <!--    CONTENIDO PRINCIPAL DINÁMICO     -->
-    <!-- =================================== -->
-    <main class="contenido">
-      <div class="mb-4">
-        <h1 class="text-white">Modelos Exclusivos</h1>
-        <p class="text-secondary">Descubre nuestra colección de vehículos de alta gama</p>
-      </div>
-
-      <div class="grid-modelos" id="gridModelosContainer">
-        <div class="modelo-card" th:each="m : ${modelos}">
-          <img th:src="${m.imagenUrl}"
-            class="modelo-card-img"
-            th:alt="${m.nombre}"
-            loading="lazy"
-            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22300%22 height=%22200%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2218%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E';">
-
-          <h5 class="text-white mt-2" th:text="${m.nombre}"></h5>
-          <p class="text-secondary" th:text="${m.descripcion}"></p>
-
-          <button class="btn btn-outline-warning mt-2 ver-mas-btn"
-                  th:data-img="${m.imagenUrl}"
-                  th:data-desc="${m.descripcion}"
-                  th:data-year="${m.anio}"
-                  th:data-engine="${m.motor}"
-                  th:data-power="${m.potencia}"
-                  th:data-price="'$' + ${m.precio}"
-                  th:data-equipment="${m.equipamiento}"
-                  th:data-name="${m.nombre}">
-            Ver más
-          </button>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <!-- ===== MODAL ===== -->
-  <div class="modal fade" id="modalModelo" tabindex="-1" aria-labelledby="modalModeloLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalModeloLabel">Modelo</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body text-center position-relative">
-          <div class="modal-topline d-flex justify-content-between align-items-center mb-2">
-            <div class="model-index text-muted"><span id="modalCounter">0 / 0</span></div>
-            <div>
-              <button id="btnSolicitar" class="btn btn-outline-warning btn-sm">Solicitar cotización</button>
+    <div class="modal fade" id="modalModelo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content luxe-modal-bg">
+                <div class="modal-body p-0">
+                    <div class="row g-0">
+                        <div class="col-lg-7">
+                            <img id="modalImagen" src="" class="img-fluid w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="col-lg-5 p-5">
+                            <h2 id="modalNombre" class="cinzel text-gold mb-3"></h2>
+                            <p id="modalDescripcion" class="text-secondary small mb-4"></p>
+                            <div id="modalDetailsGrid">
+                                </div>
+                            <button class="btn-gold-fill w-100 mt-4" id="btnSolicitarCotizacion">Solicitar Cotización</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <img id="modalImagen" src="" alt="Imagen del modelo" class="img-fluid rounded" loading="lazy" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22360%22%3E%3Crect fill=%22%23ddd%22 width=%22600%22 height=%22360%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2224%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E';">
-          <p id="modalDescripcion" class="mt-3 text-light"></p>
-
-          <div id="modalDetails" class="mt-3 text-start text-light">
-            <!-- JS coloca: año, motor, potencia, precio, equipamiento -->
-          </div>
-
-          <div id="modalThumbs" class="d-flex gap-2 justify-content-center mt-3 flex-wrap"></div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- ===== MODAL COTIZACIÓN ===== -->
-  <div class="modal fade" id="modalCotiza" tabindex="-1" aria-labelledby="modalCotizaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCotizaLabel">Solicitar Cotización</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    <div class="modal fade" id="modalCotiza" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content luxe-modal-bg p-4">
+                <h3 class="cinzel text-gold text-center mb-4">Cotización Premium</h3>
+                <form id="cotizaForm">
+                    <input type="hidden" id="cotizaModelo">
+                    <div class="mb-3">
+                        <input type="text" id="cotizaNombre" class="form-control l-input" placeholder="Nombre completo" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" id="cotizaEmail" class="form-control l-input" placeholder="Correo electrónico" required>
+                    </div>
+                    <button type="submit" class="btn-gold-fill w-100" id="cotizaSubmit">Confirmar Solicitud</button>
+                </form>
+            </div>
         </div>
-
-        <div class="modal-body">
-          <form id="cotizaForm" novalidate>
-            <div class="mb-2">
-              <input required id="cotizaNombre" class="form-control" placeholder="Nombre">
-              <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
-            </div>
-
-            <div class="mb-2">
-              <input required id="cotizaEmail" class="form-control" placeholder="Correo" type="email">
-              <div class="invalid-feedback">Correo inválido.</div>
-            </div>
-
-            <div class="mb-2">
-              <input id="cotizaModelo" class="form-control" readonly>
-              <div class="invalid-feedback">Selecciona un modelo.</div>
-            </div>
-
-            <div class="d-grid">
-              <button type="submit" id="cotizaSubmit" class="btn btn-warning">
-                <span id="cotizaSpinner" class="spinner-border spinner-border-sm d-none"></span>
-                <span id="cotizaSubmitText">Enviar</span>
-              </button>
-            </div>
-          </form>
-        </div>
-
-      </div>
     </div>
-  </div>
 
-  <!-- Bootstrap -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- JS personalizado -->
-  <script th:src="@{/js/modelos.js}"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      let bc = null;
-      try { bc = new BroadcastChannel('modelos_channel'); } catch (e) { /* not supported */ }
-
-      const menuList = document.querySelector('.menu-lateral ul');
-      const grid = document.querySelector('.grid-modelos');
-      const modalEl = document.getElementById('modalModelo');
-
-      function createMenuItem(model) {
-        const li = document.createElement('li');
-        li.className = 'modelo-item';
-        if (model.id) li.dataset.id = model.id;
-        li.dataset.img = model.imagenUrl || '';
-        li.dataset.desc = model.descripcion || '';
-        li.dataset.year = model.anio || '';
-        li.dataset.engine = model.motor || '';
-        li.dataset.power = model.potencia || '';
-        li.dataset.price = '$' + (Number(model.precio) || 0).toFixed(2);
-        li.dataset.equipment = model.equipamiento || '';
-        li.textContent = model.nombre || 'Modelo';
-        li.addEventListener('click', () => {
-          const previewImg = document.querySelector('.preview-img');
-          const previewDetails = document.querySelector('.preview-details');
-          if (previewImg) { previewImg.src = li.dataset.img; previewImg.style.display = ''; }
-          if (previewDetails) { previewDetails.style.display = 'block'; }
-          const title = document.querySelector('.preview-title');
-          const desc = document.querySelector('.preview-description');
-          if (title) title.textContent = model.nombre || '';
-          if (desc) desc.textContent = model.descripcion || '';
-        });
-        return li;
-      }
-
-      function createGridCard(model) {
-        const card = document.createElement('div');
-        card.className = 'modelo-card';
-        if (model.id) card.dataset.id = model.id;
-        card.innerHTML = `
-          <img src="${model.imagenUrl || ''}" class="modelo-card-img" alt="${model.nombre || ''}" loading="lazy">
-          <h5 class="text-white mt-2">${model.nombre || ''}</h5>
-          <p class="text-secondary">${model.descripcion || ''}</p>
-          <div class="modelo-meta text-secondary small">${model.anio || ''} — ${model.precio ? ('$' + Number(model.precio).toFixed(2)) : ''}</div>
-          <button class="btn btn-outline-warning mt-2 ver-mas-btn"
-            data-img="${model.imagenUrl || ''}"
-            data-desc="${model.descripcion || ''}"
-            data-year="${model.anio || ''}"
-            data-engine="${model.motor || ''}"
-            data-power="${model.potencia || ''}"
-            data-price="$${Number(model.precio || 0).toFixed(2)}"
-            data-equipment="${model.equipamiento || ''}"
-            data-name="${model.nombre || ''}">
-            Ver más
-          </button>
-        `;
-        const img = card.querySelector('img');
-        if (img) {
-          img.onerror = function () {
-            this.onerror = null;
-            this.src = "data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22300%22 height=%22200%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2218%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E";
-          };
-        }
-        const btn = card.querySelector('.ver-mas-btn'); if (btn) btn.addEventListener('click', onVerMasClicked);
-        return card;
-      }
-
-      function onVerMasClicked(e) {
-        const btn = e.currentTarget;
-        const model = {
-          nombre: btn.dataset.name,
-          descripcion: btn.dataset.desc,
-          imagenUrl: btn.dataset.img,
-          anio: btn.dataset.year,
-          motor: btn.dataset.engine,
-          potencia: btn.dataset.power,
-          precio: btn.dataset.price,
-          equipamiento: btn.dataset.equipment
-        };
-        const modalImagen = document.getElementById('modalImagen');
-        const modalDescripcion = document.getElementById('modalDescripcion');
-        const modalDetails = document.getElementById('modalDetails');
-        if (modalImagen) modalImagen.src = model.imagenUrl || '';
-        if (modalDescripcion) modalDescripcion.textContent = model.descripcion || '';
-        if (modalDetails) modalDetails.innerHTML = `
-          <p><strong>Año:</strong> ${model.anio || '—'}</p>
-          <p><strong>Motor:</strong> ${model.motor || '—'}</p>
-          <p><strong>Potencia:</strong> ${model.potencia || '—'}</p>
-          <p><strong>Precio:</strong> ${model.precio || '—'}</p>
-          <p><strong>Equipamiento:</strong> ${model.equipamiento || '—'}</p>
-        `;
-        try { const m = new bootstrap.Modal(modalEl); m.show(); } catch(_) {}
-      }
-
-      function addModelToUI(model) { if (menuList) menuList.appendChild(createMenuItem(model)); if (grid) grid.appendChild(createGridCard(model)); }
-
-      // attach event listeners to current ver-mas buttons
-      document.querySelectorAll('.ver-mas-btn').forEach(btn => { btn.removeEventListener('click', onVerMasClicked); btn.addEventListener('click', onVerMasClicked); });
-
-      if (bc) {
-        bc.onmessage = (ev) => {
-          const data = ev.data; if (!data) return;
-          if (data.type === 'created') addModelToUI(data.model);
-          else if (data.type === 'updated') {
-              const model = data.model; const existingMenu = menuList && menuList.querySelector('[data-id="' + (model.id || '') + '"]');
-              const existingGrid = grid && grid.querySelector('[data-id="' + (model.id || '') + '"]');
-              if (existingMenu) { existingMenu.dataset.img = model.imagenUrl || ''; existingMenu.dataset.desc = model.descripcion || ''; existingMenu.dataset.year = model.anio || ''; existingMenu.dataset.engine = model.motor || ''; existingMenu.dataset.power = model.potencia || ''; existingMenu.dataset.price = '$' + (Number(model.precio) || 0).toFixed(2); existingMenu.dataset.equipment = model.equipamiento || ''; existingMenu.textContent = model.nombre || 'Modelo'; }
-              if (existingGrid) {
-                  const img = existingGrid.querySelector('img.modelo-card-img'); const title = existingGrid.querySelector('h5'); const desc = existingGrid.querySelector('p'); const meta = existingGrid.querySelector('.modelo-meta'); const btn = existingGrid.querySelector('.ver-mas-btn');
-                  if (img) img.src = model.imagenUrl || ''; if (title) title.textContent = model.nombre || ''; if (desc) desc.textContent = model.descripcion || ''; if (meta) meta.textContent = (model.anio || '') + ' — ' + (model.precio ? ('$' + Number(model.precio).toFixed(2)) : ''); if (btn) { btn.dataset.img = model.imagenUrl || ''; btn.dataset.desc = model.descripcion || ''; btn.dataset.year = model.anio || ''; btn.dataset.engine = model.motor || ''; btn.dataset.power = model.potencia || ''; btn.dataset.price = '$' + (Number(model.precio) || 0).toFixed(2); btn.dataset.equipment = model.equipamiento || ''; btn.dataset.name = model.nombre || ''; }
-              }
-              if (!existingGrid && !existingMenu) addModelToUI(model);
-          }
-        };
-      }
-    });
-  </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/modelos.js}"></script>
 </body>
 </html>

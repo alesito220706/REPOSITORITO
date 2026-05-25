@@ -1,94 +1,51 @@
 package com.organization.Auto_TEC.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired; // Importar
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails; // Importar
-import org.springframework.security.core.userdetails.UserDetailsService; // Importar
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*; // Simplificado
-
 import com.organization.Auto_TEC.DTO.LoginRequestDTO;
 import com.organization.Auto_TEC.DTO.LoginResponseDTO;
 import com.organization.Auto_TEC.Service.AuthService;
 import com.organization.Auto_TEC.Service.JwtService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/auth")
-@Validated
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthService authService;
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
-    // Inyectamos JwtService y UserDetailsService
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, JwtService jwtService, UserDetailsService userDetailsService) {
         this.authService = authService;
+        this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
     }
 
-    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO body,
-            HttpServletRequest request) {
-        String ip = getClientIp(request);
-        String userAgent = Optional.ofNullable(request.getHeader("User-Agent")).orElse("unknown");
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO body, HttpServletRequest request) {
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("User-Agent");
 
-        // 1. Ejecutar tu lógica de negocio existente (validar pass, kick user, etc.)
         LoginResponseDTO resp = authService.loginSoloUnaSesion(
-                body.getUsernameOrEmail(),
-                body.getPassword(),
-                body.isKickPrevious(),
-                ip,
-                userAgent);
+                body.getUsernameOrEmail(), body.getPassword(), body.isKickPrevious(), ip, userAgent);
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(body.getUsernameOrEmail());
-
-        String jwtToken = jwtService.generateToken(userDetails);
-
-        resp.setToken(jwtToken);
+        resp.setToken(jwtService.generateToken(userDetails));
         resp.setMensaje("Autenticación exitosa vía API");
 
         return ResponseEntity.ok(resp);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Map<String, Object> handleIllegalArgument(IllegalArgumentException ex) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("error", "UNAUTHORIZED");
-        error.put("message", ex.getMessage());
-        return error;
-    }
-
-    @ExceptionHandler(IllegalStateException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public Map<String, Object> handleIllegalState(IllegalStateException ex) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("error", "CONFLICT");
-        error.put("message", ex.getMessage());
-        return error;
-    }
-
-    private String getClientIp(HttpServletRequest request) {
-        String xff = request.getHeader("X-Forwarded-For");
-        if (xff != null && !xff.isBlank()) {
-            return xff.split(",")[0].trim();
-        }
-        String realIp = request.getHeader("X-Real-IP");
-        if (realIp != null && !realIp.isBlank()) {
-            return realIp;
-        }
-        return request.getRemoteAddr();
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public ResponseEntity<Map<String, String>> handleExceptions(Exception ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", ex.getClass().getSimpleName(), "message", ex.getMessage()));
     }
 }

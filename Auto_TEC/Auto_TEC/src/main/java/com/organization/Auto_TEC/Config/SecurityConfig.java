@@ -1,41 +1,25 @@
 package com.organization.Auto_TEC.Config;
 
-import org.springframework.beans.factory.annotation.Autowired; // Importar
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy; // Importar
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter; // Importar
-
-import com.organization.Auto_TEC.Service.CombinedUserDetailsService;
-// Asegúrate de importar tu filtro JWT (creado en el paso anterior)
-import com.organization.Auto_TEC.Config.JwtAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
-    private final CombinedUserDetailsService combinedUserDetailsService;
+    private final UserDetailsService userDetailsService;
+    private final CustomLoginSuccessHandler successHandler;
 
-    // Inyectamos el filtro JWT
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthFilter;
-
-    public SecurityConfig(CombinedUserDetailsService combinedUserDetailsService) {
-        this.combinedUserDetailsService = combinedUserDetailsService;
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(combinedUserDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
+    public SecurityConfig(UserDetailsService userDetailsService, CustomLoginSuccessHandler successHandler) {
+        this.userDetailsService = userDetailsService;
+        this.successHandler = successHandler;
     }
 
     @Bean
@@ -44,44 +28,44 @@ public class SecurityConfig {
     }
 
     @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userDetailsService);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .authenticationProvider(authenticationProvider())
-
-                // CONFIGURACIÓN DE FILTRO JWT
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-
+                .csrf(csrf -> csrf.disable()) // Desactivado para facilitar pruebas en API
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                        .requestMatchers("/", "/animacion", "/index", "/contacto", "/gestion",
-                                "/login", "/modelos", "/registro", "/servicios",
-                                "/ventas", "/financiamiento", "/error",
-                                "/auth/**", "/api/auth/**")
+                        // 1. Recursos estáticos siempre públicos
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/images/**", "/webjars/**").permitAll()
+
+                        // 2. Rutas de Vistas (Páginas HTML) públicas
+                        .requestMatchers("/", "/index", "/login", "/registro", "/contacto", "/citas", "/modelos",
+                                "/servicios", "/ventas")
                         .permitAll()
-                        .requestMatchers("/citas/**").hasAnyRole("CLIENTE", "ADMIN")
-                        .requestMatchers("/dashboard/**", "/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/**").authenticated()
+
+                        // 3. APIs públicas (Ahora bajo el prefijo /api/)
+                        .requestMatchers("/api/auth/**", "/api/cotizaciones/**").permitAll()
+
+                        // 4. Panel de administración solo para ADMIN
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // 5. Cualquier otra cosa requiere autenticación
                         .anyRequest().authenticated())
-                // GESTIÓN DE SESIÓN HÍBRIDA
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .formLogin(form -> form
-                        .loginPage("/auth/login")
-                        .loginProcessingUrl("/auth/login")
-                        .successHandler(customAuthenticationSuccessHandler())
-                        .failureUrl("/auth/login?error=true")
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .successHandler(successHandler) // ¡Necesitas esto para que el Admin vaya al Dashboard!
                         .permitAll())
                 .logout(logout -> logout
-                        .logoutUrl("/auth/logout")
+                        .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll());
 
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return new CustomLoginSuccessHandler();
     }
 }

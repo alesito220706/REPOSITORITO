@@ -1,14 +1,12 @@
 package com.organization.Auto_TEC.Service;
 
 import java.util.Collections;
-
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import com.organization.Auto_TEC.Entities.usuarioEntitie;
 import com.organization.Auto_TEC.Repository.UsuarioRepository;
 
@@ -23,33 +21,25 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        System.out.println(" ===== INICIANDO AUTENTICACIÓN =====");
-        System.out.println(" Buscando usuario: '" + usernameOrEmail + "'");
-        
+        // Buscamos al usuario. Asegúrate de que tu Repository tenga el método findByUsernameOrEmail
         var usuarioOpt = usuarioRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
         
         if (usuarioOpt.isEmpty()) {
-            System.out.println(" USUARIO NO ENCONTRADO: " + usernameOrEmail);
             throw new UsernameNotFoundException("Usuario no encontrado: " + usernameOrEmail);
         }
 
         usuarioEntitie usuario = usuarioOpt.get();
-        System.out.println(" USUARIO ENCONTRADO:");
-        System.out.println("   ID: " + usuario.getId());
-        System.out.println("   Username: " + usuario.getUsername());
-        System.out.println("   Email: " + usuario.getEmail());
-        System.out.println("   Rol: " + usuario.getRol().getNombre());
         
-        String role = "ROLE_" + usuario.getRol().getNombre();
-        
-        UserDetails userDetails = User.builder()
-                .username(usuario.getUsername())
-                .password(usuario.getPasswordHash())
-                .authorities(Collections.singletonList(new SimpleGrantedAuthority(role)))
-                .disabled(!usuario.isActivo())
-                .build();
+        // Validación de seguridad para evitar NullPointerException si el rol es nulo
+        String nombreRol = (usuario.getRol() != null) ? usuario.getRol().getNombre() : "CLIENTE";
+        String role = "ROLE_" + nombreRol;
 
-        System.out.println(" UserDetails creado exitosamente");
-        return userDetails;
+        // Construimos el objeto de seguridad de Spring
+        return User.builder()
+                .username(usuario.getUsername())
+                .password(usuario.getPasswordHash()) // Asegúrate de que este campo tenga el hash
+                .authorities(Collections.singletonList(new SimpleGrantedAuthority(role)))
+                .disabled(!usuario.isActivo()) // Si activo es false, bloquea el acceso
+                .build();
     }
 }

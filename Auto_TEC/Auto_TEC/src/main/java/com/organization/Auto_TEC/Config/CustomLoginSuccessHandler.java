@@ -1,56 +1,55 @@
 package com.organization.Auto_TEC.Config;
 
-import java.io.IOException;
-import java.util.Collection;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
-
+import com.organization.Auto_TEC.Entities.administradorEntitie;
+import com.organization.Auto_TEC.Repository.AdministradorRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.util.Optional;
 
 @Component
-public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
+public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    private final AdministradorRepository adminRepo;
+
+    public CustomLoginSuccessHandler(AdministradorRepository adminRepo) {
+        this.adminRepo = adminRepo;
+    }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, 
-                                      HttpServletResponse response, 
-                                      Authentication authentication) throws IOException, ServletException {
-
-                                        String targetUrl = determineTargetUrl(authentication);
-        
-        // Redirigir al usuario
-        response.sendRedirect(request.getContextPath() + targetUrl);
-    }
-
-
-        protected String determineTargetUrl(Authentication authentication) {
-        
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        
-        // Prioridad 1: ADMIN
-        for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                // ...
-                return "/admin/dashboard";
-            }
-        }
-        
-        // Prioridad 2: USER (Clientes) - ESTA ES LA CLAVE
-        for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals("ROLE_CLIENTE")) {
-                System.out.println("Redirigiendo a página de citas para clientes");
-                return "/citas"; // 👈 Redirección al área de citas
-            }
-        }
-        
-        // ...
-        return "/index";
-    }
-        
-        
-}
+public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, 
+                                    Authentication authentication) throws IOException, ServletException {
     
+    // DEBUG: Imprime qué roles está viendo realmente el sistema
+    System.out.println("Roles del usuario: " + authentication.getAuthorities());
+
+    // 1. Auditoría
+    String login = authentication.getName();
+    // ... tu lógica de adminRepo ...
+
+    // 2. Determinar destino
+    String targetUrl = "/"; 
+    for (GrantedAuthority authority : authentication.getAuthorities()) {
+        String role = authority.getAuthority();
+        System.out.println("Evaluando rol: " + role); // DEBUG
+        
+        if (role.equals("ROLE_ADMIN") || role.equals("ADMIN")) {
+            targetUrl = "/admin/dashboard";
+            break;
+        }
+        if (role.equals("ROLE_CLIENTE") || role.equals("CLIENTE")) {
+            targetUrl = "/citas";
+            break;
+        }
+    }
+
+    getRedirectStrategy().sendRedirect(request, response, targetUrl);
+}
+}

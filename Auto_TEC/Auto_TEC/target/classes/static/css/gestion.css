@@ -1,329 +1,121 @@
-/* ====== PALETA DE COLORES – AutoTec Motors ====== */
+/* gestion.css */
 :root {
-  --clr-bg-dark: #000000;
-  --clr-text-dark: #f1f1f1;
-  --clr-dorado: #d4af37;        /* Dorado clásico (oro real) */
-  --clr-morado: #a855f7;        /* Morado vibrante (neón suave) */
-  --clr-card: #0f0f12;
+    --gold: #d4af37;
+    --purple: #a855f7;
+    --dark: #050505;
+    --card-bg: #0f1012;
 }
 
-/* ====== ESTILOS GENERALES ====== */
 body {
-  background: var(--clr-bg-dark);
-  color: var(--clr-text-dark);
-  font-family: "Segoe UI", "Inter", system-ui, sans-serif;
-  margin: 0;
-  padding: 0;
-  padding-top: 70px; /* Ajuste para navbar fijo */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background-color: var(--dark);
+    color: white;
+    font-family: 'Urbanist', sans-serif;
+    overflow-x: hidden;
 }
 
-/* ====== NAVBAR ====== */
-.navbar {
-  background: #000;
-  border-bottom: 2px solid var(--clr-dorado);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1030;
+.management-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(rgba(212, 175, 55, 0.05) 2px, transparent 0);
+    background-size: 40px 40px; z-index: -1;
 }
 
-.navbar-brand {
-  color: var(--clr-dorado) !important;
-  font-weight: bold;
-  font-size: 1.35rem;
-  margin-left: 50px;
+/* Header */
+.top-tag { color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; font-weight: 700; display: block; margin-bottom: 10px; }
+.glitch-title { font-size: 3rem; font-weight: 900; letter-spacing: 2px; }
+.text-gold { color: var(--gold); }
+.title-underline { width: 80px; height: 3px; background: linear-gradient(90deg, var(--gold), var(--purple)); margin: 20px auto; border-radius: 5px; }
+
+/* Tarjetas con Efecto de Borde Giratorio */
+.management-card {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 2px; /* Grosor del borde animado */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    height: 100%;
 }
 
-.navbar-brand i {
-  margin-right: 8px;
-  color: var(--clr-morado);
+.card-inner {
+    background: #0f1012;
+    border-radius: 22px;
+    padding: 40px 30px;
+    height: 100%;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    position: relative; z-index: 2;
 }
 
-.navbar-toggler {
-  margin-left: 20px;
+/* Iconos con Aura */
+.icon-box {
+    position: relative; width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; color: var(--gold); margin-bottom: 25px;
 }
 
-/* ====== OFFCANVAS (Menú móvil) ====== */
-.offcanvas {
-  background: #0c0c10 !important;
-  border-right: 2px solid var(--clr-morado);
-  box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+.icon-aura {
+    position: absolute; width: 100%; height: 100%;
+    background: currentColor; opacity: 0.15; filter: blur(20px); border-radius: 50%;
 }
 
-.offcanvas-header {
-  background: #0a0a0f;
-  border-bottom: 1px solid var(--clr-morado);
+/* Animación del Borde */
+.card-border-glow {
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: conic-gradient(from 0deg, transparent, var(--gold), transparent, var(--gold), transparent);
+    opacity: 0; transition: opacity 0.5s; z-index: 1;
+    animation: rotateBorder 4s linear infinite;
 }
 
-.offcanvas-title {
-  color: var(--clr-dorado);
-  font-weight: bold;
-  font-size: 1.25rem;
+@keyframes rotateBorder {
+    100% { transform: rotate(360deg); }
 }
 
-.offcanvas .dropdown-item {
-  color: #e0e0ff !important;
-  font-weight: 500;
-  border-radius: 8px;
-  margin: 4px 0;
-  padding: 10px 18px;
-  transition: all 0.3s ease;
-  background: transparent;
+/* Hovers */
+.management-card:hover { transform: translateY(-10px) scale(1.02); }
+.management-card:hover .card-border-glow { opacity: 1; }
+
+.card-purple .icon-box { color: var(--purple); }
+.card-purple .card-border-glow { background: conic-gradient(from 0deg, transparent, var(--purple), transparent, var(--purple), transparent); }
+.card-white .icon-box { color: #fff; }
+.card-white .card-border-glow { background: conic-gradient(from 0deg, transparent, #fff, transparent, #fff, transparent); }
+
+/* Botones Neo */
+.btn-neo {
+    width: 100%; background: transparent; border: 1px solid rgba(255,255,255,0.1);
+    color: white; padding: 12px; border-radius: 14px;
+    font-size: 0.8rem; font-weight: 800; letter-spacing: 2px;
+    transition: 0.3s;
 }
 
-.offcanvas .dropdown-item:hover,
-.offcanvas .dropdown-item:focus {
-  background: linear-gradient(90deg, var(--clr-dorado), var(--clr-morado));
-  color: #000 !important;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+.management-card:hover .btn-neo {
+    background: white; color: black; border-color: white; box-shadow: 0 0 20px rgba(255,255,255,0.2);
 }
 
-.offcanvas .dropdown-item.active {
-  color: var(--clr-dorado) !important;
-  background: rgba(212, 175, 55, 0.1);
+/* Modal Terminal */
+.elite-terminal {
+    background: #080808; border: 1px solid var(--gold); border-radius: 25px;
+    box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
 }
-
-/* ====== TÍTULOS ====== */
-h2.section-title {
-  text-align: center;
-  font-weight: 800;
-  margin: 3rem 0 2.5rem;
-  font-size: 2.4rem;
-  background: linear-gradient(90deg, var(--clr-dorado), var(--clr-morado));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
-  animation: glowTitle 2.5s infinite alternate;
+.terminal-input {
+    background: #111; border: 1px solid #222; color: var(--gold);
+    border-radius: 12px; padding: 12px; font-family: 'Courier New', monospace;
 }
+.terminal-input:focus { background: #151515; border-color: var(--gold); color: white; box-shadow: none; }
+.terminal-label { font-size: 0.65rem; color: #555; letter-spacing: 2px; font-weight: 700; margin-bottom: 8px; display: block;}
 
-@keyframes glowTitle {
-  from {
-    text-shadow: 0 0 10px var(--clr-dorado), 0 0 18px var(--clr-morado);
-  }
-  to {
-    text-shadow: 0 0 16px var(--clr-dorado), 0 0 28px var(--clr-morado);
-  }
+.btn-terminal-submit {
+    width: 100%; background: var(--gold); border: none; padding: 16px;
+    border-radius: 12px; font-weight: 900; letter-spacing: 2px; transition: 0.3s;
 }
+.btn-terminal-submit:hover { background: white; transform: scale(1.02); }
 
-/* ====== TARJETAS (CARDS) ====== */
-.card {
-  background: var(--clr-card);
-  border-radius: 16px;
-  padding: 2.2rem 1.5rem;
-  text-align: center;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  border: 1px solid rgba(168, 85, 247, 0.15);
+/* HUD Notification */
+.hud-notification {
+    position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+    background: rgba(212, 175, 55, 0.95); color: black;
+    padding: 15px 40px; border-radius: 50px; font-weight: 800;
+    transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10000; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
+.hud-notification.active { bottom: 40px; }
 
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow:
-    0 0 22px rgba(212, 175, 55, 0.7),
-    0 0 32px rgba(168, 85, 247, 0.6);
-}
-
-.card i {
-  font-size: 3rem;
-  margin-bottom: 1.2rem;
-  color: var(--clr-dorado);
-  transition: all 0.4s ease;
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
-}
-
-.card:hover i {
-  color: var(--clr-morado);
-  text-shadow: 0 0 12px rgba(168, 85, 247, 0.7);
-  transform: scale(1.15);
-}
-
-.card h5 {
-  font-size: 1.3rem;
-  margin: 0.8rem 0;
-  color: #fff;
-}
-
-.card p {
-  color: #b0b8c5;
-  font-size: 0.95rem;
-  margin-bottom: 1.4rem;
-  flex-grow: 1;
-}
-
-/* ====== BOTONES ====== */
-.btn-custom {
-  border-radius: 50px;
-  padding: 0.65rem 1.8rem;
-  font-weight: 600;
-  font-size: 0.95rem;
-  background: transparent;
-  border: 2px solid var(--clr-dorado);
-  color: var(--clr-dorado);
-  transition: all 0.35s ease;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-}
-
-.btn-custom:hover {
-  background: linear-gradient(90deg, var(--clr-dorado), var(--clr-morado));
-  border: none;
-  color: #000;
-  box-shadow:
-    0 0 16px rgba(212, 175, 55, 0.8),
-    0 0 24px rgba(168, 85, 247, 0.6);
-  transform: scale(1.05);
-}
-
-/* ====== FORMULARIOS ====== */
-input,
-textarea,
-select {
-  background: #08080c !important;
-  border: 1px solid #333 !important;
-  color: var(--clr-text-dark) !important;
-  border-radius: 8px !important;
-  padding: 10px 12px !important;
-  transition: all 0.3s ease;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: var(--clr-dorado) !important;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3) !important;
-  outline: none;
-}
-
-label {
-  font-weight: 600;
-  color: var(--clr-dorado);
-  margin-bottom: 0.5rem;
-  display: block;
-}
-
-/* ====== MODALES — Corrección: texto negro y fondo claro para legibilidad ====== */
-.modal-content {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border-radius: 12px;
-  border: none;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-.modal-header {
-  border-bottom: 1px solid #eee;
-  padding: 1.25rem 1.5rem;
-}
-
-.modal-title {
-  color: #000 !important;
-  font-weight: 700;
-  font-size: 1.35rem;
-}
-
-.modal-body {
-  color: #333 !important;
-  padding: 1.5rem;
-}
-
-.modal-footer {
-  border-top: 1px solid #eee;
-  padding: 1rem 1.5rem;
-}
-
-/* Botones dentro del modal (Close, Save, etc.) */
-.modal .btn {
-  border-radius: 8px;
-  padding: 0.5rem 1.2rem;
-  font-weight: 600;
-}
-
-.modal .btn-primary {
-  background-color: var(--clr-dorado);
-  border-color: var(--clr-dorado);
-  color: #000;
-}
-
-.modal .btn-primary:hover {
-  background-color: #b89425;
-  border-color: #b89425;
-  color: #000;
-}
-
-.modal .btn-secondary {
-  background-color: #6c757d;
-  border-color: #6c757d;
-  color: #fff;
-}
-
-.modal .btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #545b62;
-}
-
-/* Inputs y selects dentro del modal */
-.modal input,
-.modal textarea,
-.modal select {
-  background: #fff !important;
-  color: #000 !important;
-  border: 1px solid #ddd !important;
-}
-
-.modal label {
-  color: #333 !important;
-  font-weight: 600;
-}
-
-/* ====== FOOTER ====== */
-footer {
-  background: #000;
-  padding: 2.2rem 0;
-  text-align: center;
-  color: #999;
-  margin-top: 5rem;
-  border-top: 2px solid var(--clr-dorado);
-  font-size: 0.95rem;
-}
-
-footer p {
-  margin: 0.4rem 0;
-}
-
-/* ====== RESPONSIVE ====== */
-@media (max-width: 768px) {
-  h2.section-title {
-    font-size: 1.8rem;
-    margin: 2.5rem 0 2rem;
-  }
-
-  .card {
-    padding: 1.8rem 1.2rem;
-  }
-
-  .btn-custom {
-    width: 100%;
-    margin-top: 12px;
-  }
-
-  body {
-    padding-top: 60px;
-  }
-
-  /* Ajuste para modal en móvil */
-  .modal-dialog {
-    padding: 0 10px;
-  }
-
-  .modal-content {
-    font-size: 0.95rem;
-  }
-}
+.terminal-loader { text-align: center; padding: 30px; color: var(--gold); }

@@ -1,73 +1,44 @@
 package com.organization.Auto_TEC.DTO;
 
 import java.time.LocalDateTime;
-
 import com.organization.Auto_TEC.Entities.cotizacionEstado;
 
-// Dto principal para Cotizacion
-
 public class CotizacionDTO {
+    // Estos nombres deben coincidir con el JSON del JS: {nombre, email, modelo}
+    private String nombre; 
+    private String email;
+    private String modelo; 
+    
+    // Campos para el Panel Administrativo
     private Long id;
-    private Long usuarioId;
-    private String usuarioNombre;
-    private Long modeloId;
-    private String modeloNombre;
-    private String nombreSolicitante;
-    private String emailSolicitante;
-    private String modeloInteres;
     private LocalDateTime fechaSolicitud;
     private cotizacionEstado estado;
     private String notas;
 
-    // Constructor
-    public CotizacionDTO() {}
-
-    public CotizacionDTO(Long id, Long usuarioId, Long modeloId, String nombreSolicitante, 
-                        String emailSolicitante, String modeloInteres, LocalDateTime fechaSolicitud, 
-                        cotizacionEstado estado, String notas) {
-        this.id = id;
-        this.usuarioId = usuarioId;
-        this.modeloId = modeloId;
-        this.nombreSolicitante = nombreSolicitante;
-        this.emailSolicitante = emailSolicitante;
-        this.modeloInteres = modeloInteres;
-        this.fechaSolicitud = fechaSolicitud;
-        this.estado = (estado != null) ? estado : cotizacionEstado.PENDIENTE;
-        this.notas = notas;
+    // Constructor vacío (Obligatorio para Jackson/Spring)
+    public CotizacionDTO() {
+        this.fechaSolicitud = LocalDateTime.now();
+        this.estado = cotizacionEstado.PENDIENTE;
     }
 
     // Getters y Setters
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getModelo() { return modelo; }
+    public void setModelo(String modelo) { this.modelo = modelo; }
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public Long getUsuarioId() { return usuarioId; }
-    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
-
-    public String getUsuarioNombre() { return usuarioNombre; }
-    public void setUsuarioNombre(String usuarioNombre) { this.usuarioNombre = usuarioNombre; }
-
-    public Long getModeloId() { return modeloId; }
-    public void setModeloId(Long modeloId) { this.modeloId = modeloId; }
-
-    public String getModeloNombre() { return modeloNombre; }
-    public void setModeloNombre(String modeloNombre) { this.modeloNombre = modeloNombre; }
-
-    public String getNombreSolicitante() { return nombreSolicitante; }
-    public void setNombreSolicitante(String nombreSolicitante) { this.nombreSolicitante = nombreSolicitante; }
-
-    public String getEmailSolicitante() { return emailSolicitante; }
-    public void setEmailSolicitante(String emailSolicitante) { this.emailSolicitante = emailSolicitante; }
-
-    public String getModeloInteres() { return modeloInteres; }
-    public void setModeloInteres(String modeloInteres) { this.modeloInteres = modeloInteres; }
 
     public LocalDateTime getFechaSolicitud() { return fechaSolicitud; }
     public void setFechaSolicitud(LocalDateTime fechaSolicitud) { this.fechaSolicitud = fechaSolicitud; }
 
     public cotizacionEstado getEstado() { return estado; }
-    public void setEstado(cotizacionEstado estado) { 
-        this.estado = (estado != null) ? estado : cotizacionEstado.PENDIENTE;
-    }
+    public void setEstado(cotizacionEstado estado) { this.estado = estado; }
 
     public String getNotas() { return notas; }
     public void setNotas(String notas) { this.notas = notas; }

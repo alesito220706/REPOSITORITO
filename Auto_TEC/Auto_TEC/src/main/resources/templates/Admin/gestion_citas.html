@@ -3,108 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Citas - Admin</title>
+    <title>Gestión de Citas - Auto TEC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/gestion_citas.css">
 </head>
-<body>
+<body class="hyper-dark-bg">
     <div th:replace="fragments/headerAdmin :: headerAdmin"></div>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-        <!-- Alertas -->
-        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <main class="container-fluid py-4">
+        <div th:if="${success}" class="luxury-alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+            <span class="alert-terminal-tag">[OK_SYS]:</span>
             <span th:text="${success}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div th:if="${error}" class="luxury-alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+            <span class="alert-terminal-tag">[ERR_SYS]:</span>
             <span th:text="${error}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
 
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Gestión de Citas</h1>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearCita">
-                <i class="fas fa-plus me-1"></i>Nueva Cita
+        <div class="d-flex justify-content-between align-items-center mb-4 telemetry-border-bottom pb-3">
+            <div>
+                <span class="brand-sub-label">PLANIFICACIÓN DE OPERACIONES</span>
+                <h1 class="luxury-page-title">
+                    <i class="fas fa-calendar-alt text-slate me-2"></i>GESTIÓN DE CITAS
+                </h1>
+            </div>
+            <button class="btn btn-hyper-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#modalCrearCita">
+                <i class="fas fa-plus me-1"></i> NUEVA CITA
             </button>
         </div>
 
-        <!-- Tabla de Citas -->
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="table-dark">
+        <div class="luxury-bento-box table-responsive p-0">
+            <table class="hyper-table mb-0">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Cliente</th>
-                        <th>Tipo</th>
-                        <th>Fecha</th>
+                        <th>Tipo de Operación</th>
+                        <th>Fecha / Hora</th>
                         <th>Estado</th>
-                        <th>Empleado</th>
-                        <th>Acciones</th>
+                        <th>Especialista Asignado</th>
+                        <th class="text-end">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="cita : ${citas}">
-                        <td th:text="${cita.id}"></td>
+                        <td class="font-mono text-white fw-bold" th:text="${cita.id}"></td>
                         <td>
                             <div th:if="${cita.usuario}">
-                                <strong th:text="${cita.usuario.nombres}"></strong>
-                                <br>
-                                <small class="text-muted" th:text="${cita.usuario.email}"></small>
+                                <span class="d-block text-white fw-bold" th:text="${cita.usuario.nombres}"></span>
+                                <span class="font-mono text-slate" style="font-size: 0.75rem;" th:text="${cita.usuario.email}"></span>
                             </div>
                         </td>
                         <td>
-                            <span class="badge" th:classappend="${cita.tipoCita == 'VENTA' ? 'bg-success' : 
-                                                               cita.tipoCita == 'SERVICIO' ? 'bg-info' : 
-                                                               cita.tipoCita == 'FINANCIAMIENTO' ? 'bg-warning' : 'bg-secondary'}"
+                            <span class="badge-operation" th:classappend="${cita.tipoCita == 'VENTA' ? 'op-venta' : 
+                                                                           cita.tipoCita == 'SERVICIO' ? 'op-servicio' : 
+                                                                           cita.tipoCita == 'FINANCIAMIENTO' ? 'op-financiamiento' : 'op-default'}"
                                   th:text="${cita.tipoCita}">
                             </span>
                         </td>
+                        <td class="font-mono text-white" th:text="${#temporals.format(cita.fechaCita, 'dd/MM/yyyy HH:mm')}"></td>
                         <td>
-                            <span th:text="${#temporals.format(cita.fechaCita, 'dd/MM/yyyy HH:mm')}"></span>
-                        </td>
-                        <td>
-                            <span class="badge" th:classappend="${cita.estado == 'PENDIENTE' ? 'bg-warning' : 
-                                                               cita.estado == 'CONFIRMADA' ? 'bg-success' : 
-                                                               cita.estado == 'COMPLETADA' ? 'bg-info' : 'bg-danger'}"
+                            <span class="badge-status-system" th:classappend="${cita.estado == 'PENDIENTE' ? 'st-pendiente' : 
+                                                                               cita.estado == 'CONFIRMADA' ? 'st-confirmada' : 
+                                                                               cita.estado == 'COMPLETADA' ? 'st-completada' : 'st-cancelada'}"
                                   th:text="${cita.estado}">
                             </span>
                         </td>
                         <td>
-                            <span th:if="${cita.empleado}" th:text="${cita.empleado.nombres}"></span>
-                            <span th:unless="${cita.empleado}" class="text-muted">Sin asignar</span>
+                            <span th:if="${cita.empleado}" class="text-white" th:text="${cita.empleado.nombres}"></span>
+                            <span th:unless="${cita.empleado}" class="text-slate font-mono" style="font-size: 0.8rem;">[SIN_ASIGNAR]</span>
                         </td>
-                        <td class="table-actions">
-                            <!-- Editar - Ahora abre modal específico para esta cita -->
-                            <button class="btn btn-sm btn-outline-primary" 
-                                    data-bs-toggle="modal" 
-                                    th:attr="data-bs-target=|#modalEditarCita${cita.id}|">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            
-                            <!-- Cambiar Estado -->
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" 
-                                        data-bs-toggle="dropdown">
-                                    <i class="fas fa-cog"></i>
+                        <td class="text-end">
+                            <div class="d-inline-flex gap-2">
+                                <button class="btn btn-hyper-action btn-edit" 
+                                        data-bs-toggle="modal" 
+                                        th:attr="data-bs-target=|#modalEditarCita${cita.id}|" title="Editar parámetros">
+                                    <i class="fas fa-edit"></i>
                                 </button>
-                                <ul class="dropdown-menu">
-                                    <li th:each="estado : ${estadosCita}">
-                                        <form th:action="@{/admin/ventas/cambiar-estado/{id}(id=${cita.id})}" method="post" class="d-inline">
-                                            <input type="hidden" name="nuevoEstado" th:value="${estado}">
-                                            <button type="submit" class="dropdown-item" th:text="${estado}"></button>
-                                        </form>
-                                    </li>
-                                </ul>
+                                
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-hyper-action btn-config dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark luxury-dropdown">
+                                        <li th:each="estado : ${estadosCita}">
+                                            <form th:action="@{/admin/ventas/cambiar-estado/{id}(id=${cita.id})}" method="post">
+                                                <input type="hidden" name="nuevoEstado" th:value="${estado}">
+                                                <button type="submit" class="dropdown-item" th:text="${estado}"></button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <form th:action="@{/admin/ventas/eliminar/{id}(id=${cita.id})}" method="post" class="d-inline"
+                                      th:onclick="return confirm('¿Confirmar la eliminación de este registro de cita?')">
+                                    <button type="submit" class="btn btn-hyper-action btn-delete" title="Purgar registro">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                             </div>
-                            
-                            <!-- Eliminar -->
-                            <form th:action="@{/admin/ventas/eliminar/{id}(id=${cita.id})}" method="post" class="d-inline"
-                                  th:onclick="return confirm('¿Estás seguro de eliminar esta cita?')">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
                         </td>
                     </tr>
                 </tbody>
@@ -112,43 +112,43 @@
         </div>
     </main>
 
-    <!-- ========== MODALES ========== -->
-
-    <!-- Modal Crear Cita -->
-    <div class="modal fade" id="modalCrearCita" tabindex="-1" aria-labelledby="modalCrearCitaLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+    <div class="modal fade" id="modalCrearCita" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content luxury-modal-box">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalCrearCitaLabel">Crear Nueva Cita</h5>
+                    <div>
+                        <span class="brand-sub-label">PLANNER INTERNO</span>
+                        <h5 class="modal-title luxury-page-title" style="font-size: 1.2rem;">CREAR NUEVA CITA</h5>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form th:action="@{/admin/ventas/crear}" method="post">
-                    <div class="modal-body">
-                        <div class="row">
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Cliente *</label>
-                                    <select class="form-select" name="usuarioId" required>
-                                        <option value="">Seleccionar cliente</option>
+                                    <label class="luxury-label">CLIENTE SOLICITANTE *</label>
+                                    <select class="form-select hyper-input" name="usuarioId" required>
+                                        <option value="">Seleccionar cliente de la lista...</option>
                                         <option th:each="usuario : ${usuarios}" 
                                                 th:value="${usuario.id}" 
-                                                th:text="${usuario.nombres + ' - ' + usuario.email}">
+                                                th:text="${usuario.nombres + ' — ' + usuario.email}">
                                         </option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Tipo de Cita *</label>
-                                    <select class="form-select" name="tipoCita" required>
-                                        <option value="">Seleccionar tipo</option>
+                                    <label class="luxury-label">TIPO DE CITA / OPERACIÓN *</label>
+                                    <select class="form-select hyper-input" name="tipoCita" required>
+                                        <option value="">Seleccionar tipo...</option>
                                         <option value="VENTA">VENTA</option>
                                         <option value="SERVICIO">SERVICIO</option>
                                         <option value="FINANCIAMIENTO">FINANCIAMIENTO</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Empleado</label>
-                                    <select class="form-select" name="empleadoId">
-                                        <option value="">Sin asignar</option>
+                                    <label class="luxury-label">ESPECIALISTA EN CABINA</label>
+                                    <select class="form-select hyper-input" name="empleadoId">
+                                        <option value="">[Sin asignar — Libre]</option>
                                         <option th:each="empleado : ${empleados}" 
                                                 th:value="${empleado.id}" 
                                                 th:text="${empleado.nombres}">
@@ -158,63 +158,64 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Fecha *</label>
-                                    <input type="date" class="form-control" name="fechaCita" required
+                                    <label class="luxury-label">FECHA DE EJECUCIÓN *</label>
+                                    <input type="date" class="form-control hyper-input font-mono" name="fechaCita" required
                                            th:attr="min=${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Hora *</label>
-                                    <input type="time" class="form-control" name="horaCita" required
+                                    <label class="luxury-label">HORA ESTABLECIDA *</label>
+                                    <input type="time" class="form-control hyper-input font-mono" name="horaCita" required
                                            min="09:00" max="18:00">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Duración (minutos)</label>
-                                    <input type="number" class="form-control" name="duracionEstimada" value="60" min="15" step="15">
+                                    <label class="luxury-label">DURACIÓN ESTIMADA (MINUTOS)</label>
+                                    <input type="number" class="form-control hyper-input font-mono" name="duracionEstimada" value="60" min="15" step="15">
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Notas</label>
-                            <textarea class="form-control" name="notas" rows="3" placeholder="Notas adicionales..."></textarea>
+                        <div class="mb-3 mt-2">
+                            <label class="luxury-label">NOTAS TÉCNICAS ADICIONALES</label>
+                            <textarea class="form-control hyper-input" name="notas" rows="3" placeholder="Detalles de requerimientos específicos del coche o cliente..."></textarea>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Crear Cita</button>
+                    <div class="modal-footer pt-0 border-0 p-4">
+                        <button type="button" class="btn btn-hyper-secondary" data-bs-dismiss="modal">ABORTAR</button>
+                        <button type="submit" class="btn btn-hyper-primary">PROGRAMAR OPERACIÓN</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Modal Editar Cita - UNO POR CADA CITA -->
-    <div th:each="cita : ${citas}" th:id="'modalEditarCita' + ${cita.id}" 
-         class="modal fade" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+    <div th:each="cita : ${citas}" th:id="'modalEditarCita' + ${cita.id}" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content luxury-modal-box">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar Cita #<span th:text="${cita.id}"></span></h5>
+                    <div>
+                        <span class="brand-sub-label">SYSTEM RECONFIGURATOR</span>
+                        <h5 class="modal-title luxury-page-title" style="font-size: 1.2rem;">EDITAR CITA #<span th:text="${cita.id}"></span></h5>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form th:action="@{/admin/ventas/actualizar/{id}(id=${cita.id})}" method="post">
-                    <div class="modal-body">
-                        <div class="row">
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Cliente *</label>
-                                    <select class="form-select" name="usuarioId" required>
-                                        <option value="">Seleccionar cliente</option>
+                                    <label class="luxury-label">CLIENTE SOLICITANTE *</label>
+                                    <select class="form-select hyper-input" name="usuarioId" required>
+                                        <option value="">Seleccionar cliente...</option>
                                         <option th:each="usuario : ${usuarios}" 
                                                 th:value="${usuario.id}" 
-                                                th:text="${usuario.nombres + ' - ' + usuario.email}"
+                                                th:text="${usuario.nombres + ' — ' + usuario.email}"
                                                 th:selected="${cita.usuario != null && usuario.id == cita.usuario.id}">
                                         </option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Tipo de Cita *</label>
-                                    <select class="form-select" name="tipoCita" required>
-                                        <option value="">Seleccionar tipo</option>
+                                    <label class="luxury-label">TIPO DE CITA / OPERACIÓN *</label>
+                                    <select class="form-select hyper-input" name="tipoCita" required>
+                                        <option value="">Seleccionar tipo...</option>
                                         <option th:each="tipo : ${tiposCita}" 
                                                 th:value="${tipo}" 
                                                 th:text="${tipo}"
@@ -223,8 +224,8 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Estado</label>
-                                    <select class="form-select" name="estado">
+                                    <label class="luxury-label">ESTADO DE CONTROL</label>
+                                    <select class="form-select hyper-input" name="estado">
                                         <option th:each="estado : ${estadosCita}" 
                                                 th:value="${estado}" 
                                                 th:text="${estado}"
@@ -235,9 +236,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Empleado</label>
-                                    <select class="form-select" name="empleadoId">
-                                        <option value="">Sin asignar</option>
+                                    <label class="luxury-label">ESPECIALISTA ASIGNADO</label>
+                                    <select class="form-select hyper-input" name="empleadoId">
+                                        <option value="">[Sin asignar — Libre]</option>
                                         <option th:each="empleado : ${empleados}" 
                                                 th:value="${empleado.id}" 
                                                 th:text="${empleado.nombres}"
@@ -246,31 +247,35 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Fecha *</label>
-                                    <input type="date" class="form-control" name="fechaCita" required
+                                    <label class="luxury-label">FECHA DE EJECUCIÓN *</label>
+                                    <input type="date" class="form-control hyper-input font-mono" name="fechaCita" required
                                            th:value="${#temporals.format(cita.fechaCita, 'yyyy-MM-dd')}">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Hora *</label>
-                                    <input type="time" class="form-control" name="horaCita" required
+                                    <label class="luxury-label">HORA ESTABLECIDA *</label>
+                                    <input type="time" class="form-control hyper-input font-mono" name="horaCita" required
                                            th:value="${#temporals.format(cita.fechaCita, 'HH:mm')}">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Duración (minutos)</label>
-                                    <input type="number" class="form-control" name="duracionEstimada" 
+                                    <label class="luxury-label">DURACIÓN ESTIMADA (MINUTOS)</label>
+                                    <input type="number" class="form-control hyper-input font-mono" name="duracionEstimada" 
                                            th:value="${cita.duracionEstimada}" min="15" step="15">
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Notas</label>
-                            <textarea class="form-control" name="notas" rows="3" 
+                            <label class="luxury-label">NOTAS TÉCNICAS ADICIONALES</label>
+                            <textarea class="form-control hyper-input" name="notas" rows="3" 
                                       th:text="${cita.notas}"></textarea>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Actualizar Cita</button>
+                    <div class="modal-footer pt-0 border-0 p-4">
+                        <button type="button" class="btn btn-hyper-secondary" data-bs-dismiss="modal">CANCELAR RECONFIGURACIÓN</button>
+                        <button type="submit" class="btn btn-hyper-primary">APLICAR CAMBIOS</button>
                     </div>
                 </form>
             </div>
@@ -278,9 +283,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
     <script src="/js/admin.js"></script>
-    
 </body>
 </html>

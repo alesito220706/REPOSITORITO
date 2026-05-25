@@ -1,137 +1,178 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoTec Motors - Contacto Premium</title>
-   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- FontAwesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-
-  <!-- Vincular CSS externo -->
-  <link rel="stylesheet" href="/css/contacto.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte Elite | AutoTec Motors</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/contacto.css">
 </head>
 <body>
 
-      <!-- ====== NAVBAR ====== -->
-<div th:replace="fragments/header :: header"></div> 
+    <div th:replace="fragments/header :: header"></div> 
 
-  <!-- HERO -->
-  <section class="contact-hero">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-7">
-          <h1>Contacto</h1>
-          <p class="lead">¿Tienes una consulta? Escríbenos y nuestro equipo te responderá a la brevedad. Atención comercial y postventa.</p>
-          <div class="contact-actions mt-3">
-            <a href="https://facebook.com" target="_blank" class="btn-ghost"><i class="fab fa-facebook me-2"></i>Facebook</a>
-            <a href="https://instagram.com" target="_blank" class="btn-ghost"><i class="fab fa-instagram me-2"></i>Instagram</a>
-            <a href="https://wa.me/" target="_blank" class="btn-primary"><i class="fab fa-whatsapp me-2"></i>WhatsApp</a>
-          </div>
-        </div>
-        <div class="col-md-5 text-md-end mt-4 mt-md-0">
-          <img src="/images/logo.webp" alt="Contacto" class="img-fluid rounded" style="max-height:180px; object-fit:cover; border:1px solid rgba(255,255,255,0.03)">
-        </div>
-      </div>
-    </div>
-  </section>
+    <div class="bg-orb orb-gold"></div>
+    <div class="bg-orb orb-purple"></div>
 
-  <!-- CONTACT INFO + FORM -->
-  <section class="py-5">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="card bg-dark text-light border-0 shadow-sm h-100">
-            <div class="card-body">
-              <h5 class="card-title">Contáctanos</h5>
-              <p class="text-secondary">Elige la vía que prefieras y te atenderemos personalmente. También puedes visitarnos en nuestra sede.</p>
-
-              <ul class="list-unstyled mt-3 mb-3">
-                <li class="mb-2"><i class="fa fa-envelope me-2 text-warning"></i> <a class="text-light" href="mailto:info@autotec.example">info@autotec.example</a></li>
-                <li class="mb-2"><i class="fa fa-phone me-2 text-warning"></i> <a class="text-light" href="tel:+34123456789">+34 123 456 789</a></li>
-                <li class="mb-2"><i class="fa fa-map-marker-alt me-2 text-warning"></i> Paseo de la Ficción 123, Madrid</li>
-              </ul>
-
-              <div class="d-flex gap-2">
-                <a href="https://www.google.com/maps/search/?api=1&query=Paseo+de+la+Ficcion+123+Madrid" target="_blank" class="btn btn-outline-light btn-sm" rel="noopener">Abrir en Google Maps</a>
-                <button id="btnSolicitarCita" class="btn btn-warning btn-sm">Solicitar cita</button>
-              </div>
-
-              <div class="mt-3 text-center d-none d-lg-block">
-                <small class="text-secondary">Horario: Lun-Vie 9:00 - 19:00 • Sáb 10:00 - 14:00</small>
-              </div>
+    <main class="contact-wrapper">
+        <section class="contact-hero-elite">
+            <div class="container text-center">
+                <span class="badge-status">SISTEMA DE COMUNICACIÓN ABIERTO</span>
+                <h1 class="glitch-title">CENTRAL <span class="text-gold">AUTOTEC</span></h1>
+                <p class="hero-subtitle">Conexión directa con nuestra división de activos de lujo y soporte técnico.</p>
             </div>
-          </div>
-        </div>
+        </section>
 
-        <div class="col-lg-8">
-          <div class="contact-card">
-            <h4 class="card-title">Envíanos un mensaje</h4>
-            <form id="contactForm" class="contact-form" novalidate>
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label class="form-label">Nombre</label>
-                  <input id="contactName" class="form-control" placeholder="Tu nombre" required>
-                  <div class="invalid-feedback">Ingresa tu nombre (mínimo 2 letras).</div>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Correo</label>
-                  <input id="contactEmail" type="email" class="form-control" placeholder="tu@correo.com" required>
-                  <div class="invalid-feedback">Ingresa un correo válido.</div>
-                </div>
-                <div class="col-12">
-                  <label class="form-label">Asunto</label>
-                  <input id="contactSubject" class="form-control" placeholder="Asunto" required>
-                </div>
-                <div class="col-12">
-                  <label class="form-label">Mensaje</label>
-                  <textarea id="contactMessage" class="form-control" rows="5" placeholder="Cuéntanos en qué podemos ayudarte" required></textarea>
-                  <div class="invalid-feedback">Escribe tu consulta.</div>
-                </div>
-                <div class="col-12 form-actions">
-                  <button id="contactSubmit" type="submit" class="btn-primary">Enviar mensaje</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        <section class="container pb-5">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <div class="glass-sidebar">
+                        <div class="sidebar-header">
+                            <h3>CANALES DIRECTOS</h3>
+                            <div class="accent-line"></div>
+                        </div>
+                        
+                        <div class="channel-item">
+                            <div class="channel-icon"><i class="fas fa-envelope-open-text"></i></div>
+                            <div class="channel-info">
+                                <small>CORREO OFICIAL</small>
+                                <a href="mailto:info@autotec.example">info@autotec.example</a>
+                            </div>
+                        </div>
 
-  <!-- Footer -->
-  <div th:replace="fragments/footer :: footer"></div>
-  <script>
+                        <div class="channel-item">
+                            <div class="channel-icon"><i class="fas fa-phone-volume"></i></div>
+                            <div class="channel-info">
+                                <small>LÍNEA PRIORITARIA</small>
+                                <a href="tel:+34123456789">+34 123 456 789</a>
+                            </div>
+                        </div>
+
+                        <div class="channel-item">
+                            <div class="channel-icon"><i class="fas fa-map-location-dot"></i></div>
+                            <div class="channel-info">
+                                <small>SEDE CENTRAL</small>
+                                <span>Paseo de la Ficción 123, Madrid</span>
+                            </div>
+                        </div>
+
+                        <div class="social-grid-elite">
+                            <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+
+                        <div class="schedule-box">
+                            <p><i class="far fa-clock"></i> LUN-VIE: 09:00 - 19:00</p>
+                            <p><i class="far fa-clock"></i> SÁB: 10:00 - 14:00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="glass-form-card">
+                        <h2 class="form-headline">ENVIAR TRANSMISIÓN</h2>
+                        <form id="contactForm" class="innovative-form" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="input-field">
+                                        <input id="contactName" type="text" required placeholder=" ">
+                                        <label>Nombre Completo</label>
+                                        <div class="input-bar"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="input-field">
+                                        <input id="contactEmail" type="email" required placeholder=" ">
+                                        <label>Email de Respuesta</label>
+                                        <div class="input-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="input-field">
+                                    <input id="contactSubject" type="text" required placeholder=" ">
+                                    <label>Asunto del Requerimiento</label>
+                                    <div class="input-bar"></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-5">
+                                <div class="input-field">
+                                    <textarea id="contactMessage" rows="4" required placeholder=" "></textarea>
+                                    <label>Mensaje / Consulta Técnica</label>
+                                    <div class="input-bar"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-footer">
+                                <button id="contactSubmit" type="submit" class="btn-hyper-action">
+                                    <span>ENVIAR MENSAJE</span>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+<script>
     (function(){
-      const form = document.getElementById('contactForm');
-      if (!form) return;
-      const submit = document.getElementById('contactSubmit');
-      function validateEmail(e){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e); }
-      form.addEventListener('submit', function(ev){
-        ev.preventDefault();
-        const name = document.getElementById('contactName');
-        const email = document.getElementById('contactEmail');
-        const subject = document.getElementById('contactSubject');
-        const message = document.getElementById('contactMessage');
-        let ok = true;
-        if (!name || name.value.trim().length < 2) { name.classList.add('is-invalid'); ok = false; } else name.classList.remove('is-invalid');
-        if (!email || !validateEmail(email.value.trim())) { email.classList.add('is-invalid'); ok = false; } else email.classList.remove('is-invalid');
-        if (!subject || subject.value.trim().length === 0) { subject.classList.add('is-invalid'); ok = false; } else subject.classList.remove('is-invalid');
-        if (!message || message.value.trim().length < 6) { message.classList.add('is-invalid'); ok = false; } else message.classList.remove('is-invalid');
-        if (!ok) { if (typeof mostrarBootstrapToast === 'function') mostrarBootstrapToast('Corrige los campos resaltados.', 'warning', 3500); return; }
-        // Simular envío
-        submit.disabled = true; const prev = submit.textContent; submit.textContent = 'Enviando...';
-        setTimeout(() => {
-          submit.disabled = false; submit.textContent = prev;
-          form.reset();
-          if (typeof mostrarBootstrapToast === 'function') mostrarBootstrapToast('Mensaje enviado. Gracias, te contactaremos pronto.', 'success', 4000);
-        }, 900);
-      });
-    })();
-  </script>
-<!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        const form = document.getElementById('contactForm');
+        if (!form) return;
+        const submit = document.getElementById('contactSubmit');
+        
+        function validateEmail(e){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e); }
 
+        form.addEventListener('submit', async function(ev){
+            ev.preventDefault();
+            
+            // Obtener valores
+            const data = {
+                nombre: document.getElementById('contactName').value,
+                email: document.getElementById('contactEmail').value,
+                modelo: document.getElementById('contactSubject').value, // Asumiendo que envías el asunto como modelo
+                notas: document.getElementById('contactMessage').value
+            };
+
+            // Validaciones básicas
+            if (data.nombre.length < 3 || !validateEmail(data.email) || data.notas.length < 6) {
+                alert("Por favor, revisa que todos los campos sean correctos.");
+                return;
+            }
+            
+            submit.disabled = true;
+            submit.innerHTML = '<span>ENVIANDO...</span> <i class="fas fa-circle-notch fa-spin"></i>';
+
+            try {
+                const response = await fetch('/api/cotizaciones/enviar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('Solicitud enviada con éxito al administrador.');
+                    form.reset();
+                } else {
+                    alert('Error al enviar la solicitud. Inténtalo de nuevo.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error de conexión con el servidor.');
+            } finally {
+                submit.disabled = false;
+                submit.innerHTML = '<span>ENVIAR MENSAJE</span> <i class="fas fa-paper-plane"></i>';
+            }
+        });
+    })();
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

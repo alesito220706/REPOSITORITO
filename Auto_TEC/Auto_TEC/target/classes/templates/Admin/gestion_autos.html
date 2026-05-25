@@ -3,271 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Gestión de Autos</title>
+    <title>Hyperion Core - Gestión de Autos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/css/gestion_autos.css}">
     
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link rel="stylesheet" th:href="@{/css/gestion_autos.css}">
 </head>
-<body>
-    <div class="container-fluid">
+<body class="hyper-dark-bg">
+    <div class="container-fluid px-4 mt-4">
         <div class="row">
             <div th:replace="fragments/headerAdmin :: headerAdmin"></div> 
             
-            <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-                <!-- Alertas -->
-                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
-                    <span th:text="${success}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                
+                <div th:if="${success}" class="luxury-alert alert-success alert-dismissible fade show" role="alert">
+                    <span class="alert-terminal-tag">[SUCCESS]</span> <span th:text="${success}"></span>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
                 </div>
-                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span th:text="${error}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Gestión de Modelos</h1>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearModelo">Agregar Modelo</button>
-                                <button id="btnMigrarImagenes" class="btn btn-outline-info">Migrar Imágenes</button>
-                            </div>
-                    
+                <div th:if="${error}" class="luxury-alert alert-danger alert-dismissible fade show" role="alert">
+                    <span class="alert-terminal-tag">[CRITICAL]</span> <span th:text="${error}"></span>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
                 </div>
 
-                <!-- Tabla de Modelos -->
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Imagen</th>
-                                <th>Nombre</th>
-                                <th>Marca</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Destacado</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="modelo : ${modelos}">
-                                <td>
-                                    <img th:src="${modelo.imagenUrl}" 
-                                        alt="Imagen" 
-                                        class="modelo-img" 
-                                        onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E';">
-                                </td>
-                                
-                                <td th:text="${modelo.nombre}"></td>
-                                <td th:text="${modelo.marca}"></td>
-                                <td th:text="'$' + ${#numbers.formatDecimal(modelo.precio, 1, 2, 'COMMA')}"></td>
-                                <td th:text="${modelo.stock}"></td>
-                                
-                                <td>
-                                    <span th:if="${modelo.destacado}" class="badge bg-warning">
-                                        <i class="fas fa-star"></i> Destacado
-                                    </span>
-                                </td>
-                                
-                                <td>
-                                    <span th:if="${modelo.activo}" class="badge bg-success status-badge">Activo</span>
-                                    <span th:unless="${modelo.activo}" class="badge bg-danger status-badge">Inactivo</span>
-                                </td>
-                                
-                                <td class="table-actions">
-                                    <a th:href="@{/admin/gestion_autos/editar/{id}(id=${modelo.id})}" 
-                                    class="btn btn-sm btn-outline-primary" title="Editar">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    
-                                    <form th:action="@{/admin/gestion_autos/toggle-activo/{id}(id=${modelo.id})}" method="post" class="d-inline">
-                                        <button type="submit" class="btn btn-sm" 
-                                                th:classappend="${modelo.activo} ? 'btn-outline-warning' : 'btn-outline-success'"
-                                                th:title="${modelo.activo} ? 'Desactivar' : 'Activar'">
-                                            <i th:classappend="${modelo.activo} ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                                        </button>
-                                    </form>
-                                    
-                                    <form th:action="@{/admin/gestion_autos/eliminar/{id}(id=${modelo.id})}" method="post" class="d-inline"
-                                        th:onclick="return confirm('¿Estás seguro de eliminar este modelo?')">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-3 mb-4 telemetry-border-bottom">
+                    <div>
+                        <div class="brand-sub-label">ASSET LOGISTICS MGR</div>
+                        <h1 class="luxury-page-title">GESTIÓN DE MODELOS</h1>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-hyper-primary" data-bs-toggle="modal" data-bs-target="#modalCrearModelo">
+                            <i class="fas fa-plus me-2"></i> AGREGAR MODELO
+                        </button>
+                        <button id="btnMigrarImagenes" class="btn btn-hyper-secondary">
+                            <i class="fas fa-sync-alt me-2"></i> MIGRAR IMÁGENES
+                        </button>
+                    </div>
+                </div>
+
+                <div class="luxury-bento-box p-4 overflow-hidden mb-5">
+                    <div class="table-responsive">
+                        <table class="hyper-table m-0">
+                            <thead>
+                                <tr>
+                                    <th>PREV. ASSET</th>
+                                    <th>MODELO / LÍNEA</th>
+                                    <th>FABRICANTE</th>
+                                    <th>VALORACIÓN (USD)</th>
+                                    <th>STOCK</th>
+                                    <th>DESTACADO</th>
+                                    <th>ESTADO TERMINAL</th>
+                                    <th class="text-end pe-4">ACCIONES CONTROLES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="modelo : ${modelos}">
+                                    <td>
+                                        <div class="img-container-wrapper">
+                                            <img th:src="${modelo.imagenUrl}" 
+                                                 alt="Hypercar" 
+                                                 class="modelo-img" 
+                                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%2315151b%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23475569%22 font-family=%22sans-serif%22 font-size=%2211%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ENO_ASSET_IMAGE%3C/text%3E%3C/svg%3E';">
+                                        </div>
+                                    </td>
+                                    <td class="fw-bold text-white text-uppercase" th:text="${modelo.nombre}"></td>
+                                    <td class="text-slate fw-semibold" th:text="${modelo.marca}"></td>
+                                    <td class="font-mono fw-bold" style="color: var(--slate-light);" th:text="'$ ' + ${#numbers.formatDecimal(modelo.precio, 1, 2, 'COMMA')}"></td>
+                                    <td><span class="badge-luxury-gold" th:text="${modelo.stock}"></span></td>
+                                    <td>
+                                        <span th:if="${modelo.destacado}" class="badge-luxury-gold">
+                                            <i class="fas fa-crown me-1"></i> VIP ASSET
+                                        </span>
+                                        <span th:unless="${modelo.destacado}" class="text-slate font-mono">—</span>
+                                    </td>
+                                    <td>
+                                        <span th:if="${modelo.activo}" class="badge-status-system active">ONLINE</span>
+                                        <span th:unless="${modelo.activo}" class="badge-status-system inactive">OFFLINE</span>
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <div class="d-inline-flex gap-2">
+                                            <a th:href="@{/admin/gestion_autos/editar/{id}(id=${modelo.id})}" 
+                                               class="btn-terminal-action edit" title="Editar Parámetros">
+                                                <i class="fas fa-sliders-h"></i>
+                                            </a>
+                                            
+                                            <form th:action="@{/admin/gestion_autos/toggle-activo/{id}(id=${modelo.id})}" method="post" class="d-inline">
+                                                <button type="submit" class="btn-terminal-action toggle" 
+                                                        th:classappend="${modelo.activo} ? 'text-monaco' : 'text-acid'"
+                                                        th:title="${modelo.activo} ? 'Desactivar Matriz' : 'Activar Matriz'">
+                                                    <i th:classappend="${modelo.activo} ? 'fas fa-power-off' : 'fas fa-plug'"></i>
+                                                </button>
+                                            </form>
+                                            
+                                            <form th:action="@{/admin/gestion_autos/eliminar/{id}(id=${modelo.id})}" method="post" class="d-inline"
+                                                  th:onclick="return confirm('¿Solicitar purga absoluta de este registro de la base de datos?')">
+                                                <button type="submit" class="btn-terminal-action delete" title="Purgar Sistema">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </main>
         </div>
     </div>
 
-   
+    <div class="modal fade" id="modalCrearModelo" tabindex="-1" aria-labelledby="modalCrearModeloLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content luxury-modal-box">
 
-    <!-- Modal Crear Modelo -->
-<div class="modal fade" id="modalCrearModelo" tabindex="-1" aria-labelledby="modalCrearModeloLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-
-            <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title" id="modalCrearModeloLabel">Registrar Nuevo Modelo</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-
-            <form id="crearModeloForm" th:action="@{/admin/gestion_autos/crear}" method="post" th:object="${modelo}" enctype="multipart/form-data">
-                <div class="modal-body">
-
-                    <div class="row g-3">
-
-                        <!-- Nombre -->
-                        <div class="col-md-6">
-                            <label class="form-label">Nombre del Modelo *</label>
-                            <input id="nombreInput" type="text" class="form-control" th:field="*{nombre}" required>
-                            <div class="invalid-feedback" data-field="nombre"></div>
-                        </div>
-
-                        <!-- Marca -->
-                        <div class="col-md-6">
-                            <label class="form-label">Marca *</label>
-                            <input id="marcaInput" type="text" class="form-control" th:field="*{marca}" required>
-                            <div class="invalid-feedback" data-field="marca"></div>
-                        </div>
-
-                        <!-- Motor -->
-                        <div class="col-md-6">
-                            <label class="form-label">Motor *</label>
-                            <input id="motorInput" type="text" class="form-control" th:field="*{motor}" required>
-                            <div class="invalid-feedback" data-field="motor"></div>
-                        </div>
-
-                        <!-- Potencia -->
-                        <div class="col-md-6">
-                            <label class="form-label">Potencia *</label>
-                            <input id="potenciaInput" type="text" class="form-control" th:field="*{potencia}" required>
-                            <div class="invalid-feedback" data-field="potencia"></div>
-                        </div>
-
-                        <!-- Velocidad Máxima -->
-                        <div class="col-md-6">
-                            <label class="form-label">Velocidad Máx *</label>
-                            <input id="velocidadInput" type="text" class="form-control" th:field="*{velocidadMax}" required>
-                            <div class="invalid-feedback" data-field="velocidadMax"></div>
-                        </div>
-
-                        <!-- Aceleración -->
-                        <div class="col-md-6">
-                            <label class="form-label">Aceleración</label>
-                            <input id="aceleracionInput" type="text" class="form-control" th:field="*{aceleracion}">
-                            <div class="invalid-feedback" data-field="aceleracion"></div>
-                        </div>
-                        <!-- Año -->
-                         
-            <div class="col-md-4">
-                <label class="form-label">Año</label>
-                <input id="anioInput" type="number" th:field="*{anio}" class="form-control">
-                <div class="invalid-feedback" data-field="anio"></div>
-            </div>
-
-                        <!-- Precio -->
-                        <div class="col-md-6">
-                            <label class="form-label">Precio (USD) *</label>
-                            <input id="precioInput" type="number" step="0.01" min="0" class="form-control" th:field="*{precio}" required>
-                            <div class="invalid-feedback" data-field="precio"></div>
-                        </div>
-
-                        <!-- Stock -->
-                        <div class="col-md-6">
-                            <label class="form-label">Stock *</label>
-                            <input id="stockInput" type="number" min="1" class="form-control" th:field="*{stock}" required>
-                            <div class="invalid-feedback" data-field="stock"></div>
-                        </div>
-                        
-                        <div class="col-12">
-                <label class="form-label">Equipamiento</label>
-                <textarea id="equipamientoInput" th:field="*{equipamiento}" rows="2" class="form-control"></textarea>
-                <div class="invalid-feedback" data-field="equipamiento"></div>
-            </div>
-
-
-                        <!-- Imagen: archivo o URL -->
-                        <div class="col-md-12">
-                            <label class="form-label">Imagen (archivo o URL)</label>
-                            <div class="mb-2">
-                                <input id="imagenFileCreate" name="imagen" type="file" accept="image/*" class="form-control">
-                            </div>
-                            <!-- URL field removed; create via file upload only -->
-                            <div class="mt-2">
-                                <img id="imagenPreviewCreate" src="" alt="Previsualización" class="img-fluid rounded" style="max-height:120px; display:none;" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E'">
-                            </div>
-                        </div>
-
-                        <!-- Categoría -->
-                        <div class="col-md-6">
-                            <label class="form-label">Categoría</label>
-                            <select class="form-select" th:field="*{categoria}">
-                                <option value="HYPERCAR">Hypercar</option>
-                                <option value="SUPERDEPORTIVO">Superdeportivo</option>
-                                <option value="DEPORTIVO">Deportivo</option>
-                                <option value="SUV">SUV</option>
-                                <option value="LUJO">Lujo</option>
-                            </select>
-                        </div>
-
-                        <!-- Destacado -->
-                        <div class="col-md-3 mt-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" th:field="*{destacado}">
-                                <label class="form-check-label">Destacado</label>
-                            </div>
-                        </div>
-
-                        <!-- Activo -->
-                        <div class="col-md-3 mt-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" th:field="*{activo}" checked>
-                                <label class="form-check-label">Activo</label>
-                            </div>
-                        </div>
-
-                        <!-- Descripción -->
-                        <div class="col-md-12">
-                            <label class="form-label">Descripción *</label>
-                            <textarea class="form-control" rows="4" th:field="*{descripcion}" required></textarea>
-                        </div>
-
+                <div class="modal-header">
+                    <div>
+                        <div class="brand-sub-label">SECURE INPUT TERMINAL</div>
+                        <h5 class="modal-title" id="modalCrearModeloLabel">REGISTRAR NUEVO ASSET</h5>
                     </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Modelo</button>
-                </div>
+                <form id="crearModeloForm" th:action="@{/admin/gestion_autos/crear}" method="post" th:object="${modelo}" enctype="multipart/form-data">
+                    <div class="modal-body custom-modal-body px-4">
+                        <div class="row g-3">
 
-            </form>
+                            <div class="col-md-6">
+                                <label class="form-label luxury-label">DESIGNACIÓN DEL MODELO *</label>
+                                <input id="nombreInput" type="text" class="form-control hyper-input" th:field="*{nombre}" required placeholder="Ej: SF90 Stradale">
+                                <div class="invalid-feedback feedback-luxury" data-field="nombre"></div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label luxury-label">FABRICANTE ESCUDERÍA *</label>
+                                <input id="marcaInput" type="text" class="form-control hyper-input" th:field="*{marca}" required placeholder="Ej: Ferrari">
+                                <div class="invalid-feedback feedback-luxury" data-field="marca"></div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label luxury-label">PLANTA MOTRIZ / CONFIGURACIÓN *</label>
+                                <input id="motorInput" type="text" class="form-control hyper-input" th:field="*{motor}" required placeholder="Ej: 4.0L Twin-Turbo V8 Hybrid">
+                                <div class="invalid-feedback feedback-luxury" data-field="motor"></div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label luxury-label">RENDIMIENTO DE POTENCIA *</label>
+                                <input id="potenciaInput" type="text" class="form-control hyper-input" th:field="*{potencia}" required placeholder="Ej: 1000 CV / 986 hp">
+                                <div class="invalid-feedback feedback-luxury" data-field="potencia"></div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label luxury-label">VELOCIDAD DE HOMOLOGACIÓN *</label>
+                                <input id="velocidadInput" type="text" class="form-control hyper-input" th:field="*{velocidadMax}" required placeholder="Ej: 340 km/h">
+                                <div class="invalid-feedback feedback-luxury" data-field="velocidadMax"></div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label luxury-label">MÉTRICA ACELERACIÓN (0-100 KM/H)</label>
+                                <input id="aceleracionInput" type="text" class="form-control hyper-input" th:field="*{aceleracion}" placeholder="Ej: 2.5 segundos">
+                                <div class="invalid-feedback feedback-luxury" data-field="aceleracion"></div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label class="form-label luxury-label">AÑO DE PRODUCCIÓN</label>
+                                <input id="anioInput" type="number" th:field="*{anio}" class="form-control hyper-input" placeholder="2026">
+                                <div class="invalid-feedback feedback-luxury" data-field="anio"></div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label luxury-label">VALOR DE MERCADO (USD) *</label>
+                                <input id="precioInput" type="number" step="0.01" min="0" class="form-control hyper-input text-acid font-mono fw-bold" th:field="*{precio}" required placeholder="500000">
+                                <div class="invalid-feedback feedback-luxury" data-field="precio"></div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label luxury-label">ASIGNACIONES / STOCK *</label>
+                                <input id="stockInput" type="number" min="1" class="form-control hyper-input font-mono" th:field="*{stock}" required placeholder="1">
+                                <div class="invalid-feedback feedback-luxury" data-field="stock"></div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <label class="form-label luxury-label">ESPECIFICACIONES DE COMPETICIÓN / EQUIPAMIENTO</label>
+                                <textarea id="equipamientoInput" th:field="*{equipamiento}" rows="2" class="form-control hyper-input" placeholder="Carbon-Ceramic brakes, Weissach Package, Assetto Fiorano Specs..."></textarea>
+                                <div class="invalid-feedback feedback-luxury" data-field="equipamiento"></div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label luxury-label">ASSET DOSSIER DIGITAL (IMAGEN)</label>
+                                <div class="mb-2">
+                                    <input id="imagenFileCreate" name="imagen" type="file" accept="image/*" class="form-control hyper-input-file">
+                                </div>
+                                <div class="mt-3 text-center preview-wrapper-box">
+                                    <img id="imagenPreviewCreate" src="" alt="Previsualización Asset" class="img-fluid rounded multi-preview-element" style="display:none;" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%23111114%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23475569%22 font-family=%22sans-serif%22 font-size=%2212%22 dy=%223%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3EASSET_PENDING_UPLOAD%3C/text%3E%3C/svg%3E'">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label luxury-label">CLASIFICACIÓN DINÁMICA</label>
+                                <select class="form-select hyper-input" th:field="*{categoria}">
+                                    <option value="HYPERCAR">⚡ HYPERCAR</option>
+                                    <option value="SUPERDEPORTIVO">🏁 SUPERDEPORTIVO</option>
+                                    <option value="DEPORTIVO">🏎️ DEPORTIVO</option>
+                                    <option value="SUV">💎 SPORT SUV</option>
+                                    <option value="LUJO">👑 GRAN TURISMO / LUJO</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 d-flex align-items-center justify-content-start pt-4">
+                                <div class="form-check form-switch hyper-switch-box">
+                                    <input class="form-check-input hyper-switch" type="checkbox" th:field="*{destacado}" id="flexDestacado">
+                                    <label class="form-check-label switch-luxury-label" for="flexDestacado">VIP DESTACADO</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 d-flex align-items-center justify-content-start pt-4">
+                                <div class="form-check form-switch hyper-switch-box">
+                                    <input class="form-check-input hyper-switch" type="checkbox" th:field="*{activo}" checked id="flexActivo">
+                                    <label class="form-check-label switch-luxury-label" for="flexActivo">VISIBLE EN LIVE CORE</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label luxury-label">HISTORIAL / RESEÑA DEL MODELO *</label>
+                                <textarea class="form-control hyper-input" rows="4" th:field="*{descripcion}" required placeholder="Escribe el desglose comercial o legado histórico del vehículo..."></textarea>
+                                <div class="invalid-feedback feedback-luxury" data-field="descripcion"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer terminal-modal-footer">
+                        <button type="button" class="btn btn-hyper-link" data-bs-dismiss="modal">ABORTAR</button>
+                        <button type="submit" class="btn btn-hyper-primary">DESPLEGAR ASSET</button>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{/js/admin.js}"></script>
-    <!-- Script para crear modelo vía AJAX y broadcast (igual que en target) -->
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const crearForm = document.getElementById('crearModeloForm');
             const modalEl = document.getElementById('modalCrearModelo');
             let bc = null;
-            try { bc = new BroadcastChannel('modelos_channel'); } catch(e) { /* no soportado */ }
+            try { bc = new BroadcastChannel('modelos_channel'); } catch(e) {}
 
             function escapeHtml(s) {
                 if (!s) return '';
                 return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/\'/g, '&#039;');
             }
 
-            // Migrar imágenes (btn) -> POST /admin/gestion_autos/migrate-images
             const btnMigrar = document.getElementById('btnMigrarImagenes');
             if (btnMigrar) {
                 btnMigrar.addEventListener('click', async function () {
@@ -277,42 +271,45 @@
                     try {
                         const resp = await fetch('/admin/gestion_autos/migrate-images', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'dryRun=' + (dryRun ? 'true' : 'false') });
                         const json = await resp.json();
-                        let msg = `Migración completada. Procesados: ${json.total}`;
+                        let msg = `Migración completada de forma segura. Procesados totales: ${json.total}`;
                         showAlert(msg, 'info');
-                        console.info('Migration result', json);
                     } catch (err) {
-                        console.error('Error migrating images:', err);
-                        showAlert('Error migrando imágenes: ' + err.message, 'danger');
+                        showAlert('Error migrando imágenes en consola: ' + err.message, 'danger');
                     } finally { btnMigrar.disabled = false; }
                 });
             }
 
+            // Función JavaScript optimizada para renderizar con las clases exactas de tu CSS
             function appendModelToTable(model) {
                 const tbody = document.querySelector('table tbody');
                 if (!tbody) return;
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>
-                        <img src="${escapeHtml(model.imagenUrl)}" alt="Imagen" class="modelo-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2214%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ESin Imagen%3C/text%3E%3C/svg%3E'">
+                        <div class="img-container-wrapper">
+                            <img src="${escapeHtml(model.imagenUrl)}" alt="Hypercar" class="modelo-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22%3E%3Crect fill=%22%2315151b%22 width=%22200%22 height=%22120%22/%3E%3Ctext fill=%22%23475569%22 font-family=%22sans-serif%22 font-size=%2211%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3ENO_ASSET_IMAGE%3C/text%3E%3C/svg%3E'">
+                        </div>
                     </td>
-                    <td>${escapeHtml(model.nombre)}</td>
-                    <td>${escapeHtml(model.marca)}</td>
-                    <td>$${(Number(model.precio) || 0).toFixed(2)}</td>
-                    <td>${escapeHtml(model.stock)}</td>
-                    <td>${model.destacado ? '<span class="badge bg-warning"><i class="fas fa-star"></i> Destacado</span>' : ''}</td>
+                    <td class="fw-bold text-white text-uppercase">${escapeHtml(model.nombre)}</td>
+                    <td class="text-slate fw-semibold">${escapeHtml(model.marca)}</td>
+                    <td class="font-mono fw-bold" style="color: var(--slate-light);">$ ${(Number(model.precio) || 0).toFixed(2)}</td>
+                    <td><span class="badge-luxury-gold">${escapeHtml(model.stock)}</span></td>
+                    <td>${model.destacado ? '<span class="badge-luxury-gold"><i class="fas fa-crown me-1"></i> VIP ASSET</span>' : '<span class="text-slate font-mono">—</span>'}</td>
                     <td>
-                        <span class="badge ${model.activo ? 'bg-success' : 'bg-danger'} status-badge">${model.activo ? 'Activo' : 'Inactivo'}</span>
+                        <span class="badge-status-system ${model.activo ? 'active' : 'inactive'}">${model.activo ? 'ONLINE' : 'OFFLINE'}</span>
                     </td>
-                    <td class="table-actions">
-                        <a href="/admin/gestion_autos/editar/${model.id}" class="btn btn-sm btn-outline-primary" title="Editar"><i class="fas fa-edit"></i></a>
-                        <form action="/admin/gestion_autos/toggle-activo/${model.id}" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-sm ${model.activo ? 'btn-outline-warning' : 'btn-outline-success'}" title="${model.activo ? 'Desactivar' : 'Activar'}">
-                                <i class="${model.activo ? 'fas fa-eye-slash' : 'fas fa-eye'}"></i>
-                            </button>
-                        </form>
-                        <form action="/admin/gestion_autos/eliminar/${model.id}" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este modelo?')">
-                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
-                        </form>
+                    <td class="text-end pe-4">
+                        <div class="d-inline-flex gap-2">
+                            <a href="/admin/gestion_autos/editar/${model.id}" class="btn-terminal-action edit" title="Editar Parámetros"><i class="fas fa-sliders-h"></i></a>
+                            <form action="/admin/gestion_autos/toggle-activo/${model.id}" method="post" class="d-inline">
+                                <button type="submit" class="btn-terminal-action toggle ${model.activo ? 'text-monaco' : 'text-acid'}" title="${model.activo ? 'Desactivar Matriz' : 'Activar Matriz'}">
+                                    <i class="${model.activo ? 'fas fa-power-off' : 'fas fa-plug'}"></i>
+                                </button>
+                            </form>
+                            <form action="/admin/gestion_autos/eliminar/${model.id}" method="post" class="d-inline" onsubmit="return confirm('¿Solicitar purga absoluta de este registro de la base de datos?')">
+                                <button type="submit" class="btn-terminal-action delete" title="Purgar Sistema"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </div>
                     </td>`;
                 tbody.prepend(tr);
             }
@@ -321,11 +318,11 @@
                 const main = document.querySelector('.main-content');
                 if (!main) return;
                 const alert = document.createElement('div');
-                alert.className = `alert alert-${type} alert-dismissible fade show`;
+                alert.className = `luxury-alert alert-${type} alert-dismissible fade show`;
                 alert.role = 'alert';
-                alert.innerHTML = `${escapeHtml(message)}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+                alert.innerHTML = `<span class="alert-terminal-tag">[LOG_SYS]</span> ${escapeHtml(message)}<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>`;
                 main.prepend(alert);
-                setTimeout(() => { try { alert.remove(); } catch(_) {} }, 4000);
+                setTimeout(() => { try { alert.remove(); } catch(_) {} }, 5000);
             }
 
             if (crearForm) {
@@ -364,15 +361,14 @@
                                     const json = await response.json();
                                     if (json && json.model) model = json.model;
                                     else if (json && json.id) model = json;
-                                } catch (err) { /* ignore */ }
+                                } catch (err) {}
                             }
                             appendModelToTable(model);
-                            showAlert('Modelo creado correctamente', 'success');
+                            showAlert('Ficha de súper auto construida y anexada correctamente', 'success');
                             try { const bootstrapModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl); bootstrapModal.hide(); } catch (_) {}
                             crearForm.reset();
+                            if (imagenPreviewCreate) imagenPreviewCreate.style.display = 'none';
                             if (bc) bc.postMessage({ type: 'created', model });
-                        } else if (response.status === 0 || response.status === 302 || response.redirected) {
-                            showAlert('Modelo creado (redirigido). Actualiza la página si corresponde.', 'success');
                         } else {
                             if (ct.includes('application/json')) {
                                 const json = await response.json();
@@ -383,51 +379,32 @@
                                         const fb = crearForm.querySelector('.invalid-feedback[data-field="' + field + '"]');
                                         if (fb) fb.textContent = json.errors[field];
                                     });
-                                    showAlert('Corrige los errores marcados en el formulario', 'danger');
-                                } else if (json.message) { showAlert(json.message, 'danger'); }
-                            } else if (ct.includes('text/html')) {
-                                const text = await response.text();
-                                try {
-                                    const parser = new DOMParser();
-                                    const doc = parser.parseFromString(text, 'text/html');
-                                    const feedbacks = doc.querySelectorAll('.invalid-feedback[data-field]');
-                                    if (feedbacks.length) {
-                                        feedbacks.forEach(fb => {
-                                            const field = fb.getAttribute('data-field');
-                                            const msg = fb.textContent.trim();
-                                            const el = crearForm.querySelector('[name="' + field + '"]') || document.getElementById(field + 'Input');
-                                            if (el) el.classList.add('is-invalid');
-                                            const localFb = crearForm.querySelector('.invalid-feedback[data-field="' + field + '"]');
-                                            if (localFb) localFb.textContent = msg;
-                                        });
-                                        showAlert('Corrige los errores marcados en el formulario', 'danger');
-                                    } else {
-                                        showAlert('Error al crear el modelo', 'danger');
-                                        console.error('Error crear modelo:', response.status, text);
-                                    }
-                                } catch (err) { showAlert('Error al crear el modelo', 'danger'); }
+                                    showAlert('Error de validación en parámetros clave.', 'danger');
+                                }
                             } else {
-                                const text = await response.text();
-                                showAlert('Error al crear el modelo', 'danger');
-                                console.error('Error crear modelo:', response.status, text);
+                                showAlert('Error crítico de integración de datos en consola.', 'danger');
                             }
                         }
-                    } catch (err) { showAlert('Error de red: ' + err.message, 'danger'); }
+                    } catch (err) { showAlert('Fallo masivo de red en la pasarela: ' + err.message, 'danger'); }
                     finally { if (btn) btn.disabled = false; }
                 });
 
-                // preview handling for file and url
                 const imagenFileCreate = document.getElementById('imagenFileCreate');
                 const imagenPreviewCreate = document.getElementById('imagenPreviewCreate');
                 if (imagenFileCreate && imagenPreviewCreate) {
                     imagenFileCreate.addEventListener('change', function () {
-                        const file = imagenFileCreate.files && imagenFileCreate.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function (e) { imagenPreviewCreate.src = e.target.result; imagenPreviewCreate.style.display = 'block'; }; reader.readAsDataURL(file);
+                        const file = imagenFileCreate.files && imagenFileCreate.files[0]; 
+                        if (!file) return; 
+                        const reader = new FileReader(); 
+                        reader.onload = function (e) { 
+                            imagenPreviewCreate.src = e.target.result; 
+                            imagenPreviewCreate.style.display = 'block'; 
+                        }; 
+                        reader.readAsDataURL(file);
                     });
                 }
-                // no URL input on create form - preview only from file input
             }
         });
     </script>
-    
 </body>
 </html>

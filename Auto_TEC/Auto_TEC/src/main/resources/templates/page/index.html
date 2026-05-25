@@ -1,325 +1,395 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AutoTec Motors - Experiencia Cliente Mejorada</title>
+  <title>AUTOTEC MOTORS | Hypercar Atelier</title>
 
-  <!-- Bootstrap CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Orbitron:wght@600;700;900&display=swap" rel="stylesheet">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <!-- CSS externo -->
   <link rel="stylesheet" href="/css/index.css"/>
-  <!-- Leaflet removed: map disabled in footer -->
-  
 </head>
-<body>
-    <!-- Navbar -->
-  <div th:replace="fragments/header :: header"></div>
+<body class="carbon-bg">
+
+
+
+
+  <header class="luxury-header fixed-top">
+    <div class="header-top-bar d-none d-md-flex justify-content-between px-md-5">
+      <div class="top-bar-meta">
+        <span><i class="fa-solid fa-satellite me-1"></i> TRANS-LINK ACTIVE</span>
+        <span class="ms-3"><i class="fa-regular fa-clock me-1"></i> SECTOR TIME: <span class="text-white fw-bold">00:00:00 GMT</span></span>
+      </div>
+      <div class="top-bar-lang">
+        <span class="lang-selector active">ESP</span> / <span class="lang-selector">ENG</span>
+      </div>
+    </div>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent py-3">
+      <div class="container-fluid px-md-5">
+        <a class="navbar-brand text-uppercase d-flex align-items-center" href="/">
+          <div class="brand-logo-hex me-2">
+            <i class="fa-solid fa-bolt text-neon"></i>
+          </div>
+          <span class="brand-text">AUTOTEC <span class="text-gold font-display fw-normal">MOTORS</span></span>
+        </a>
+        
+        <button class="navbar-toggler custom-nav-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navCore" aria-controls="navCore" aria-expanded="false" aria-label="Abrir Menú">
+          <span class="toggler-line"></span>
+          <span class="toggler-line menu-mid-line"></span>
+          <span class="toggler-line"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navCore">
+          <ul class="navbar-nav mx-auto font-display text-small text-uppercase tracking-widest gap-lg-4 py-3 py-lg-0">
+            <li class="nav-item"><a class="nav-link active" href="#inicio">ATELIER VIRTUAL</a></li>
+            <li class="nav-item"><a class="nav-link" href="#modelos">COLECCIÓN PRIVADA</a></li>
+            <li class="nav-item"><a class="nav-link" href="/modelos">CATALOGO </a></li>
+      <li class="nav-item"><a class="nav-link" href="/ventas">VENTA DE REPUESTOS</a></li>
+      <li class="nav-item"><a class="nav-link" href="/servicios">NUESTROS SERVICIOS</a></li>
+      <li class="nav-item"><a class="nav-link" href="/financiamiento">solicita tu financiación</a></li>
+      <li class="nav-item"><a class="nav-link" href="/gestion">GESTION DIRECTA</a></li>
+       <li class="nav-item"><a class="nav-link" href="/contacto">CONTACTANOS// COMENTARIOS</a></li>
+         <li class="nav-item" sec:authorize="!isAuthenticated()">
+            <a class="nav-link atelier-nav-link" href="/auth/login">LOGIN</a>
+        </li>
+          </ul>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
   
-  <!-- Loader -->
-  <div id="loader" role="alert" aria-live="assertive" aria-busy="true" aria-label="Cargando contenido">
-    <img src="https://cdn-icons-png.flaticon.com/512/743/743131.png" alt="Logo AutoTec Motors" />
-    <h1>AutoTec Motors</h1>
-    
-    <div class="spinner" aria-hidden="true"></div>
-    
+  <div id="loader" role="alert" aria-live="assertive" aria-busy="true">
+    <div class="loader-chassis">
+      <img src="https://cdn-icons-png.flaticon.com/512/743/743131.png" alt="Monograma AutoTec" />
+      <h1 class="loader-brand">AUTOTEC</h1>
+      <span class="loader-status">CARGANDO CÓDIGOS DE TELEMETRÍA BIOMÉTRICA...</span>
+      <div class="neon-pulse-bar" aria-hidden="true"></div>
+    </div>
   </div>
 
-  <!-- Toast notification -->
-  <div id="toast-notificacion" role="alert" aria-live="assertive" aria-atomic="true" hidden>
-    <i class="fas fa-check-circle"></i>
-    <span id="toast-mensaje"></span>
+  <div id="toast-notificacion" class="p-3 position-fixed bottom-0 end-0 m-4" role="alert" aria-live="assertive" aria-atomic="true" hidden>
+    <div class="d-flex align-items-center gap-3">
+      <div class="toast-status-indicator"></div>
+      <div class="d-flex flex-column">
+        <span class="toast-title">NOTIFICACIÓN VAULT</span>
+        <span id="toast-mensaje" class="text-white-50 small"></span>
+      </div>
+    </div>
   </div>
 
   <div id="contenido">
-    <!-- Hero + Carrusel -->
-    <section id="inicio" class="hero-section">
-      <div class="container">
-        <div class="row align-items-center min-vh-100">
-          <div class="col-lg-6 py-5">
-            <h1 class="display-4 fw-bold mb-4">Bienvenido a AutoTec Motors</h1>
-            <p class="lead mb-4">Descubre la excelencia en vehículos de lujo: ventas exclusivas, financiamiento premium y servicios de élite.</p>
-              <p class="lead">Bienvenido(a), <strong sec:authentication="name">Usuario</strong>
-            <div class="d-flex gap-3 flex-wrap">
-              <a href="/modelos" class="btn btn-warning btn-lg fw-semibold"><i class="fa-solid fa-list me-2"></i>Ver Modelos</a>
-              <a href="/contacto" class="btn btn-outline-warning btn-lg fw-semibold"><i class="fa-regular fa-envelope me-2"></i>Contactar</a>
+    <section id="inicio" class="hero-showroom min-vh-100 d-flex align-items-center position-relative">
+      <div class="container-fluid px-md-5 z-index-hero">
+        <div class="row align-items-center g-5">
+          
+          <div class="col-lg-5 col-xl-5 text-start">
+            <div class="user-badge mb-3">
+              <span class="badge-neon-dot"></span> CONFIGURADOR AUTORIZADO: <span sec:authentication="name" class="text-gold fw-bold">OPERADOR ÉLITE</span>
             </div>
-          </div><div class="col-lg-6">
-  <div id="carouselPortada" class="carousel slide rounded-3 overflow-hidden shadow-lg" data-bs-ride="carousel">
-    <div class="carousel-inner">
+            <h1 class="display-3 hyper-main-title mb-3">AUTOTEC<br><span class="text-stroke">MOTORS</span></h1>
+            <div class="gold-divider mb-4"></div>
+            <p class="hyper-p mb-4">Ingeniería molecular, aerodinámica activa y límites mecánicos inexistentes. Acceda a la curaduría definitiva de hypercoches del planeta.</p>
+            
+            <div class="d-flex gap-3 flex-wrap">
+              <a href="#modelos" class="btn btn-hyper btn-gold-matrix"><i class="fa-solid fa-bolt me-2"></i>EXPLORAR GRID</a>
+              <a href="/contacto" class="btn btn-hyper btn-neon-outline"><i class="fa-regular fa-id-card me-2"></i>SOLICITAR CITA</a>
+            </div>
+          </div>
 
-      <div class="carousel-item active">
-        <video class="d-block w-100" autoplay muted loop playsinline style="height:420px;object-fit:cover;">
-          <source src="/images/video1.mp4" type="video/mp4">
-          Tu navegador no soporta el video.
-        </video>
+          <div class="col-lg-7 col-xl-7">
+            <div class="showroom-frame p-2">
+              <div id="carouselPortada" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+                <div class="carousel-inner rounded-4">
+                  <div class="carousel-item active">
+                    <div class="overlay-gradient"></div>
+                    <video class="d-block w-100 video-showroom" autoplay muted loop playsinline>
+                      <source src="/images/video1.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="overlay-gradient"></div>
+                    <video class="d-block w-100 video-showroom" autoplay muted loop playsinline>
+                      <source src="/images/video2.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="overlay-gradient"></div>
+                    <video class="d-block w-100 video-showroom" autoplay muted loop playsinline>
+                      <source src="/images/video3.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+
+                <button class="carousel-control-prev custom-ctrl" type="button" data-bs-target="#carouselPortada" data-bs-slide="prev">
+                  <span class="fas fa-chevron-left text-gold" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next custom-ctrl" type="button" data-bs-target="#carouselPortada" data-bs-slide="next">
+                  <span class="fas fa-chevron-right text-gold" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
+    </section>
 
-      <div class="carousel-item">
-        <video class="d-block w-100" autoplay muted loop playsinline style="height:420px;object-fit:cover;">
-          <source src="/images/video2.mp4" type="video/mp4">
-          Tu navegador no soporta el video.
-        </video>
-      </div>
-
-      <div class="carousel-item">
-        <video class="d-block w-100" autoplay muted loop playsinline style="height:420px;object-fit:cover;">
-          <source src="/images/video3.mp4" type="video/mp4">
-          Tu navegador no soporta el video.
-        </video>
-      </div>
-
-      <div class="carousel-item">
-        <video class="d-block w-100" autoplay muted loop playsinline style="height:420px;object-fit:cover;">
-          <source src="/images/video4.mp4" type="video/mp4">
-          Tu navegador no soporta el video.
-        </video>
-      </div>
-
-      <div class="carousel-item">
-        <video class="d-block w-100" autoplay muted loop playsinline style="height:420px;object-fit:cover;">
-          <source src="/images/video1.mp4" type="video/mp4">
-          Tu navegador no soporta el video.
-        </video>
-      </div>
-    </div>
-
-    <!-- Controles -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPortada" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Anterior</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselPortada" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Siguiente</span>
-    </button>
-  </div>
-</div>
-
-
-    <!-- Modelos destacados -->
-    <section id="modelos" class="py-5">
-      <div class="container">
-        <h2 class="text-center mb-5 display-5 fw-bold">Modelos Destacados</h2>
+    <section id="modelos" class="py-5 position-relative">
+      <div class="container py-4">
+        <div class="text-center mb-5">
+          <span class="grid-sub">CURADURÍA MECÁNICA PRIVADA</span>
+          <h2 class="grid-main-title">MATRIZ DE HIPERCOCHES</h2>
+          <div class="neon-line-center"></div>
+        </div>
+        
         <div class="row g-4 justify-content-center">
 
-          <!-- McLaren P1 -->
-          <div class="col-md-4 col-lg-3">
-            <div class="card card-anim shadow-lg" style="background-color: #1c1c1c; border: 2px solid #ff9800;">
-              <img src="/images/mclaren_p1.jpg" class="card-img-top" alt="McLaren P1" style="height:200px; object-fit:cover;">
-              <div class="card-body text-center">
-                <h5 class="card-title text-warning">McLaren P1</h5>
-                <p class="card-text text-white">Velocidad máxima: 350 km/h<br>0-100 km/h: 2.8s</p>
-                <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalDetalles" onclick="mostrarDetalles('McLaren P1')">Detalles</button>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card card-carbon h-100">
+              <div class="card-header-badge">ACTIVO HÍBRIDO</div>
+              <div class="card-img-container">
+                <img src="/images/mclaren_p1.jpg  " class="card-img-top img-fluid" alt="McLaren P1">
+              </div>
+              <div class="card-body p-4 d-flex flex-column justify-content-between text-start">
+                <div>
+                  <h3 class="car-title">MCLAREN P1</h3>
+                  <div class="spec-row"><span>VEL. MÁXIMA</span><span class="text-gold">350 KM/H</span></div>
+                  <div class="spec-row"><span>0-100 KM/H</span><span class="text-neon">2.8 S</span></div>
+                </div>
+                <button class="btn btn-card-action mt-4" data-bs-toggle="modal" data-bs-target="#modalDetalles" th:onclick="mostrarDetalles('McLaren P1')">TELEMETRÍA</button>
               </div>
             </div>
           </div>
 
-          <!-- Koenigsegg Jesko -->
-          <div class="col-md-4 col-lg-3">
-            <div class="card card-anim shadow-lg" style="background-color: #1c1c1c; border: 2px solid #ff9800;">
-              <img src="/images/jesko.jpg" class="card-img-top" alt="Koenigsegg Jesko" style="height:200px; object-fit:cover;">
-              <div class="card-body text-center">
-                <h5 class="card-title text-warning">Koenigsegg Jesko</h5>
-                <p class="card-text text-white">Velocidad máxima: 482 km/h<br>0-100 km/h: 2.5s</p>
-                <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalDetalles" onclick="mostrarDetalles('Koenigsegg Jesko')">Detalles</button>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card card-carbon h-100">
+              <div class="card-header-badge">MEGAWATIO PURO</div>
+              <div class="card-img-container">
+                <img src="/images/jesko.jpg" class="card-img-top img-fluid" alt="Koenigsegg Jesko">
+              </div>
+              <div class="card-body p-4 d-flex flex-column justify-content-between text-start">
+                <div>
+                  <h3 class="car-title">KOENIGSEGG JESKO</h3>
+                  <div class="spec-row"><span>VEL. MÁXIMA</span><span class="text-gold">482 KM/H</span></div>
+                  <div class="spec-row"><span>0-100 KM/H</span><span class="text-neon">2.5 S</span></div>
+                </div>
+                <button class="btn btn-card-action mt-4" data-bs-toggle="modal" data-bs-target="#modalDetalles" th:onclick="mostrarDetalles('Koenigsegg Jesko')">TELEMETRÍA</button>
               </div>
             </div>
           </div>
 
-          <!-- Bugatti Chiron -->
-          <div class="col-md-4 col-lg-3">
-            <div class="card card-anim shadow-lg" style="background-color: #1c1c1c; border: 2px solid #ff9800;">
-              <img src="/images/chiron.jpg" class="card-img-top" alt="Bugatti Chiron" style="height:200px; object-fit:cover;">
-              <div class="card-body text-center">
-                <h5 class="card-title text-warning">Bugatti Chiron</h5>
-                <p class="card-text text-white">Velocidad máxima: 420 km/h<br>0-100 km/h: 2.4s</p>
-                <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalDetalles" onclick="mostrarDetalles('Bugatti Chiron')">Detalles</button>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card card-carbon h-100">
+              <div class="card-header-badge">W16 QUAD-TURBO</div>
+              <div class="card-img-container">
+                <img src="/images/chiron.jpg" class="card-img-top img-fluid" alt="Bugatti Chiron">
+              </div>
+              <div class="card-body p-4 d-flex flex-column justify-content-between text-start">
+                <div>
+                  <h3 class="car-title">BUGATTI CHIRON</h3>
+                  <div class="spec-row"><span>VEL. MÁXIMA</span><span class="text-gold">420 KM/H</span></div>
+                  <div class="spec-row"><span>0-100 KM/H</span><span class="text-neon">2.4 S</span></div>
+                </div>
+                <button class="btn btn-card-action mt-4" data-bs-toggle="modal" data-bs-target="#modalDetalles" th:onclick="mostrarDetalles('Bugatti Chiron')">TELEMETRÍA</button>
               </div>
             </div>
           </div>
 
-          <!-- Koenigsegg Agera -->
-          <div class="col-md-4 col-lg-3">
-            <div class="card  card-anim shadow-lg" style="background-color: #1c1c1c; border: 2px solid #ff9800;">
-              <img src="/images/agera.jpg" class="card-img-top" alt="Koenigsegg Agera" style="height:200px; object-fit:cover;">
-              <div class="card-body text-center">
-                <h5 class="card-title text-warning">Koenigsegg Agera</h5>
-                <p class="card-text text-white">Velocidad máxima: 447 km/h<br>0-100 km/h: 2.9s</p>
-                <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalDetalles" onclick="mostrarDetalles('Koenigsegg Agera')">Detalles</button>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card card-carbon h-100">
+              <div class="card-header-badge">EDICIÓN CIRCUITO</div>
+              <div class="card-img-container">
+                <img src="/images/agera.jpg" class="card-img-top img-fluid" alt="Koenigsegg Agera">
+              </div>
+              <div class="card-body p-4 d-flex flex-column justify-content-between text-start">
+                <div>
+                  <h3 class="car-title">KOENIGSEGG AGERA</h3>
+                  <div class="spec-row"><span>VEL. MÁXIMA</span><span class="text-gold">447 KM/H</span></div>
+                  <div class="spec-row"><span>0-100 KM/H</span><span class="text-neon">2.9 S</span></div>
+                </div>
+                <button class="btn btn-card-action mt-4" data-bs-toggle="modal" data-bs-target="#modalDetalles" th:onclick="mostrarDetalles('Koenigsegg Agera')">TELEMETRÍA</button>
               </div>
             </div>
           </div>
 
-          <!-- Lamborghini Aventador -->
-          <div class="col-md-4 col-lg-3">
-            <div class="card card-anim shadow-lg" style="background-color: #1c1c1c; border: 2px solid #ff9800;">
-              <img src="/images/aventador.jpg" class="card-img-top" alt="Lamborghini Aventador" style="height:200px; object-fit:cover;">
-              <div class="card-body text-center">
-                <h5 class="card-title text-warning">Lamborghini Aventador</h5>
-                <p class="card-text text-white">Velocidad máxima: 350 km/h<br>0-100 km/h: 2.9s</p>
-                <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalDetalles" onclick="mostrarDetalles('Lamborghini Aventador')">Detalles</button>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card card-carbon h-100">
+              <div class="card-header-badge">V12 ATMOSFÉRICO</div>
+              <div class="card-img-container">
+                <img src="/images/aventador.jpg" class="card-img-top img-fluid" alt="Lamborghini Aventador">
+              </div>
+              <div class="card-body p-4 d-flex flex-column justify-content-between text-start">
+                <div>
+                  <h3 class="car-title">LAMBO AVENTADOR</h3>
+                  <div class="spec-row"><span>VEL. MÁXIMA</span><span class="text-gold">350 KM/H</span></div>
+                  <div class="spec-row"><span>0-100 KM/H</span><span class="text-neon">2.9 S</span></div>
+                </div>
+                <button class="btn btn-card-action mt-4" data-bs-toggle="modal" data-bs-target="#modalDetalles" th:onclick="mostrarDetalles('Lamborghini Aventador')">TELEMETRÍA</button>
               </div>
             </div>
           </div>
-<div class="col-md-4 col-lg-3">
-  <div class="card card-anim shadow-lg visible" style="background-color: #1c1c1c; border: 2px solid #ff9800;">
-    <img src="/images/bugatti_la_voiture_noire.jpeg" class="card-img-top" alt="Bugatti La Voiture Noire" style="height:200px; object-fit:cover;">
-    <div class="card-body text-center">
-      <h5 class="card-title text-warning">Bugatti La Voiture Noire</h5>
-      <p class="card-text text-white">Velocidad máxima: 420 km/h<br>0-100 km/h: 2.5s</p>
-      <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalDetalles" onclick="mostrarDetalles('Bugatti La Voiture Noire')">Detalles</button>
-    </div>
-  </div>
-</div>
 
-<!-- Rimac Concept One -->
-<div class="col-md-4 col-lg-3">
-  <div class="card card-anim shadow-lg visible" style="background-color: #1c1c1c; border: 2px solid #ff9800;">
-    <img src="/images/rimac_concept_one.jpeg" class="card-img-top" alt="Rimac Concept One" style="height:200px; object-fit:cover;">
-    <div class="card-body text-center">
-      <h5 class="card-title text-warning">Rimac Concept One</h5>
-      <p class="card-text text-white">Velocidad máxima: 355 km/h<br>0-100 km/h: 2.6s</p>
-      <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalDetalles" onclick="mostrarDetalles('Rimac Concept One')">Detalles</button>
-    </div>
-  </div>
-</div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card card-carbon h-100">
+              <div class="card-header-badge">PIEZA ÚNICA</div>
+              <div class="card-img-container">
+                <img src="/images/bugatti_la_voiture_noire.jpeg" class="card-img-top img-fluid" alt="Bugatti La Voiture Noire">
+              </div>
+              <div class="card-body p-4 d-flex flex-column justify-content-between text-start">
+                <div>
+                  <h3 class="car-title">LA VOITURE NOIRE</h3>
+                  <div class="spec-row"><span>VEL. MÁXIMA</span><span class="text-gold">420 KM/H</span></div>
+                  <div class="spec-row"><span>0-100 KM/H</span><span class="text-neon">2.5 S</span></div>
+                </div>
+                <button class="btn btn-card-action mt-4" data-bs-toggle="modal" data-bs-target="#modalDetalles" th:onclick="mostrarDetalles('Bugatti La Voiture Noire')">TELEMETRÍA</button>
+              </div>
+            </div>
+          </div>
 
-<!-- Ferrari SF90 -->
-<div class="col-md-4 col-lg-3">
-  <div class="card card-anim shadow-lg visible" style="background-color: #1c1c1c; border: 2px solid #ff9800;">
-    <img src="/images/sf90.jpeg" class="card-img-top" alt="Ferrari SF90" style="height:200px; object-fit:cover;">
-    <div class="card-body text-center">
-      <h5 class="card-title text-warning">Ferrari SF90</h5>
-      <p class="card-text text-white">Velocidad máxima: 340 km/h<br>0-100 km/h: 2.5s</p>
-      <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalDetalles" onclick="mostrarDetalles('Ferrari SF90')">Detalles</button>
-    </div>
-  </div>
-</div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card card-carbon h-100">
+              <div class="card-header-badge">PURA INVERSIÓN ELÉCTRICA</div>
+              <div class="card-img-container">
+                <img src="/images/rimac_concept_one.jpeg" class="card-img-top img-fluid" alt="Rimac Concept One">
+              </div>
+              <div class="card-body p-4 d-flex flex-column justify-content-between text-start">
+                <div>
+                  <h3 class="car-title">RIMAC CONCEPT ONE</h3>
+                  <div class="spec-row"><span>VEL. MÁXIMA</span><span class="text-gold">355 KM/H</span></div>
+                  <div class="spec-row"><span>0-100 KM/H</span><span class="text-neon">2.6 S</span></div>
+                </div>
+                <button class="btn btn-card-action mt-4" data-bs-toggle="modal" data-bs-target="#modalDetalles" th:onclick="mostrarDetalles('Rimac Concept One')">TELEMETRÍA</button>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card card-carbon h-100">
+              <div class="card-header-badge">PHEV SCUDERIA</div>
+              <div class="card-img-container">
+                <img src="/images/sf90.jpeg" class="card-img-top img-fluid" alt="Ferrari SF90">
+              </div>
+              <div class="card-body p-4 d-flex flex-column justify-content-between text-start">
+                <div>
+                  <h3 class="car-title">FERRARI SF90</h3>
+                  <div class="spec-row"><span>VEL. MÁXIMA</span><span class="text-gold">340 KM/H</span></div>
+                  <div class="spec-row"><span>0-100 KM/H</span><span class="text-neon">2.5 S</span></div>
+                </div>
+                <button class="btn btn-card-action mt-4" data-bs-toggle="modal" data-bs-target="#modalDetalles" th:onclick="mostrarDetalles('Ferrari SF90')">TELEMETRÍA</button>
+              </div>
+            </div>
+          </div>
 
-  <!-- Modal Detalles Modelo -->
-  <div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalTitulo" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content shadow-lg" style="background-color: #2e2e2e; color: #fff; border: 2px solid #ff9800;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalTitulo">Detalles del Vehículo</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body" id="modalCuerpo"></div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
         </div>
       </div>
     </section>
   </div>
 
-  
+  <div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content modal-monocoque">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title font-display text-gold" id="modalTitulo">DATA ENGINE CONFIG</h5>
+          <button type="button" class="btn-close-neon" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body p-4 text-white" id="modalCuerpo"></div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-secondary-monocoque btn-sm" data-bs-dismiss="modal">DISMISS SYSTEM</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- Modal Cotización -->
   <div class="modal fade" id="modalCotizacion" tabindex="-1" aria-labelledby="modalCotizacionTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content shadow-lg" style="background-color: #2e2e2e; color: #fff; border: 2px solid #ff9800;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCotizacionTitle">Solicitar Cotización</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      <div class="modal-content modal-monocoque">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title font-display text-neon" id="modalCotizacionTitle">SOLICITUD DE ASIGNACIÓN PRIVADA</h5>
+          <button type="button" class="btn-close-neon" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
         </div>
         <form id="formCotizacion">
-          <div class="modal-body">
-            <p>Por favor, deje sus datos y nos pondremos en contacto con usted.</p>
+          <div class="modal-body p-4">
+            <p class="text-white-50 small mb-4 font-sans">Introduzca sus datos de contacto. Un gestor asignado analizará sus credenciales financieras de manera estrictamente confidencial.</p>
             <div class="mb-3">
-              <label for="cotizacionNombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="cotizacionNombre" required style="background-color: #2e2e2e; color: #ff9800;">
+              <label for="cotizacionNombre" class="form-label label-gold">OPERATOR FULL NAME</label>
+              <input type="text" class="form-control input-carbon" id="cotizacionNombre" required>
             </div>
             <div class="mb-3">
-              <label for="cotizacionCorreo" class="form-label">Correo Electrónico</label>
-              <input type="email" class="form-control" id="cotizacionCorreo" required style="background-color: #2e2e2e; color: #ff9800;">
+              <label for="cotizacionCorreo" class="form-label label-gold">SECURE DIGITAL MAIL</label>
+              <input type="email" class="form-control input-carbon" id="cotizacionCorreo" required>
             </div>
             <div class="mb-3">
-              <label for="autoSeleccionado" class="form-label">Modelo</label>
-              <input type="text" class="form-control" id="autoSeleccionado" readonly style="background-color: #2e2e2e; color: #ff9800;">
+              <label for="autoSeleccionado" class="form-label label-gold">SELECTED AIRFRAME / MODEL</label>
+              <input type="text" class="form-control input-carbon readonly-gold" id="autoSeleccionado" readonly>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-warning">Enviar Solicitud</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <div class="modal-footer border-0 pt-0">
+            <button type="submit" class="btn btn-hyper btn-gold-matrix btn-sm w-100 py-3">SOLICITAR CONCIERGE</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- JS externo -->
-  <script src="/js/index.js"></script>
-
-  <!-- Leaflet removed: map disabled in footer -->
-
-  <!-- FOOTER: redes sociales, mapa y chat IA -->
-  <footer class="site-footer mt-5">
+  <footer class="site-footer-dark position-relative">
     <div class="container py-5">
-      <div class="row">
-        <div class="col-md-4 mb-4">
-          <h5 class="text-warning">AutoTec Motors</h5>
-          <p class="text-muted">Excelencia en vehículos de lujo, financiamiento premium y atención personalizada.</p>
-          <div class="socials d-flex gap-2">
-            <a href="https://www.facebook.com/AutoTecMotors" aria-label="Facebook" class="social-link" target="_blank" rel="noopener"><i class="fab fa-facebook fa-2x"></i></a>
-            <a href="https://www.instagram.com/AutoTecMotors" aria-label="Instagram" class="social-link" target="_blank" rel="noopener"><i class="fab fa-instagram fa-2x"></i></a>
-            <a href="https://www.youtube.com/@AutoTecMotors" aria-label="YouTube" class="social-link" target="_blank" rel="noopener"><i class="fab fa-youtube fa-2x"></i></a>
-            <a href="https://wa.me/1555123456?text=Hola%20AutoTec%20-%20Quiero%20más%20info" aria-label="WhatsApp" class="social-link" target="_blank" rel="noopener"><i class="fab fa-whatsapp fa-2x"></i></a>
+      <div class="row g-4 text-start">
+        <div class="col-md-4">
+          <h5 class="footer-title">AUTOTEC MOTORS</h5>
+          <p class="text-white-50 small pe-md-4">Plataforma internacional de distribución de vehículos de coeficientes aerodinámicos extremos y trenes motrices de última generación.</p>
+          <div class="d-flex gap-2 mt-4">
+            <a href="#" aria-label="Facebook" class="social-cyber" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram" class="social-cyber" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube" class="social-cyber" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
-        <div class="col-md-5 mb-4">
-          <h5 class="text-warning">Encuéntranos</h5>
-          <p class="text-muted">Visítanos en nuestra sede. Escríbenos y coordinamos una visita personalizada.</p>
+        <div class="col-md-5">
+          <h5 class="footer-title text-gold">HQ ATELIER PRIVADO</h5>
+          <p class="text-white-50 small">Circuit de la Sarthe Innovation Hub, Box 26. Acceso exclusivo bajo previa verificación de fondos o carteras de inversión premium de alta gama.</p>
         </div>
-        <div class="col-md-3 mb-4">
-          <h5 class="text-warning">Atención al cliente</h5>
-          <p class="text-muted">Horario: Lun-Vie 9:00 - 19:00</p>
-          <p class="text-muted">Tel: +1 555 123 456</p>
-          <p class="text-muted">Email: soporte@autotec.example</p>
+        <div class="col-md-3">
+          <h5 class="footer-title text-neon">LÍNEAS CIFRADAS</h5>
+          <p class="text-white-50 small mb-1">STATION: ATELIER-ONLINE</p>
+          <p class="text-white-50 small mb-1">ENC: +1 555 LUXURY</p>
+          <p class="text-gold small font-display">OPS@AUTOTEC.VAULT</p>
         </div>
       </div>
-      <div class="row mt-3">
-        <div class="col-12 text-center text-muted small">© 2025 AutoTec Motors - Todos los derechos reservados</div>
+      <div class="row mt-5 pt-4 border-top border-secondary border-opacity-10">
+        <div class="col-12 text-center text-white-50 small tracking-widest font-display">© 2026 AUTOTEC INTEGRATED SYSTEMS // REAL-TIME ENCRYPTION ACTIVE</div>
       </div>
     </div>
   </footer>
 
-  <!-- Chat IA (widget cliente) -->
-  <div id="aiChatWidget" class="ai-chat">
-    <button id="aiToggle" class="ai-toggle" aria-label="Abrir chat IA">💬</button>
-    <div class="ai-panel" aria-hidden="true">
-      <div class="ai-header">Asistente AutoTec <button id="aiClose" class="btn-close btn-close-white float-end" aria-label="Cerrar"></button></div>
-      <div id="aiMessages" class="ai-messages"></div>
-      <div class="ai-quick-actions d-flex gap-2 p-2">
-        <button class="btn btn-sm btn-outline-warning" data-prompt="Quiero una cotización para el modelo X">Solicitar cotización</button>
-        <button class="btn btn-sm btn-outline-warning" data-prompt="¿Cuál es su horario de atención?">Horario</button>
-        <button class="btn btn-sm btn-outline-warning" data-prompt="¿Dónde están ubicados?">Ubicación</button>
-        <button class="btn btn-sm btn-outline-warning" data-prompt="Muéstrame los modelos disponibles">Ver modelos</button>
-        <button class="btn btn-sm btn-outline-warning" id="aiHelpChoose">Ayúdame a elegir</button>
+  <div id="aiChatWidget" class="ai-cyber-widget">
+    <button id="aiToggle" class="ai-cyber-trigger" aria-label="Open AI Terminal">
+      <i class="fa-solid fa-brain"></i>
+    </button>
+    <div class="ai-cyber-panel" aria-hidden="true">
+      <div class="ai-cyber-header">
+        <span class="glow-text-neon"><i class="fa-solid fa-microchip me-2"></i>AUTOTEC_AI CORE v4.1</span>
+        <button id="aiClose" class="btn-close-neon float-end" aria-label="Close Terminal"><i class="fas fa-times"></i></button>
       </div>
-      <form id="aiForm" class="ai-form">
-        <input id="aiInput" placeholder="Escribe tu pregunta sobre un modelo, financiamiento o servicios..." aria-label="Pregunta IA" autocomplete="off">
-        <button type="submit" class="btn btn-warning">Enviar</button>
+      <div id="aiMessages" class="ai-cyber-messages"></div>
+      <div class="ai-cyber-quick d-flex flex-wrap gap-1 p-2">
+        <button class="btn btn-qa-cyber" data-prompt="Solicitar cotización">RESERVAR</button>
+        <button class="btn btn-qa-cyber" data-prompt="Ver especificaciones">ESPECIFICACIONES</button>
+        <button class="btn btn-qa-cyber" id="aiHelpChoose">ALGORITMO PREDICTIVO</button>
+      </div>
+      <form id="aiForm" class="ai-cyber-form">
+        <input id="aiInput" placeholder="Sistemas mecánicos, reservas, tasas..." aria-label="AI Terminal Command" autocomplete="off">
+        <button type="submit" class="btn-send-cyber"><i class="fa-solid fa-paper-plane"></i></button>
       </form>
     </div>
   </div>
 
-  <!-- JS para mostrar detalles dinámicos -->
-  <!-- Bootstrap Toasts container (global) -->
-  <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
-    <div id="toastContainer"></div>
-  </div>
-
-  <script> </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/index.js"></script>
 </body>
 </html>

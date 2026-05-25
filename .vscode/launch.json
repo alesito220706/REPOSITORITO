@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AutoTecApplication",
+            "request": "launch",
+            "mainClass": "com.organization.Auto_TEC.AutoTecApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "AutoTecApplication",
+            "request": "launch",
+            "mainClass": "com.organization.Auto_TEC.AutoTecApplication",
+            "projectName": "com.organization-Auto_TEC"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-AutoTecApplication<Auto_TEC>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
