@@ -23,33 +23,26 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         this.adminRepo = adminRepo;
     }
 
-    @Override
+@Override
 public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, 
                                     Authentication authentication) throws IOException, ServletException {
     
-    // DEBUG: Imprime qué roles está viendo realmente el sistema
-    System.out.println("Roles del usuario: " + authentication.getAuthorities());
+    // LOG DE SEGURIDAD
+    System.out.println("DEBUG - Usuario autenticado: " + authentication.getName());
+    System.out.println("DEBUG - Autoridades: " + authentication.getAuthorities());
 
-    // 1. Auditoría
-    String login = authentication.getName();
-    // ... tu lógica de adminRepo ...
+    String targetUrl = "/"; // Si esto es lo que ves, aquí está el problema
 
-    // 2. Determinar destino
-    String targetUrl = "/"; 
     for (GrantedAuthority authority : authentication.getAuthorities()) {
         String role = authority.getAuthority();
-        System.out.println("Evaluando rol: " + role); // DEBUG
+        System.out.println("DEBUG - Comparando rol: " + role); 
         
-        if (role.equals("ROLE_ADMIN") || role.equals("ADMIN")) {
+        if (role.contains("ADMIN")) {
             targetUrl = "/admin/dashboard";
             break;
         }
-        if (role.equals("ROLE_CLIENTE") || role.equals("CLIENTE")) {
-            targetUrl = "/citas";
-            break;
-        }
     }
-
+    
     getRedirectStrategy().sendRedirect(request, response, targetUrl);
 }
 }
