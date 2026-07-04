@@ -1,5 +1,4 @@
 package com.organization.Auto_TEC.controller;
-
 import com.organization.Auto_TEC.Service.EmpleadoService;
 import com.organization.Auto_TEC.Service.FinanciamientoService;
 import com.organization.Auto_TEC.Service.ModeloService;
@@ -14,7 +13,6 @@ import com.organization.Auto_TEC.Entities.modelosEntitie;
 import com.organization.Auto_TEC.Entities.usuarioEntitie;
 import com.organization.Auto_TEC.Entities.Rol;
 import com.organization.Auto_TEC.Service.CitaService;
-
 import java.util.HashMap;
 import java.util.List;
 import java.time.OffsetDateTime;

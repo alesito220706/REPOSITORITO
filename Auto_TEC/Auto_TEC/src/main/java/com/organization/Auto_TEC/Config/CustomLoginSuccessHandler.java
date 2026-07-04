@@ -40,6 +40,7 @@ public void onAuthenticationSuccess(HttpServletRequest request, HttpServletRespo
         if (role.contains("ADMIN")) {
             targetUrl = "/admin/dashboard";
             break;
+            
         }
     }
     
