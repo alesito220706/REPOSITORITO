@@ -24,7 +24,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     </div>
                      <div class="offcanvas-body">
                          <ul class="list-unstyled"> 
-                            <li> <a href="/index" class="dropdown-item text-white">Inicio </a></li> 
+                            <li> <a href="/" class="dropdown-item text-white">Inicio </a></li> 
                             <li> <a href="/modelos" class="dropdown-item text-white">Modelos</a></li> 
                             <li> <a href="/ventas" class="dropdown-item text-white">Ventas</a></li> 
                             <li> <a href="/servicios" class="dropdown-item text-white">Servicios</a> </li> 
@@ -35,7 +35,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 </li>
 
 <li sec:authorize="isAuthenticated()">
-  <a href="/page/logout" class="dropdown-item text-white">Cerrar sesión</a>
+  <a href="/auth/logout" class="dropdown-item text-white">Cerrar sesión</a>
 </li>
                             </ul> 
                         </div> 

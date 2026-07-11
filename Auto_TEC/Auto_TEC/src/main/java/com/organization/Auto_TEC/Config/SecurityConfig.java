@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/images/**", "/webjars/**").permitAll()
 
                         // 2. Rutas de Vistas (Páginas HTML) públicas
-                        .requestMatchers("/", "/index", "/login", "/registro", "/contacto", "/citas", "/modelos",
+                        .requestMatchers("/", "/index", "/login", "/registro", "/auth/**", "/contacto", "/citas", "/modelos",
                                 "/servicios", "/ventas")
                         .permitAll()
 
