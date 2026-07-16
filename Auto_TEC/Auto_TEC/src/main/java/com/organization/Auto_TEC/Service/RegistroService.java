@@ -44,7 +44,7 @@ public class RegistroService {
             }
 
             // Buscar rol CLIENTE
-            Optional<Rol> rolCliente = rolRepository.findByNombre("CLIENTE");
+            Optional<Rol> rolCliente = rolRepository.findByNombre("ROLE_CLIENTE");
             if (rolCliente.isEmpty()) {
                 return "Error en la configuración del sistema: Rol CLIENTE no encontrado";
             }

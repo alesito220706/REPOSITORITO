@@ -31,9 +31,13 @@
         <li><a href="/admin/gestion_citas" class="dropdown-item text-white"> Citas</a></li>
         <li><a href="/admin/gestion_solicitudes" class="dropdown-item text-white"> Solicitudes</a></li>
         <li><a href="/admin/reportes" class="dropdown-item text-white"> Reportes</a></li>
-        <form th:action="@{/logout}" method="post">
-          <button type="submit">Cerrar Sesión</button>
-        </form>
+        <li>
+          <form th:action="@{/logout}" method="post" class="d-inline">
+            <button type="submit" class="dropdown-item text-white border-0 bg-transparent">
+              <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+            </button>
+          </form>
+        </li>
       </ul>
     </div>
   </div>

@@ -52,14 +52,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**", "/api/cotizaciones/**").permitAll()
 
                         // 4. Panel de administración solo para ADMIN
-// En tu SecurityConfig.java, cambia la línea 4 en el authorizeHttpRequests:
-.requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_ROLE_ADMIN", "ADMIN")
+.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         // 5. Cualquier otra cosa requiere autenticación
                         .anyRequest().authenticated())
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .successHandler(successHandler) // ¡Necesitas esto para que el Admin vaya al Dashboard!
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
+                        .successHandler(successHandler)
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")

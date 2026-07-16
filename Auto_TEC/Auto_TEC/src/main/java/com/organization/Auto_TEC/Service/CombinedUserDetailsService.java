@@ -42,7 +42,7 @@ public class CombinedUserDetailsService implements UserDetailsService {
             System.out.println("   Email: " + admin.getEmail());
             System.out.println("   Rol: " + admin.getRol().getNombre());
 
-            String role = "ROLE_" + admin.getRol().getNombre();
+            String role = admin.getRol().getNombre();
 
             return User.builder()
                     .username(admin.getUsername())
@@ -61,7 +61,7 @@ public class CombinedUserDetailsService implements UserDetailsService {
             System.out.println("   Email: " + usuario.getEmail());
             System.out.println("   Rol: " + usuario.getRol().getNombre());
 
-            String role = "ROLE_" + usuario.getRol().getNombre();
+            String role = usuario.getRol().getNombre();
 
             return User.builder()
                     .username(usuario.getUsername())

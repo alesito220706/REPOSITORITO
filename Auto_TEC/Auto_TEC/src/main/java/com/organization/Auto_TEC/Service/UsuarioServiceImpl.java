@@ -85,7 +85,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         // Buscar el rol CLIENTE
-        Rol rolCliente = rolRepository.findByNombre("CLIENTE")
+        Rol rolCliente = rolRepository.findByNombre("ROLE_CLIENTE")
                 .orElseThrow(() -> new RuntimeException("Rol CLIENTE no encontrado"));
 
         // BUSCAR UN DEPARTAMENTO POR DEFECTO - IMPORTANTE
@@ -121,5 +121,22 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Rol findRolById(Long id) {
         return rolRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + id));
+    }
+
+    @Override
+    public Rol findRolByNombre(String nombre) {
+        return rolRepository.findByNombre(nombre)
+            .orElseThrow(() -> new RuntimeException("Rol no encontrado: " + nombre));
+    }
+
+    @Override
+    public Departamentos findFirstDepartamento() {
+        return departamentosRepository.findAll().stream()
+            .findFirst()
+            .orElseGet(() -> {
+                Departamentos d = new Departamentos();
+                d.setNombre("General");
+                return departamentosRepository.save(d);
+            });
     }
 }

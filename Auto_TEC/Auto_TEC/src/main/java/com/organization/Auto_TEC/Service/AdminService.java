@@ -43,7 +43,7 @@ public class AdminService {
         }
 
         // Buscar rol ADMIN
-        Rol rolAdmin = rolRepository.findByNombre("ADMIN")
+        Rol rolAdmin = rolRepository.findByNombre("ROLE_ADMIN")
                 .orElseThrow(() -> new RuntimeException("Rol ADMIN no encontrado"));
 
         // Buscar departamento

@@ -399,26 +399,33 @@ function abrirModalCliente() {
         });
       }
       
-      // Modal de detalles
+      // Modal de detalles - carga datos desde la API
       const detalleModal = document.getElementById('detalleModal');
       if (detalleModal) {
         detalleModal.addEventListener('show.bs.modal', function(event) {
           const button = event.relatedTarget;
           const id = button.getAttribute('data-id');
           
-          // En una implementación real, harías una llamada AJAX para obtener los detalles
-          // Por ahora, mostramos los datos de la tarjeta
-          const card = button.closest('.solicitud-item');
-          const cardBody = card.querySelector('.card-body');
-          
-          document.getElementById('modal-id').textContent = id;
-          document.getElementById('modal-nombre').textContent = cardBody.querySelector('.card-title').textContent;
-          document.getElementById('modal-email').textContent = cardBody.querySelectorAll('.text-muted span')[0].textContent;
-          document.getElementById('modal-modelo').textContent = cardBody.querySelectorAll('.text-muted span')[1].textContent;
-          document.getElementById('modal-fecha').textContent = cardBody.querySelectorAll('.text-muted span')[2].textContent;
-          document.getElementById('modal-plan').textContent = cardBody.querySelectorAll('.text-muted span')[3].textContent;
-          document.getElementById('modal-estado').textContent = card.getAttribute('data-estado');
-          document.getElementById('modal-mensaje').textContent = cardBody.querySelector('.mensaje-preview').textContent;
+          fetch('/admin/solicitudes/detalle/' + id)
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+              document.getElementById('modal-id').textContent = data.id;
+              document.getElementById('modal-nombre').textContent = data.nombreSolicitante || '---';
+              document.getElementById('modal-email').textContent = data.emailSolicitante || '---';
+              document.getElementById('modal-modelo').textContent = data.modeloInteres || '---';
+              if (data.fechaSolicitud) {
+                var d = new Date(data.fechaSolicitud);
+                document.getElementById('modal-fecha').textContent = d.toLocaleDateString('es-ES') + ' ' + d.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
+              } else {
+                document.getElementById('modal-fecha').textContent = '---';
+              }
+              document.getElementById('modal-plan').textContent = data.planFinanciamiento || 'Sin plan específico';
+              document.getElementById('modal-estado').textContent = data.estado || '---';
+              document.getElementById('modal-mensaje').textContent = data.mensaje || '---';
+            })
+            .catch(function(err) {
+              console.error('Error al cargar detalles:', err);
+            });
         });
       }
     });
@@ -437,6 +444,12 @@ function abrirModalCliente() {
     });
 
     function inicializarGraficosReportes() {
+      var data = typeof REPORTES_DATA !== 'undefined' ? REPORTES_DATA : {
+        citasPendientes: 0, citasConfirmadas: 0, citasCompletadas: 0, citasCanceladas: 0,
+        solicitudesPendientes: 0, solicitudesEvaluando: 0, solicitudesAprobadas: 0, solicitudesRechazadas: 0,
+        modelosActivos: 0, modelosDestacados: 0, totalModelos: 0
+      };
+
       // Gráfico de citas por estado (solo para página de reportes)
       const citasCtx = document.getElementById('citasChart');
       if (citasCtx) {
@@ -445,19 +458,15 @@ function abrirModalCliente() {
           data: {
             labels: ['Pendientes', 'Confirmadas', 'Completadas', 'Canceladas'],
             datasets: [{
-              data: [10, 20, 30, 5], // Valores de ejemplo
-              backgroundColor: [
-                '#f39c12', '#27ae60', '#3498db', '#e74c3c'
-              ]
+              data: [data.citasPendientes, data.citasConfirmadas, data.citasCompletadas, data.citasCanceladas],
+              backgroundColor: ['#f39c12', '#27ae60', '#3498db', '#e74c3c']
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                position: 'bottom'
-              }
+              legend: { position: 'bottom' }
             }
           }
         });
@@ -472,56 +481,50 @@ function abrirModalCliente() {
             labels: ['Pendientes', 'Evaluando', 'Aprobadas', 'Rechazadas'],
             datasets: [{
               label: 'Solicitudes',
-              data: [15, 8, 12, 3], // Valores de ejemplo
-              backgroundColor: [
-                '#f39c12', '#3498db', '#27ae60', '#e74c3c'
-              ]
+              data: [data.solicitudesPendientes, data.solicitudesEvaluando, data.solicitudesAprobadas, data.solicitudesRechazadas],
+              backgroundColor: ['#f39c12', '#3498db', '#27ae60', '#e74c3c']
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                display: false
-              }
+              legend: { display: false }
             },
             scales: {
-              y: {
-                beginAtZero: true
-              }
+              y: { beginAtZero: true }
             }
           }
         });
       }
 
-      // Gráfico de modelos por categoría (datos de ejemplo)
+      // Gráfico de modelos por estado
       const modelosCtx = document.getElementById('modelosChart');
       if (modelosCtx) {
         new Chart(modelosCtx.getContext('2d'), {
           type: 'pie',
           data: {
-            labels: ['Sedán', 'SUV', 'Pickup', 'Deportivo'],
+            labels: ['Activos', 'Destacados', 'Otros'],
             datasets: [{
-              data: [12, 19, 8, 5],
-              backgroundColor: [
-                '#2c3e50', '#3498db', '#e74c3c', '#f39c12'
-              ]
+              data: [
+                data.modelosActivos,
+                data.modelosDestacados,
+                Math.max(0, data.totalModelos - data.modelosActivos)
+              ],
+              backgroundColor: ['#2c3e50', '#3498db', '#95a5a6']
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                position: 'bottom'
-              }
+              legend: { position: 'bottom' }
             }
           }
         });
       }
 
-      // Gráfico de citas mensuales (datos de ejemplo)
+      // Gráfico de citas mensuales (datos de ejemplo - mantenemos ejemplo hasta tener datos reales)
       const mensualCtx = document.getElementById('citasMensualesChart');
       if (mensualCtx) {
         new Chart(mensualCtx.getContext('2d'), {
@@ -541,14 +544,10 @@ function abrirModalCliente() {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                display: false
-              }
+              legend: { display: false }
             },
             scales: {
-              y: {
-                beginAtZero: true
-              }
+              y: { beginAtZero: true }
             }
           }
         });

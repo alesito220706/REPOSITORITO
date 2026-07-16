@@ -1,44 +1,53 @@
 package com.organization.Auto_TEC.controller;
-import com.organization.Auto_TEC.Service.EmpleadoService;
-import com.organization.Auto_TEC.Service.FinanciamientoService;
-import com.organization.Auto_TEC.Service.ModeloService;
-import com.organization.Auto_TEC.Service.UsuarioService;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.organization.Auto_TEC.Entities.Rol;
 import com.organization.Auto_TEC.Entities.citaEntitie;
 import com.organization.Auto_TEC.Entities.citaEstado;
 import com.organization.Auto_TEC.Entities.citaTipo;
 import com.organization.Auto_TEC.Entities.empleadoEntitie;
 import com.organization.Auto_TEC.Entities.financiamientoSolicitud;
-import com.organization.Auto_TEC.Entities.financiamientoEstadosolicitud;
 import com.organization.Auto_TEC.Entities.modelosEntitie;
 import com.organization.Auto_TEC.Entities.usuarioEntitie;
-import com.organization.Auto_TEC.Entities.Rol;
 import com.organization.Auto_TEC.Service.CitaService;
-import java.util.HashMap;
-import java.util.List;
-import java.time.OffsetDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.http.MediaType;
-import org.springframework.web.multipart.MultipartFile;
-import jakarta.servlet.http.HttpServletRequest;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.io.IOException;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-import java.util.Map;
 import com.organization.Auto_TEC.Service.CloudinaryService;
+import com.organization.Auto_TEC.Service.EmpleadoService;
+import com.organization.Auto_TEC.Service.FinanciamientoService;
+import com.organization.Auto_TEC.Service.ModeloService;
+import com.organization.Auto_TEC.Service.UsuarioService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/admin")
@@ -432,13 +441,14 @@ public class AdminController {
     @PostMapping("/clientes/guardar")
     public String guardarCliente(@ModelAttribute usuarioEntitie usuario, RedirectAttributes redirectAttributes) {
         try {
-            usuario.setRol(usuarioService.findRolById(null));
+            Rol rolCliente = usuarioService.findRolByNombre("ROLE_CLIENTE");
+            usuario.setRol(rolCliente);
 
             String rawPassword = usuario.getPasswordHash();
             usuario.setPasswordHash(passwordEncoder.encode(rawPassword));
 
             if (usuario.getDepartamento() == null) {
-
+                usuario.setDepartamento(usuarioService.findFirstDepartamento());
             }
             usuarioService.save(usuario);
             redirectAttributes.addFlashAttribute("mensaje", "Administrador guardado exitosamente");
@@ -613,7 +623,7 @@ public class AdminController {
         return "redirect:/admin/gestion_citas";
     }
 
-    // ========== ELIMINAR CITA ==========
+    // ==========  PARA ELIMINAR CITA ==========
 
     @PostMapping("/ventas/eliminar/{id}")
     public String eliminarCita(@PathVariable Long id, RedirectAttributes redirectAttributes) {
