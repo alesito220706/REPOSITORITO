@@ -14,6 +14,7 @@ C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\mai
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\controller\CitaUsuarioController.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\controller\CotizacionController.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\controller\FinanciamientoPublicController.java
+C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\controller\MecanicoController.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\controller\ModelosPublicController.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\controller\paginaController.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\controller\RegistroController.java
@@ -66,6 +67,7 @@ C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\mai
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\cotizacionEntitie.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\cotizacionEstado.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\Departamentos.java
+C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\DiagnosticoEntitie.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\empleadoEntitie.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\Favoritos.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\financiamientoCalculo.java
@@ -80,6 +82,8 @@ C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\mai
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\pagoEntitie.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\pagoEstado.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\pagoMetodo.java
+C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\RepuestoAsignadoEntitie.java
+C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\RepuestosEntitie.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\Rol.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\Servicios.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Entities\Sesiones.java
@@ -92,10 +96,12 @@ C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\mai
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\CitaRepository.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\CotizacionRepository.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\DepartamentosRepository.java
+C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\DiagnosticoRepository.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\EmpleadoRepository.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\FinanciamientoRepository.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\MetodoPagoRepository.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\ModeloRepository.java
+C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\RepuestosRepository.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\RolRepository.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\SesionRepository.java
 C:\Users\ecosl\OneDrive\Documentos\GitHub\REPOSITORITO\Auto_TEC\Auto_TEC\src\main\java\com\organization\Auto_TEC\Repository\UsuarioRepository.java

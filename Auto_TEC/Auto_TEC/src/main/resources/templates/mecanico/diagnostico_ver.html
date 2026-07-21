@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/mecanico.css">
+</head>
+<body>
+  <div th:replace="fragments/headerMecanico :: headerMecanico"></div>
+  <div class="mech-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <span class="mech-eyebrow">Diagnóstico</span>
+        <h1 class="mech-page-title" style="margin:0"><i class="fas fa-file-medical me-2"></i>Diagnóstico #<span th:text="${diag.id}">0</span></h1>
+      </div>
+      <div class="d-flex gap-2">
+        <span class="badge-mech" th:classappend="${diag.estado == 'BORRADOR' ? 'badge-borrador' : 'badge-completado'}" th:text="${diag.estado}" style="font-size:0.7rem;padding:6px 16px">Estado</span>
+        <a th:href="@{/mecanico/orden/{id}(id=${diag.id})}" class="btn-mech btn-mech-primary"><i class="fas fa-file-invoice"></i> Orden Servicio</a>
+        <a href="/mecanico/dashboard" class="btn-mech btn-mech-outline"><i class="fas fa-arrow-left"></i></a>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card-mech">
+          <div class="card-mech-header"><h3 class="card-mech-title"><i class="fas fa-car me-2"></i>Vehículo</h3></div>
+          <div class="card-mech-body">
+            <table class="table-mech">
+              <tr><td style="color:var(--mech-muted);font-size:0.65rem;text-transform:uppercase">Cliente</td><td th:text="${diag.cita.usuario.nombres + ' ' + diag.cita.usuario.apellidos}">Cliente</td></tr>
+              <tr><td style="color:var(--mech-muted);font-size:0.65rem;text-transform:uppercase">Tipo Cita</td><td th:text="${diag.cita.tipoCita.name()}">Tipo</td></tr>
+              <tr><td style="color:var(--mech-muted);font-size:0.65rem;text-transform:uppercase">Atendido por</td><td>Administración</td></tr>
+              <tr><td style="color:var(--mech-muted);font-size:0.65rem;text-transform:uppercase">Fecha</td><td th:text="${#temporals.format(diag.fechaCreacion, 'dd/MM/yyyy HH:mm')}">Fecha</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card-mech">
+          <div class="card-mech-header"><h3 class="card-mech-title"><i class="fas fa-cogs me-2"></i>Repuestos Asignados</h3></div>
+          <div class="card-mech-body">
+            <table class="table-mech">
+              <thead><tr><th>Repuesto</th><th>Cant.</th><th>Precio</th><th style="text-align:right">Subtotal</th></tr></thead>
+              <tbody>
+                <tr th:each="ra : ${diag.repuestosAsignados}">
+                  <td th:text="${ra.repuesto.nombre}">Repuesto</td>
+                  <td th:text="${ra.cantidad}">1</td>
+                  <td th:text="'₡' + ${#numbers.formatDecimal(ra.precioUnitario, 0, 2)}">₡0.00</td>
+                  <td style="text-align:right;font-weight:700" th:text="'₡' + ${#numbers.formatDecimal(ra.precioUnitario * ra.cantidad, 0, 2)}">₡0.00</td>
+                </tr>
+              </tbody>
+            </table>
+            <div th:if="${diag.repuestosAsignados.empty}" style="text-align:center;color:var(--mech-muted);padding:20px;font-size:0.85rem">Sin repuestos asignados</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+      <div class="col-md-6">
+        <div class="card-mech">
+          <div class="card-mech-header"><h3 class="card-mech-title"><i class="fas fa-eye me-2"></i>Observaciones</h3></div>
+          <div class="card-mech-body"><p style="line-height:1.7;font-size:0.9rem;color:var(--mech-text);white-space:pre-wrap" th:text="${diag.observaciones}">Obs</p></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-mech">
+          <div class="card-mech-header"><h3 class="card-mech-title"><i class="fas fa-exclamation-triangle me-2"></i>Fallas Encontradas</h3></div>
+          <div class="card-mech-body"><p style="line-height:1.7;font-size:0.9rem;color:var(--mech-text);white-space:pre-wrap" th:text="${diag.fallasEncontradas ?: 'No se registraron fallas'}">Fallas</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+      <div class="col-md-6">
+        <div class="card-mech">
+          <div class="card-mech-header"><h3 class="card-mech-title"><i class="fas fa-check-circle me-2"></i>Recomendaciones</h3></div>
+          <div class="card-mech-body"><p style="line-height:1.7;font-size:0.9rem;color:var(--mech-text);white-space:pre-wrap" th:text="${diag.recomendaciones ?: 'Sin recomendaciones'}">Rec</p></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-mech">
+          <div class="card-mech-header"><h3 class="card-mech-title"><i class="fas fa-forward me-2"></i>Acciones a Seguir</h3></div>
+          <div class="card-mech-body"><p style="line-height:1.7;font-size:0.9rem;color:var(--mech-text);white-space:pre-wrap" th:text="${diag.accionesSeguir ?: 'Pendiente de definir'}">Acc</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

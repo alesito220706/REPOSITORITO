@@ -15,6 +15,7 @@ com\organization\Auto_TEC\Entities\ventasEntitie.class
 com\organization\Auto_TEC\Repository\ModeloRepository.class
 com\organization\Auto_TEC\Service\JwtService.class
 com\organization\Auto_TEC\DTO\RegistroDTO.class
+com\organization\Auto_TEC\controller\MecanicoController.class
 com\organization\Auto_TEC\Entities\financiamientoEstadosolicitud.class
 com\organization\Auto_TEC\Config\DataInitializer.class
 com\organization\Auto_TEC\DTO\ServicioDTO.class
@@ -28,6 +29,7 @@ com\organization\Auto_TEC\controller\AuthViewController.class
 com\organization\Auto_TEC\DTO\NotificacionDTO.class
 com\organization\Auto_TEC\Repository\CotizacionRepository.class
 com\organization\Auto_TEC\Entities\cotizacionEstado.class
+com\organization\Auto_TEC\Repository\DiagnosticoRepository.class
 com\organization\Auto_TEC\DTO\ContactoGeneralDTO.class
 com\organization\Auto_TEC\Entities\pagoEstado.class
 com\organization\Auto_TEC\DTO\ConfiguracionesRequestDTO.class
@@ -70,6 +72,7 @@ com\organization\Auto_TEC\controller\CitasController.class
 com\organization\Auto_TEC\DTO\HistorialActividadDTO.class
 com\organization\Auto_TEC\controller\AuthController.class
 com\organization\Auto_TEC\DTO\SesionDTO.class
+com\organization\Auto_TEC\Entities\RepuestosEntitie.class
 com\organization\Auto_TEC\Repository\MetodoPagoRepository.class
 com\organization\Auto_TEC\Entities\contactogeneralEntie.class
 com\organization\Auto_TEC\controller\ModelosPublicController.class
@@ -92,6 +95,7 @@ com\organization\Auto_TEC\Config\HttpClientConfig.class
 com\organization\Auto_TEC\DTO\AdministradorDTO.class
 com\organization\Auto_TEC\Repository\FinanciamientoRepository.class
 com\organization\Auto_TEC\Entities\financiamientoCalculo.class
+com\organization\Auto_TEC\Repository\RepuestosRepository.class
 com\organization\Auto_TEC\DTO\PromptRequest.class
 com\organization\Auto_TEC\Config\AdminLoginSuccessHandler.class
 com\organization\Auto_TEC\controller\CotizacionController.class
@@ -105,6 +109,7 @@ com\organization\Auto_TEC\DTO\LoginResponseDTO.class
 com\organization\Auto_TEC\Entities\Favoritos.class
 com\organization\Auto_TEC\DTO\ConfiguracionesDTO.class
 com\organization\Auto_TEC\Service\ModeloServiceImpl.class
+com\organization\Auto_TEC\Entities\RepuestoAsignadoEntitie.class
 com\organization\Auto_TEC\Entities\clienteEntities.class
 com\organization\Auto_TEC\Repository\AdministradorRepository.class
 com\organization\Auto_TEC\Config\WebMvcConfig.class
@@ -118,6 +123,7 @@ com\organization\Auto_TEC\Service\AiService.class
 com\organization\Auto_TEC\DTO\FinanciamientoPlanRequestDTO.class
 com\organization\Auto_TEC\Repository\UsuarioRepository.class
 com\organization\Auto_TEC\Service\CitaService.class
+com\organization\Auto_TEC\Entities\DiagnosticoEntitie.class
 com\organization\Auto_TEC\Service\VentaServiceImpl.class
 com\organization\Auto_TEC\Entities\historialActividad.class
 com\organization\Auto_TEC\Entities\citaEntitie.class

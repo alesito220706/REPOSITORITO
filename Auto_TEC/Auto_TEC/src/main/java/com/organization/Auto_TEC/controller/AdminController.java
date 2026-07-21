@@ -34,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.organization.Auto_TEC.Entities.Rol;
 import com.organization.Auto_TEC.Entities.citaEntitie;
+import com.organization.Auto_TEC.Repository.RolRepository;
 import com.organization.Auto_TEC.Entities.citaEstado;
 import com.organization.Auto_TEC.Entities.citaTipo;
 import com.organization.Auto_TEC.Entities.empleadoEntitie;
@@ -73,6 +74,9 @@ public class AdminController {
 
     @Autowired
     private CloudinaryService cloudinaryService;
+
+    @Autowired
+    private RolRepository rolRepository;
 
     // ========== DASHBOARD ==========
     // ========== DASHBOARD MEJORADO ==========
@@ -664,6 +668,7 @@ public class AdminController {
     @GetMapping("/gestion_empleados")
     public String gestionEmpleados(Model model) {
         model.addAttribute("empleados", empleadoService.findAll());
+        model.addAttribute("roles", rolRepository.findAll());
         return "admin/gestion_empleados";
     }
 
@@ -684,7 +689,6 @@ public class AdminController {
             @RequestParam(name = "roles_id", required = false) Long rolId,
             RedirectAttributes redirectAttributes) {
         try {
-            // Asignar el rol al empleado
             if (rolId != null) {
                 Rol rol = usuarioService.findRolById(rolId);
                 if (rol != null) {
@@ -706,6 +710,8 @@ public class AdminController {
             return "redirect:/admin/gestion_empleados";
         }
     }
+
+
 
     @PutMapping("/empleados/{id}/estado")
     @ResponseBody
@@ -729,8 +735,32 @@ public class AdminController {
         model.addAttribute("evaluandoCount", financiamientoService.contarPorEstado("EVALUANDO"));
         model.addAttribute("aprobadosCount", financiamientoService.contarPorEstado("APROBADO"));
         model.addAttribute("rechazadosCount", financiamientoService.contarPorEstado("RECHAZADO"));
+        model.addAttribute("modelos", modeloService.findAll());
 
         return "admin/gestion_solicitudes";
+    }
+
+    @PostMapping("/solicitudes/crear")
+    public String crearSolicitud(@RequestParam String nombreSolicitante,
+            @RequestParam String emailSolicitante,
+            @RequestParam String modeloInteres,
+            @RequestParam(required = false) String mensaje,
+            @RequestParam(required = false) String planFinanciamiento,
+            RedirectAttributes redirectAttributes) {
+        try {
+            financiamientoSolicitud solicitud = new financiamientoSolicitud();
+            solicitud.setNombreSolicitante(nombreSolicitante);
+            solicitud.setEmailSolicitante(emailSolicitante);
+            solicitud.setModeloInteres(modeloInteres);
+            solicitud.setMensaje(mensaje);
+            solicitud.setPlanFinanciamiento(planFinanciamiento);
+            solicitud.setEstado(com.organization.Auto_TEC.Entities.financiamientoEstadosolicitud.PENDIENTE);
+            financiamientoService.guardar(solicitud);
+            redirectAttributes.addFlashAttribute("success", "Solicitud creada exitosamente");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al crear solicitud: " + e.getMessage());
+        }
+        return "redirect:/admin/gestion_solicitudes";
     }
 
     @PostMapping("/solicitudes/cambiar-estado/{id}")
@@ -761,6 +791,18 @@ public class AdminController {
     @ResponseBody
     public financiamientoSolicitud verDetalleSolicitud(@PathVariable Long id) {
         return financiamientoService.obtenerPorId(id).orElse(null);
+    }
+
+    // ========== BOLETA / COMPROBANTE DE CITA ==========
+
+    @GetMapping("/citas/boleta/{id}")
+    public String verBoleta(@PathVariable Long id, Model model) {
+        Optional<citaEntitie> citaOpt = citaService.obtenerPorId(id);
+        if (citaOpt.isPresent()) {
+            model.addAttribute("cita", citaOpt.get());
+            return "admin/boleta_cita";
+        }
+        return "redirect:/admin/gestion_citas";
     }
 
     // ========== REPORTES ==========

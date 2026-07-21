@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boleta de Venta</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/mecanico.css">
+  <style>
+    @media print { .no-print { display: none !important; } body { background:#fff !important; } .card-mech { border:1px solid #ddd !important; background:#fff !important; } .table-mech td, .table-mech th { color:#000 !important; } }
+  </style>
+</head>
+<body>
+  <div th:replace="fragments/headerMecanico :: headerMecanico" class="no-print"></div>
+  <div class="mech-container">
+    <div class="d-flex justify-content-between align-items-center mb-4 no-print">
+      <div>
+        <span class="mech-eyebrow">Comprobante</span>
+        <h1 class="mech-page-title" style="margin:0"><i class="fas fa-receipt me-2"></i>Boleta de Venta</h1>
+      </div>
+      <button class="btn-mech btn-mech-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button>
+      <a href="/mecanico/venta" class="btn-mech btn-mech-outline"><i class="fas fa-arrow-left"></i> Nueva Venta</a>
+    </div>
+
+    <div class="card-mech">
+      <div class="card-mech-body" style="padding:30px">
+        <div class="row mb-4">
+          <div class="col-6">
+            <h2 style="color:var(--mech-cyan);font-weight:800;font-size:1.3rem;text-transform:uppercase;letter-spacing:2px;margin:0">AutoTEC</h2>
+            <p style="color:var(--mech-muted);font-size:0.75rem;margin:2px 0">Taller Mecánico - Venta de Repuestos</p>
+          </div>
+          <div class="col-6 text-end">
+            <p style="font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;color:var(--mech-muted);margin:0">Boleta #<span th:text="${#strings.substring(fecha, 0, 10).replace('/', '')} + '-' + ${#strings.substring(fecha, 11, 13)} + ${#strings.substring(fecha, 14, 16)}">0000</span></p>
+            <p style="font-size:0.75rem;color:var(--mech-muted);margin:2px 0" th:text="${fecha}">Fecha</p>
+          </div>
+        </div>
+
+        <div style="border-top:2px solid var(--mech-border);border-bottom:2px solid var(--mech-border);padding:12px 0;margin-bottom:16px">
+          <p style="font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:var(--mech-muted);margin:0 0 4px 0">Atendido por</p>
+          <p style="font-weight:700;margin:0">Administración - Taller</p>
+        </div>
+
+        <table class="table-mech" style="border:1px solid var(--mech-border)">
+          <thead>
+            <tr>
+              <th style="width:50%">Repuesto</th>
+              <th style="width:15%;text-align:center">Cant.</th>
+              <th style="width:20%;text-align:right">Precio Unit.</th>
+              <th style="width:15%;text-align:right">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="item : ${items}">
+              <td th:text="${item.repuesto.nombre + ' (' + item.repuesto.codigo + ')'}">Repuesto</td>
+              <td style="text-align:center" th:text="${item.cantidad}">1</td>
+              <td style="text-align:right" th:text="'₡' + ${#numbers.formatDecimal(item.precioUnitario, 0, 2)}">₡0.00</td>
+              <td style="text-align:right;font-weight:700" th:text="'₡' + ${#numbers.formatDecimal(item.subtotal, 0, 2)}">₡0.00</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="text-align:right;font-weight:700;font-size:1rem;border-top:2px solid var(--mech-border);padding-top:12px">Total</td>
+              <td style="text-align:right;font-weight:800;font-size:1.1rem;color:var(--mech-cyan);border-top:2px solid var(--mech-border);padding-top:12px" th:text="'₡' + ${#numbers.formatDecimal(total, 0, 2)}">₡0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div class="row mt-4" style="border-top:1px solid var(--mech-border);padding-top:30px">
+          <div class="col-6 text-center">
+            <p style="border-top:1px solid var(--mech-border);padding-top:8px;font-size:0.75rem;color:var(--mech-muted);margin:0;width:80%;display:inline-block">Firma</p>
+          </div>
+          <div class="col-6 text-center">
+            <p style="border-top:1px solid var(--mech-border);padding-top:8px;font-size:0.75rem;color:var(--mech-muted);margin:0;width:80%;display:inline-block">Recibí Conforme</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

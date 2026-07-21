@@ -35,7 +35,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 </li>
 
 <li sec:authorize="isAuthenticated()">
-  <a href="/auth/logout" class="dropdown-item text-white">Cerrar sesión</a>
+  <form th:action="@{/logout}" method="post" class="d-inline">
+    <button type="submit" class="dropdown-item text-white" style="background:none;border:none;cursor:pointer">Cerrar sesión</button>
+  </form>
 </li>
                             </ul> 
                         </div> 

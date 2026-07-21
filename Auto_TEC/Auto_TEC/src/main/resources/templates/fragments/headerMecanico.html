@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<header th:fragment="headerMecanico">
+  <link rel="stylesheet" href="/css/mecanico.css">
+  <div class="mech-navbar">
+    <div class="mech-navbar-inner">
+      <a href="/mecanico/dashboard" class="mech-brand">
+        <i class="fas fa-wrench me-2"></i> Taller AutoTec
+      </a>
+      <button class="mech-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMech" aria-controls="offcanvasMech">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="offcanvas offcanvas-start mech-offcanvas" tabindex="-1" id="offcanvasMech" aria-labelledby="offcanvasMechLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasMechLabel"><i class="fas fa-tools me-2"></i>Panel Mecánico</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="mech-nav-list">
+        <li><a href="/mecanico/dashboard" class="mech-nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="/mecanico/repuestos" class="mech-nav-link"><i class="fas fa-cogs"></i> Inventario Repuestos</a></li>
+        <li><a href="/mecanico/venta" class="mech-nav-link"><i class="fas fa-shopping-cart"></i> Venta Repuestos</a></li>
+        <li><a href="/mecanico/dashboard" class="mech-nav-link"><i class="fas fa-stethoscope"></i> Diagnósticos</a></li>
+        <li>
+          <form th:action="@{/logout}" method="post" class="d-inline">
+            <button type="submit" class="mech-nav-link logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+</html>

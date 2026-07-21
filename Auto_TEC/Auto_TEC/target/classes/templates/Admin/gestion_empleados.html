@@ -102,9 +102,7 @@
                             <label class="form-label">Rol *</label>
                             <select name="roles_id" class="form-select" required>
                                 <option value="">Selecciona un rol</option>
-                                <option value="2">VENDEDOR</option>
-                                <option value="3">ADMIN</option>
-                                <option value="4">GERENTE</option>
+                                <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.nombre}">Rol</option>
                             </select>
                         </div>
                         <div class="mb-3">

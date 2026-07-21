@@ -171,8 +171,11 @@
                         <div class="col-sm-4 col-6"><a th:href="@{/admin/reportes}" class="stealth-btn-card"><i class="fas fa-chart-bar me-2"></i> INTELIGENCIA COMERCIAL</a></div>
                         <div class="col-sm-4 col-6"><a th:href="@{/admin/gestion_clientes}" class="stealth-btn-card"><i class="fas fa-user-shield me-2"></i> REGISTRO CLIENTES VIP</a></div>
                         <div class="col-sm-4 col-6"><a th:href="@{/admin/gestion_empleados}" class="stealth-btn-card"><i class="fas fa-users-gear me-2"></i> ASESORES ASIGNADOS</a></div>
+                        <div class="col-sm-4 col-6"><a th:href="@{/mecanico/dashboard}" class="stealth-btn-card text-warning"><i class="fas fa-wrench me-2"></i> TALLER MECÁNICO</a></div>
                         <div class="col-sm-4 col-6"><a th:href="@{/financiamiento}" class="stealth-btn-card text-acid" target="_blank"><i class="fas fa-globe me-2"></i> SHOWROOM EXTERNO</a></div>
-                        <div class="col-sm-4 col-6"><a th:href="@{/logout}" class="stealth-btn-card text-monaco"><i class="fas fa-power-off me-2"></i> TERMINAR SESIÓN</a></div>
+                        <div class="col-sm-4 col-6"><form th:action="@{/logout}" method="post" class="d-inline">
+  <button type="submit" class="stealth-btn-card text-monaco" style="background:none;border:none;cursor:pointer"><i class="fas fa-power-off me-2"></i> TERMINAR SESIÓN</button>
+</form></div>
                     </div>
                 </div>
             </div>

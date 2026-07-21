@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orden de Servicio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/mecanico.css">
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #fff !important; }
+      .card-mech { border: 1px solid #ddd !important; background: #fff !important; }
+      .table-mech tbody td, .table-mech thead th { color: #000 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div th:replace="fragments/headerMecanico :: headerMecanico" class="no-print"></div>
+  <div class="mech-container">
+    <div class="d-flex justify-content-between align-items-center mb-4 no-print">
+      <div>
+        <span class="mech-eyebrow">Documento</span>
+        <h1 class="mech-page-title" style="margin:0"><i class="fas fa-file-invoice me-2"></i>Orden de Servicio</h1>
+      </div>
+      <button class="btn-mech btn-mech-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button>
+    </div>
+
+    <div class="card-mech mb-4">
+      <div class="card-mech-body" style="padding:30px">
+        <div class="row mb-4">
+          <div class="col-6">
+            <h2 style="color:var(--mech-cyan);font-weight:800;font-size:1.3rem;text-transform:uppercase;letter-spacing:2px;margin:0">AutoTEC</h2>
+            <p style="color:var(--mech-muted);font-size:0.75rem;margin:2px 0">Servicio Automotriz Profesional</p>
+          </div>
+          <div class="col-6 text-end">
+            <p style="font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;color:var(--mech-muted);margin:0">Orden de Servicio</p>
+            <p style="font-weight:800;font-size:1.1rem;margin:0">#00-<span th:text="${diag.id}">0</span></p>
+            <p style="font-size:0.75rem;color:var(--mech-muted);margin:2px 0" th:text="${#temporals.format(diag.fechaCreacion, 'dd/MM/yyyy HH:mm')}">Fecha</p>
+          </div>
+        </div>
+
+        <div class="row mb-4" style="border-top:2px solid var(--mech-border);border-bottom:2px solid var(--mech-border);padding:16px 0">
+          <div class="col-4">
+            <p style="font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:var(--mech-muted);margin:0 0 4px 0">Cliente</p>
+            <p style="font-weight:700;font-size:0.9rem;margin:0" th:text="${diag.cita.usuario.nombres + ' ' + diag.cita.usuario.apellidos}">Cliente</p>
+          </div>
+          <div class="col-4">
+            <p style="font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:var(--mech-muted);margin:0 0 4px 0">Tipo Cita</p>
+            <p style="font-weight:700;font-size:0.9rem;margin:0" th:text="${diag.cita.tipoCita.name()}">Tipo</p>
+          </div>
+          <div class="col-4">
+            <p style="font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:var(--mech-muted);margin:0 0 4px 0">Fecha Cita</p>
+            <p style="font-weight:700;font-size:0.9rem;margin:0" th:text="${#temporals.format(diag.cita.fechaCita, 'dd/MM/yyyy')}">Fecha</p>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h4 style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mech-cyan);margin-bottom:8px">Diagnóstico</h4>
+          <p style="font-size:0.85rem;line-height:1.7;margin:0;white-space:pre-wrap" th:text="${diag.observaciones}">Obs</p>
+        </div>
+
+        <div th:if="${diag.fallasEncontradas}" class="mb-4">
+          <h4 style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mech-orange);margin-bottom:8px">Fallas Encontradas</h4>
+          <p style="font-size:0.85rem;line-height:1.7;margin:0;white-space:pre-wrap" th:text="${diag.fallasEncontradas}">Fallas</p>
+        </div>
+
+        <div class="mb-4">
+          <h4 style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mech-green);margin-bottom:8px">Repuestos y Servicios</h4>
+          <table class="table-mech" style="border:1px solid var(--mech-border)">
+            <thead>
+              <tr>
+                <th style="width:50%">Descripción</th>
+                <th style="width:15%;text-align:center">Cant.</th>
+                <th style="width:20%;text-align:right">Precio Unit.</th>
+                <th style="width:15%;text-align:right">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="ra : ${diag.repuestosAsignados}">
+                <td th:text="${ra.repuesto.nombre + ' (' + ra.repuesto.codigo + ')'}">Repuesto</td>
+                <td style="text-align:center" th:text="${ra.cantidad}">1</td>
+                <td style="text-align:right" th:text="'₡' + ${#numbers.formatDecimal(ra.precioUnitario, 0, 2)}">₡0.00</td>
+                <td style="text-align:right;font-weight:700" th:text="'₡' + ${#numbers.formatDecimal(ra.subtotal, 0, 2)}">₡0.00</td>
+              </tr>
+              <tr th:if="${diag.repuestosAsignados.empty}">
+                <td colspan="4" style="text-align:center;color:var(--mech-muted);padding:20px">Sin repuestos registrados</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" style="text-align:right;font-weight:700;font-size:1rem;border-top:2px solid var(--mech-border);padding-top:12px">Total Repuestos</td>
+                <td style="text-align:right;font-weight:800;font-size:1rem;color:var(--mech-cyan);border-top:2px solid var(--mech-border);padding-top:12px" th:text="'₡' + ${#numbers.formatDecimal(totalRepuestos, 0, 2)}">₡0.00</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="row mt-4" style="border-top:2px solid var(--mech-border);padding-top:20px">
+          <div class="col-6">
+            <p style="font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:var(--mech-muted);margin:0 0 4px 0">Atendido por</p>
+            <p style="font-weight:700">Administración</p>
+          </div>
+          <div class="col-6 text-end">
+            <p style="font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:var(--mech-muted);margin:0 0 4px 0">Estado</p>
+            <span class="badge-mech" th:classappend="${diag.estado == 'BORRADOR' ? 'badge-borrador' : 'badge-completado'}" th:text="${diag.estado}" style="font-size:0.7rem;padding:6px 16px">Estado</span>
+          </div>
+        </div>
+
+        <div class="row mt-4" style="border-top:1px solid var(--mech-border);padding-top:30px">
+          <div class="col-6 text-center">
+            <p style="border-top:1px solid var(--mech-border);padding-top:8px;font-size:0.75rem;color:var(--mech-muted);margin:0;width:80%;display:inline-block">Firma del Cliente</p>
+          </div>
+          <div class="col-6 text-center">
+            <p style="border-top:1px solid var(--mech-border);padding-top:8px;font-size:0.75rem;color:var(--mech-muted);margin:0;width:80%;display:inline-block">Firma del Mecánico</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

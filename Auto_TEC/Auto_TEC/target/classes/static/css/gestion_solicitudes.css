@@ -69,7 +69,36 @@ h1, .card-title, .stats-number {
 
 /* 7. MODAL FUTURISTA */
 .modal-content {
-    background: #080808 !important;
-    border: 1px solid #333 !important;
-    border-top: 3px solid var(--gold) !important; /* Viga dorada */
+  background: #080808 !important;
+  border: 1px solid #333 !important;
+  border-top: 3px solid var(--gold) !important;
 }
+
+/* 8. BOTONES DORADOS */
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), #e6c34a) !important;
+  border: none !important; color: #000 !important;
+  font-weight: 700 !important; font-size: 0.75rem !important;
+  padding: 10px 24px !important; border-radius: 8px !important;
+  letter-spacing: 0.5px !important; text-transform: uppercase !important;
+  transition: all 0.3s !important; cursor: pointer !important;
+}
+.btn-gold:hover {
+  box-shadow: var(--gold-glow) !important;
+  transform: translateY(-1px) !important;
+}
+.btn-outline-gold {
+  background: transparent !important;
+  border: 1px solid #333 !important; color: #888 !important;
+  padding: 8px 18px !important; border-radius: 8px !important;
+  font-size: 0.75rem !important; font-weight: 600 !important;
+  transition: all 0.3s !important; cursor: pointer !important;
+}
+.btn-outline-gold:hover {
+  border-color: var(--gold) !important; color: var(--gold) !important;
+  box-shadow: var(--gold-glow) !important;
+}
+.bg-gold { background: var(--gold) !important; color: #000 !important; }
+.card-header { background: #070707 !important; border-bottom: 1px solid #1a1a1a !important; }
+.modal-footer { border-top: 1px solid #1a1a1a !important; }
+.modal-body .form-label { color: var(--gold) !important; font-size: 0.7rem !important; text-transform: uppercase !important; letter-spacing: 1px !important; }

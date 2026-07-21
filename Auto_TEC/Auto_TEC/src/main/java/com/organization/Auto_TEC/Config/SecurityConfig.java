@@ -45,7 +45,7 @@ public class SecurityConfig {
 
                         // 2. Rutas de Vistas (Páginas HTML) públicas
                         .requestMatchers("/", "/index", "/login", "/registro", "/auth/**", "/contacto", "/citas", "/modelos",
-                                "/servicios", "/ventas")
+                                "/servicios", "/ventas", "/mecanico/**")
                         .permitAll()
 
                         // 3. APIs públicas (Ahora bajo el prefijo /api/)
@@ -53,7 +53,8 @@ public class SecurityConfig {
 
                         // 4. Panel de administración solo para ADMIN
 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                        // 5. Cualquier otra cosa requiere autenticación
+
+                        // 6. Cualquier otra cosa requiere autenticación
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/auth/login")

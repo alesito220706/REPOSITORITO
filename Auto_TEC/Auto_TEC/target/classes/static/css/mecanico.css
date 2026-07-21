@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --mech-bg: #07070d;
+  --mech-card: #0c0c16;
+  --mech-border: #1a1a2e;
+  --mech-cyan: #00e5ff;
+  --mech-teal: #00bcd4;
+  --mech-orange: #ff6d00;
+  --mech-green: #00e676;
+  --mech-red: #ff1744;
+  --mech-gold: #d4af37;
+  --mech-text: #e0e0f0;
+  --mech-muted: #666680;
+}
+
+body {
+  background: var(--mech-bg); font-family: 'Inter', sans-serif;
+  color: var(--mech-text); min-height: 100vh;
+}
+
+.mech-navbar { background: var(--mech-card); border-bottom: 2px solid var(--mech-cyan); padding: 0; position: sticky; top: 0; z-index: 100; }
+.mech-navbar-inner { max-width: 1400px; margin: 0 auto; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+.mech-brand { font-size: 1.1rem; font-weight: 800; color: var(--mech-cyan); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 20px rgba(0,229,255,0.2); }
+.mech-toggler { background: transparent; border: 1px solid var(--mech-border); color: var(--mech-text); padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+.mech-offcanvas { background: var(--mech-card) !important; border-right: 2px solid var(--mech-cyan); }
+.mech-offcanvas .offcanvas-title { color: var(--mech-cyan); font-weight: 700; }
+.mech-nav-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.mech-nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--mech-muted); text-decoration: none; border-radius: 8px; transition: all 0.3s; font-size: 0.9rem; font-weight: 500; background: transparent; border: none; width: 100%; cursor: pointer; }
+.mech-nav-link:hover, .mech-nav-link.active { background: rgba(0,229,255,0.06); color: var(--mech-cyan); }
+.mech-nav-link.logout:hover { background: rgba(255,23,68,0.08); color: var(--mech-red); }
+.mech-nav-link i { width: 20px; text-align: center; }
+
+.mech-container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+.mech-page-title { font-size: 1.4rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: var(--mech-text); }
+.mech-eyebrow { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--mech-cyan); display: block; margin-bottom: 2px; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.stat-card { background: var(--mech-card); border: 1px solid var(--mech-border); border-radius: 12px; padding: 20px; transition: all 0.3s; }
+.stat-card:hover { border-color: var(--mech-cyan); box-shadow: 0 0 20px rgba(0,229,255,0.05); transform: translateY(-2px); }
+.stat-icon { font-size: 1.5rem; margin-bottom: 8px; }
+.stat-value { font-size: 1.6rem; font-weight: 800; color: var(--mech-text); line-height: 1.1; }
+.stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--mech-muted); margin-top: 4px; }
+
+.card-mech { background: var(--mech-card); border: 1px solid var(--mech-border); border-radius: 12px; overflow: hidden; transition: all 0.3s; }
+.card-mech-header { padding: 16px 20px; border-bottom: 1px solid var(--mech-border); display: flex; justify-content: space-between; align-items: center; }
+.card-mech-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--mech-cyan); margin: 0; }
+.card-mech-body { padding: 20px; }
+
+.table-mech { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.85rem; }
+.table-mech thead th { background: rgba(0,229,255,0.04); color: var(--mech-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.6rem; padding: 12px 14px; border-bottom: 2px solid var(--mech-border); }
+.table-mech tbody td { padding: 12px 14px; vertical-align: middle; border-bottom: 1px solid rgba(26,26,46,0.5); color: var(--mech-text); }
+.table-mech tbody tr:hover { background: rgba(0,229,255,0.02); }
+
+.btn-mech { padding: 8px 20px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.3s; border: none; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+.btn-mech-primary { background: linear-gradient(135deg, var(--mech-cyan), var(--mech-teal)); color: #000; }
+.btn-mech-primary:hover { box-shadow: 0 0 20px rgba(0,229,255,0.3); transform: translateY(-1px); }
+.btn-mech-outline { background: transparent; border: 1px solid var(--mech-border); color: var(--mech-muted); }
+.btn-mech-outline:hover { border-color: var(--mech-cyan); color: var(--mech-cyan); }
+.btn-mech-danger { background: rgba(255,23,68,0.1); border: 1px solid rgba(255,23,68,0.2); color: var(--mech-red); }
+.btn-mech-danger:hover { background: rgba(255,23,68,0.15); }
+.btn-mech-success { background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.2); color: var(--mech-green); }
+
+.badge-mech { display: inline-block; padding: 3px 12px; border-radius: 10px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.badge-pendiente { background: rgba(255,109,0,0.12); color: var(--mech-orange); border: 1px solid rgba(255,109,0,0.25); }
+.badge-completado { background: rgba(0,230,118,0.12); color: var(--mech-green); border: 1px solid rgba(0,230,118,0.25); }
+.badge-borrador { background: rgba(0,229,255,0.1); color: var(--mech-cyan); border: 1px solid rgba(0,229,255,0.2); }
+
+.form-mech { background: var(--mech-card); border: 1px solid var(--mech-border); color: var(--mech-text); border-radius: 8px; padding: 10px 14px; transition: all 0.3s; width: 100%; }
+.form-mech:focus { border-color: var(--mech-cyan); box-shadow: 0 0 12px rgba(0,229,255,0.1); outline: none; }
+.form-mech-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--mech-cyan); display: block; margin-bottom: 6px; }
+textarea.form-mech { min-height: 80px; resize: vertical; }
+
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .table-mech thead { display: none; }
+  .table-mech tbody td { display: block; padding: 8px 12px; }
+  .table-mech tbody tr { display: block; margin-bottom: 12px; border: 1px solid var(--mech-border); border-radius: 8px; }
+}

@@ -32,7 +32,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void crearRoles() {
-        String[] roles = {"ROLE_ADMIN", "ROLE_CLIENTE"};
+        String[] roles = {"ROLE_ADMIN", "ROLE_CLIENTE", "ROLE_MECANICO"};
         for (String nombreRol : roles) {
             if (rolRepository.findByNombre(nombreRol).isEmpty()) {
                 Rol r = new Rol();
